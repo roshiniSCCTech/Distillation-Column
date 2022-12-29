@@ -11,3 +11,16 @@ C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\obj\Debug\He
 C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
 C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\obj\Debug\HelperLibrary.dll
 C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\obj\Debug\HelperLibrary.pdb
+D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.dll
+D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.pdb
+D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.dll
+D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.dll
+D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Model.dll
+D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.xml
+D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.xml
+D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Model.xml
+D:\Tekla Basics\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.AssemblyReference.cache
+D:\Tekla Basics\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CoreCompileInputs.cache
+D:\Tekla Basics\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
+D:\Tekla Basics\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.dll
+D:\Tekla Basics\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.pdb
