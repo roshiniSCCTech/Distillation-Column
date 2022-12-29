@@ -1,0 +1,13 @@
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\bin\Debug\HelperLibrary.dll
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\bin\Debug\HelperLibrary.pdb
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.dll
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\bin\Debug\Tekla.Structures.dll
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\bin\Debug\Tekla.Structures.Model.dll
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\bin\Debug\Tekla.Structures.xml
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.xml
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\bin\Debug\Tekla.Structures.Model.xml
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\obj\Debug\HelperLibrary.csproj.AssemblyReference.cache
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\obj\Debug\HelperLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\obj\Debug\HelperLibrary.dll
+C:\Users\Roshini S\source\repos\TeklaTrainingProjects\HelperLibrary\obj\Debug\HelperLibrary.pdb
