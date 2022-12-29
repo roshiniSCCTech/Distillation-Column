@@ -185,8 +185,9 @@ namespace HelperLibrary
 
             for (int seg = 0; seg < stackSegList.Count; seg++)
             {
-                if (elevation < stackSegList[seg][4] + stackSegList[seg][2])
+                if (elevation < stackSegList[seg][4] + stackSegList[seg][3])
                 {
+                    index = seg;
                     break;
                 }
             }
@@ -195,16 +196,20 @@ namespace HelperLibrary
         }
 
         // returns inner radius of segment at elevation FROM STACK BASE
-        public double GetRadiusAtElevation(double elevation, List<List<double>> stackSeglist)
+        public double GetRadiusAtElevation(double elevation, List<List<double>> stackSeglist, bool thickness = false)
         {
             int seg = GetSegmentAtElevation(elevation, stackSeglist);
             
-            double height1 = stackSeglist[seg][2];
-            double base1 = (stackSeglist[seg][1] - stackSeglist[seg][0]) / 2;
-            double height2 = (stackSeglist[seg][4] + stackSeglist[seg][2]) - elevation;
+            double height1 = stackSeglist[seg][3];
+            double base1 = (stackSeglist[seg][0] - stackSeglist[seg][1]) / 2;
+            double height2 = (stackSeglist[seg][4] + stackSeglist[seg][3]) - elevation;
             double base2 = base1 * height2 / height1;
 
-            double radius = (stackSeglist[seg][0] / 2) + base2;
+            double radius = (stackSeglist[seg][1] / 2) + base2;
+            if (thickness)
+            {
+                radius += stackSeglist[seg][2];
+            }
 
             return radius;
         }

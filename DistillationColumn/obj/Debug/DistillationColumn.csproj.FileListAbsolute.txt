@@ -1,5 +1,4 @@
 C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.AssemblyReference.cache
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.SuggestedBindingRedirects.cache
 C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.Form1.resources
 C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.Properties.Resources.resources
 C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.GenerateResource.cache
@@ -20,3 +19,4 @@ C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\
 C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.CopyComplete
 C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.exe
 C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.pdb
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.SuggestedBindingRedirects.cache

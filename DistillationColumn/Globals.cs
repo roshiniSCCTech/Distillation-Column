@@ -20,7 +20,7 @@ namespace DistillationColumn
 
         public readonly TSM.ContourPoint Origin;
 
-        // 0 - bottom inner diameter, 1 - top inner diameter, 2 - thickness, 3 - height, 4 - height from base stack to bottom of segment
+        // 0 - bottom inner diameter, 1 - top inner diameter, 2 - thickness, 3 - height, 4 - height from base of stack to bottom of segment
         public readonly List<List<double>> StackSegList;
 
         public Globals()
@@ -43,11 +43,11 @@ namespace DistillationColumn
             List<JToken> stackList = jData["stack"].ToList();
             foreach (JToken stackSeg in stackList)
             {
-                double height = (float)stackSeg["seg_height"] * 1000;
-                double topDiameter = (float)stackSeg["inside_dia_top"] * 1000; // inside top diameter
                 double bottomDiameter = (float)stackSeg["inside_dia_bottom"] * 1000; // inside bottom diamter
+                double topDiameter = (float)stackSeg["inside_dia_top"] * 1000; // inside top diameter
                 double thickness = (float)stackSeg["shell_thickness"] * 1000;
-
+                double height = (float)stackSeg["seg_height"] * 1000;
+                
                 StackSegList.Add(new List<double> { bottomDiameter, topDiameter, thickness, height });
             }
             StackSegList.Reverse();
