@@ -21,7 +21,6 @@ C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\
 C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.exe
 C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.pdb
 D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.csproj.AssemblyReference.cache
-D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.csproj.SuggestedBindingRedirects.cache
 D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.Form1.resources
 D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.Properties.Resources.resources
 D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.csproj.GenerateResource.cache

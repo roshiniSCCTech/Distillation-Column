@@ -40,7 +40,9 @@ namespace DistillationColumn
             CreateRing("Top-Ring");
             CreateRing("Bottom-Ring");
             CreateStiffnerPlates();
-         
+
+           
+
         }
 
 
@@ -91,10 +93,12 @@ namespace DistillationColumn
 
         public void CreateStiffnerPlates()
         {
-            double distance =(( 2 * Math.PI * _global.StackSegList[0][0]/2)-(stiffnerCount*distBetStiff))/stiffnerCount;
+            double distance1 =(( 2 * Math.PI * _global.StackSegList[0][0]/2)-(stiffnerCount*distBetStiff)+(2*stffThick))/stiffnerCount;
+            double radius = _tModel.GetRadiusAtElevation(stiffLength, _global.StackSegList);
+            double distance2 = ((2 * Math.PI * radius) - (stiffnerCount * distBetStiff) + (2 * stffThick)) / stiffnerCount;
 
             ContourPoint sPoint1 = new ContourPoint(_tModel.ShiftHorizontallyRad(_global.Origin, _global.StackSegList[0][1] / 2, 1), null);
-            double radius = _tModel.GetRadiusAtElevation(stiffLength, _global.StackSegList);
+            
             ContourPoint sPoint2 = new ContourPoint(_tModel.ShiftHorizontallyRad(_tModel.ShiftVertically(_global.Origin, stiffLength), radius, 1), null);
 
             for (int i = 0; i < stiffnerCount; i++)
@@ -102,6 +106,7 @@ namespace DistillationColumn
 
                  ContourPoint ePoint1=new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint1,ringWidth,1), null);
                  ContourPoint ePoint2 = new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint2, ringWidth, 1), null);
+              
                 _global.ProfileStr = "PL" +stffThick;
                 _global.ClassStr = "1";
                 _global.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
@@ -128,8 +133,8 @@ namespace DistillationColumn
                 _tModel.CreateContourPlate(platePoints, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "plate");
                 platePoints.Clear();
 
-                sPoint1 = _tModel.ShiftAlongCircumferenceRad(sPoint1, distance, 2);
-                sPoint2 = _tModel.ShiftAlongCircumferenceRad(sPoint2, distance, 2);
+                sPoint1 = _tModel.ShiftAlongCircumferenceRad(sPoint1, distance1, 2);
+                sPoint2 = _tModel.ShiftAlongCircumferenceRad(sPoint2, distance2, 2);
 
             }
 
