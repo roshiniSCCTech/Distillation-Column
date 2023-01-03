@@ -210,5 +210,39 @@
       "inside_dia_bottom": 3.5,
       "shell_thickness": 0.01
     }
+  ],
+  "access_door": [
+    {
+      "key": 0,
+      "elevation": 10000, // from base of stack
+      "orientation_angle": 45,
+      "height": 1000,
+      "width": 1500,
+      "breadth": 200
+    },
+    {
+      "key": 0,
+      "elevation": 8000, // from base of stack
+      "orientation_angle": 0,
+      "height": 1500,
+      "width": 2000,
+      "breadth": 500
+    },
+    {
+      "key": 0,
+      "elevation": 2000, // from base of stack
+      "orientation_angle": 60,
+      "height": 800,
+      "width": 1000,
+      "breadth": 300
+    },
+    {
+      "key": 0,
+      "elevation": 17000, // from base of stack
+      "orientation_angle": 200,
+      "height": 1200,
+      "width": 900,
+      "breadth": 400
+    }
   ]
 }

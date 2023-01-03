@@ -9,6 +9,7 @@ using T3D = Tekla.Structures.Geometry3d;
 using Newtonsoft.Json.Linq;
 using HelperLibrary;
 using System.Security.Cryptography.X509Certificates;
+using Tekla.Structures.Model;
 
 namespace DistillationColumn
 {
@@ -34,13 +35,16 @@ namespace DistillationColumn
 
         List<TSM.ContourPoint> _pointsList;
 
+        List<List<double>> _accessDoorList;
+
+
         public AccessDoor(Globals global, TeklaModelling tModel)
         {
             _global = global;
             _tModel = tModel;
 
-            orientationAngle = 70 * Math.PI/180;
-            elevation = 5000;
+            orientationAngle = 0 * Math.PI/180;
+            elevation = 10000;
             height = 1000;
             width = 1500;
             breadth = 500;
@@ -51,13 +55,14 @@ namespace DistillationColumn
             BottomLeft = new TSM.ContourPoint();
 
             _pointsList = new List<TSM.ContourPoint>();
+            _accessDoorList = new List<List<double>>();
 
             Build();
         }
 
         public void Build()
         {
-            InitialisePlatePoints();
+            /*InitialisePlatePoints();
 
             // top plate
             CreateTopPlate();
@@ -72,7 +77,53 @@ namespace DistillationColumn
             CreateRightPlate();
 
             // cover plate
-            CreateCoverPlate();
+            CreateCoverPlate();*/
+
+            SetAccessDoorData();
+            CreateAccessDoor();
+        }
+
+
+        public void CreateAccessDoor()
+        {
+            foreach (List<double> acDoor in _accessDoorList)
+            {
+                double elevation = acDoor[0];
+                double orientationAngle = acDoor[1];
+                double radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+
+                TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
+                TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
+                TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, radius, 1, orientationAngle);
+
+
+                CustomPart accessDoor = new CustomPart();
+                accessDoor.Name = "AccessDoor";
+                accessDoor.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
+
+                accessDoor.SetInputPositions(point1, point2);
+                accessDoor.SetAttribute("P1", acDoor[3]); // width
+                accessDoor.SetAttribute("P2", acDoor[4]); // breadth
+                accessDoor.SetAttribute("P3", radius); // radius
+                accessDoor.SetAttribute("P5", acDoor[2]); // height
+                accessDoor.Insert();
+                _tModel.Model.CommitChanges();
+            }
+        }
+
+        public void SetAccessDoorData()
+        {
+            List<JToken> accessDoorList = _global.JData["access_door"].ToList();
+            foreach (JToken accessDoor in accessDoorList)
+            {
+                double elevation = (float)accessDoor["elevation"];
+                double orientationAngle = (float)accessDoor["orientation_angle"];
+                double height = (float)accessDoor["height"];
+                double width = (float)accessDoor["width"];
+                double breadth = (float)accessDoor["breadth"];
+
+                _accessDoorList.Add(new List<double> { elevation, orientationAngle, height, width, breadth});
+            }
         }
 
         public void InitialisePlatePoints()
@@ -81,7 +132,7 @@ namespace DistillationColumn
 
             // front points 
             origin = _tModel.ShiftVertically(origin, elevation + height/2);
-            origin = _tModel.ShiftHorizontallyRad(origin, _tModel.GetRadiusAtElevation(elevation + height/2, _global.StackSegList) + breadth, 1, orientationAngle);
+            origin = _tModel.ShiftHorizontallyRad(origin, _tModel.GetRadiusAtElevation(elevation + height/2, _global.StackSegList, true) + breadth, 1, orientationAngle);
             TopRight = _tModel.ShiftHorizontallyRad(origin, width/2, 2);
             TopLeft = _tModel.ShiftHorizontallyRad(origin, width/2, 4);
             origin = _tModel.ShiftVertically(origin, -height);

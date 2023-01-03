@@ -23,6 +23,8 @@ namespace DistillationColumn
         // 0 - bottom inner diameter, 1 - top inner diameter, 2 - thickness, 3 - height, 4 - height from base of stack to bottom of segment
         public readonly List<List<double>> StackSegList;
 
+        public JObject JData;
+
         public Globals()
         {
             Origin = new TSM.ContourPoint(new T3D.Point(0, 0, 0), null);
@@ -32,22 +34,23 @@ namespace DistillationColumn
             Position = new TSM.Position();
             StackSegList = new List<List<double>>();
 
-            GetData();
+            string jDataString = File.ReadAllText("Data.json");
+            JData = JObject.Parse(jDataString);
+
+            SetStackData();
             CalculateElevation();
         }
 
-        public void GetData()
+        public void SetStackData()
         {
-            string jDataString = File.ReadAllText("Data.json");
-            JObject jData = JObject.Parse(jDataString);
-            List<JToken> stackList = jData["stack"].ToList();
+            List<JToken> stackList = JData["stack"].ToList();
             foreach (JToken stackSeg in stackList)
             {
                 double bottomDiameter = (float)stackSeg["inside_dia_bottom"] * 1000; // inside bottom diamter
                 double topDiameter = (float)stackSeg["inside_dia_top"] * 1000; // inside top diameter
                 double thickness = (float)stackSeg["shell_thickness"] * 1000;
                 double height = (float)stackSeg["seg_height"] * 1000;
-                
+
                 StackSegList.Add(new List<double> { bottomDiameter, topDiameter, thickness, height });
             }
             StackSegList.Reverse();
