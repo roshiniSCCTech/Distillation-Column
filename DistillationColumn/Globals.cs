@@ -22,6 +22,7 @@ namespace DistillationColumn
 
         // 0 - bottom inner diameter, 1 - top inner diameter, 2 - thickness, 3 - height, 4 - height from base of stack to bottom of segment
         public readonly List<List<double>> StackSegList;
+        public JObject jData;
 
         public Globals()
         {
@@ -31,15 +32,15 @@ namespace DistillationColumn
             NameStr = "";
             Position = new TSM.Position();
             StackSegList = new List<List<double>>();
+            string jDataString = File.ReadAllText("Data.json");
+            jData = JObject.Parse(jDataString);
 
             GetData();
             CalculateElevation();
         }
 
         public void GetData()
-        {
-            string jDataString = File.ReadAllText("Data.json");
-            JObject jData = JObject.Parse(jDataString);
+        {            
             List<JToken> stackList = jData["stack"].ToList();
             foreach (JToken stackSeg in stackList)
             {

@@ -210,5 +210,28 @@
       "inside_dia_bottom": 3.5,
       "shell_thickness": 0.01
     }
+  ],
+  "Ladder": [
+    {
+      "Orientation_Angle": 0,
+      "Elevation": 2000,
+      "Width": 4000,
+      "Height": 6000,
+      "Rungs_spacing": 500
+    },
+    {
+      "Orientation_Angle": 90,
+      "Elevation": 8000,
+      "Width": 2000,
+      "Height": 5000,
+      "Rungs_spacing": 300
+    },
+    {
+      "Orientation_Angle": 180,
+      "Elevation": 15000,
+      "Width": 3000,
+      "Height": 6500,
+      "Rungs_spacing": 400
+    }
   ]
 }

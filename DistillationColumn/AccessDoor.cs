@@ -40,7 +40,7 @@ namespace DistillationColumn
             _tModel = tModel;
 
             orientationAngle = 70 * Math.PI/180;
-            elevation = 5000;
+            elevation = 2000;
             height = 1000;
             width = 1500;
             breadth = 500;
@@ -81,7 +81,7 @@ namespace DistillationColumn
 
             // front points 
             origin = _tModel.ShiftVertically(origin, elevation + height/2);
-            origin = _tModel.ShiftHorizontallyRad(origin, _tModel.GetRadiusAtElevation(elevation + height/2, _global.StackSegList) + breadth, 1, orientationAngle);
+            origin = _tModel.ShiftHorizontallyRad(origin, _tModel.GetRadiusAtElevation(elevation + height/2, _global.StackSegList,true) + breadth, 1, orientationAngle);
             TopRight = _tModel.ShiftHorizontallyRad(origin, width/2, 2);
             TopLeft = _tModel.ShiftHorizontallyRad(origin, width/2, 4);
             origin = _tModel.ShiftVertically(origin, -height);
