@@ -210,5 +210,13 @@
       "inside_dia_bottom": 3.5,
       "shell_thickness": 0.01
     }
+  ],
+  "chair": [
+    {
+      "radius": 1750,
+      "width": 1000,
+      "number_of_plates": 4,
+      "height": 500
+    }
   ]
 }

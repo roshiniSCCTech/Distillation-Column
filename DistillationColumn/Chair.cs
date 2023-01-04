@@ -10,6 +10,7 @@ using static Tekla.Structures.Filtering.Categories.ReinforcingBarFilterExpressio
 using Tekla.Structures.ModelInternal;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures.Datatype;
+using Newtonsoft.Json.Linq;
 
 namespace DistillationColumn
 {
@@ -25,27 +26,73 @@ namespace DistillationColumn
         public int stiffnerCount = 9;
         public Globals _global;
         public TeklaModelling _tModel;
+        double radius;
+        double width;
+        double number_of_plates;
+        double height;
+
+
+        List<List<double>> chairlist;
 
         public Chair(Globals global, TeklaModelling tModel)
         {
             _global = global;
             _tModel = tModel;
 
+            chairlist = new List<List<double>>();
+
+            SetChairData();
             CreateChair();
         }
+        public void SetChairData()
+        {
+            List<JToken> _chairlist = _global.jData["chair"].ToList();
+            foreach (JToken chair in _chairlist)
+            {
+                //radius = (float)chair["radius"];
+                width = (float)chair["width"];
+                number_of_plates = (float)chair["number_of_plates"];
+                height = (float)chair["height"];
 
+                chairlist.Add(new List<double> { radius, width, number_of_plates, height });
+            }
+        }
         public void CreateChair()
         {
-            
-            CreateRing("Top-Ring");
-            CreateRing("Bottom-Ring");
-            CreateStiffnerPlates();
 
-           
+            //CreateRing("Top-Ring");
+            //CreateRing("Bottom-Ring");
+            //CreateStiffnerPlates();
+            foreach (List<double> chair in chairlist)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    height = chair[3];
+                    width = chair[1];
+                    number_of_plates = chair[2];
+                    double elevation = 0;
+                    radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+                    CustomPart CPart = new CustomPart();
+                    CPart.Name = "FinalChair";
+                    CPart.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
+                    CPart.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.LEFT;
+                    CPart.Position.PlaneOffset = 0;
+                    CPart.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
+                    CPart.Position.DepthOffset = 0;
+                    CPart.Position.RotationOffset = i * 90;
+                    CPart.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.TOP;
+                    CPart.SetInputPositions(new Point(0, 0, 0), new Point(0, 0, 6000));
+                    CPart.Insert();
+                    CPart.SetAttribute("P5", height);
+                    CPart.SetAttribute("P3", number_of_plates);
+                    CPart.SetAttribute("P10", width);
+                    CPart.SetAttribute("P1", radius);
+                    CPart.Modify();
 
+                    _tModel.Model.CommitChanges();
+                }
+            }
         }
-
-
         public void CreateRing(string ringType)
         {
             double insideDistance = 0;
