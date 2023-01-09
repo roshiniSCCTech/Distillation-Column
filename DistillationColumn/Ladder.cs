@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using TSM = Tekla.Structures.Model;
 using Tekla.Structures.Model;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using Tekla.Structures.Geometry3d;
+using Tekla.Structures;
 
 namespace DistillationColumn
 {
@@ -77,8 +79,27 @@ namespace DistillationColumn
                 Ladder.Position.Rotation = Position.RotationEnum.TOP;
                 Ladder.Position.Depth = Position.DepthEnum.MIDDLE;
                 //Ladder.Position.Rotation = Position.RotationEnum.FRONT;
-                Ladder.Position.RotationOffset = ladder[0] + 90 ;
+                Ladder.Position.RotationOffset = ladder[0] + 270;
                 Ladder.Insert();
+
+                if (Height > 3000)
+                {
+                    Detail D = new Detail();
+                    D.Name = "testDetail";
+                    D.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
+                    D.LoadAttributesFromFile("standard");
+                    D.UpVector = new Vector(0, 0, 0);
+                    D.PositionType = PositionTypeEnum.MIDDLE_PLANE;
+                    D.AutoDirectionType = AutoDirectionTypeEnum.AUTODIR_DETAIL;
+                    D.DetailType = DetailTypeEnum.END;
+
+                    D.SetPrimaryObject(Ladder);
+                    D.SetReferencePoint(point3);
+                    D.SetAttribute("P1", Height);
+                    //D.SetAttribute("P3", );
+                    D.Insert();
+
+                }
                 _tModel.Model.CommitChanges();
             }
         }
