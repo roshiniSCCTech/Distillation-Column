@@ -41,7 +41,8 @@ namespace DistillationColumn
 
                 // CHS profile requires outer diameter, we get inner diameter fom user input. Hence outerDiameter = innerDiameter + (2 * segmentThickness)
                 _global.ProfileStr = "CHS" + (_global.StackSegList[counter][0] + (2 * _global.StackSegList[counter][2])) + "*" + (_global.StackSegList[counter][1] + (2 * _global.StackSegList[counter][2])) + "*" + _global.StackSegList[counter][2];
-                _tModel.CreateBeam(startPoint, endPoint, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "myBeam");
+                TSM.Beam segment = _tModel.CreateBeam(startPoint, endPoint, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "myBeam");
+                _global.SegmentPartList.Add(segment);
             }
         }
     }

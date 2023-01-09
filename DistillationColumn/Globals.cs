@@ -23,6 +23,10 @@ namespace DistillationColumn
         // 0 - bottom inner diameter, 1 - top inner diameter, 2 - thickness, 3 - height, 4 - height from base of stack to bottom of segment
         public readonly List<List<double>> StackSegList;
 
+        // list of stack segment parts
+        public readonly List<TSM.Beam> SegmentPartList;
+
+
         public JObject JData;
 
         public Globals()
@@ -33,6 +37,7 @@ namespace DistillationColumn
             NameStr = "";
             Position = new TSM.Position();
             StackSegList = new List<List<double>>();
+            SegmentPartList = new List<TSM.Beam>();
 
             string jDataString = File.ReadAllText("Data.json");
             JData = JObject.Parse(jDataString);
