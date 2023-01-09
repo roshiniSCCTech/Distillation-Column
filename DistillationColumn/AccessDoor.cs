@@ -100,11 +100,12 @@ namespace DistillationColumn
             {
                 double elevation = acDoor[0];
                 double orientationAngle = acDoor[1];
-                double radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+                double topRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+                double bottomRadius = _tModel.GetRadiusAtElevation(elevation - acDoor[2], _global.StackSegList, true);
 
                 TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
                 TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
-                TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, radius, 1, orientationAngle);
+                TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, topRadius, 1, orientationAngle);
 
 
                 CustomPart accessDoor = new CustomPart();
@@ -113,9 +114,10 @@ namespace DistillationColumn
 
                 accessDoor.SetInputPositions(point1, point2);
                 accessDoor.SetAttribute("P1", acDoor[3]); // width
-                accessDoor.SetAttribute("P2", radius); // radius
+                accessDoor.SetAttribute("P2", topRadius); // top radius
                 accessDoor.SetAttribute("P3", acDoor[2]); // height
                 accessDoor.SetAttribute("P4", acDoor[4]); // breadth
+                accessDoor.SetAttribute("P6", bottomRadius); // bottom radius
                 accessDoor.Insert();
                 _tModel.Model.CommitChanges();
             }

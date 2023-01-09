@@ -222,7 +222,7 @@
     },
     {
       "key": 0,
-      "elevation": 8000, // from base of stack
+      "elevation": 5800, // from base of stack
       "orientation_angle": 0,
       "height": 1500,
       "width": 2000,
