@@ -21,8 +21,8 @@ namespace DistillationColumn
 
 
         double ladderOrientation = 0;
-        double platFormStartAngle = 50;
-        double platFormEndAngle = 150;
+        double platFormStartAngle = 59;
+        double platFormEndAngle = 300;
         double elevation = 26000;
         double platformLength = 1000;
         double distanceFromStack = 200;
@@ -55,20 +55,46 @@ namespace DistillationColumn
             CustomPart handrail = new CustomPart();
             handrail.Name = "Final_HandRail";
             handrail.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
-            
+            //origin for handrail
             TSM.ContourPoint point1 = _tModel.ShiftVertically(_global.Origin, elevation);
           
-            
+          
             TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, gratingOuterRadius,1,platFormStartAngle*(Math.PI/180));
+
+            //second point for handrail
             point2 = _tModel.ShiftAlongCircumferenceRad(point2, 275, 2);
 
            
           
             for (int i = 0; i < arcLengthList.Count; i++)
             {
+                //if only one distance available
+                if(arcLengthList.Count==1)
+                {
+                    if (arcLengthList[i] > 1100 && arcLengthList[i] <= 2600)
+                    {
+                        arcLengthList.Add(arcLengthList[i] - 600);
+                        arcLengthList.RemoveAt(i);
+                    }
+
+                    if (arcLengthList[i] > 2500)
+                    {
+                        arcLengthList.Add((arcLengthList[i] - 1100) / 2);
+                        arcLengthList.Add((arcLengthList[i] - 1100) / 2);
+                        arcLengthList.RemoveAt(i + 1);
+                    }
+
+                    //To create only single handrail minimum 1100 distance is required 
+                    if(arcLengthList[i]<1100)
+                    {
+                        break;
+                    }
+                }
+
+                //check the distance of last handrail and according to that either modify second last or keep as it is
                 if (i+1== arcLengthList.Count - 1)
                 {
-                    if(arcLengthList[i+1]>1100 && arcLengthList[i + 1]<=2600)
+                    if(arcLengthList[i+1]>=1200 && arcLengthList[i + 1]<=2600)
                     {
                         arcLengthList.Add(arcLengthList[i + 1] - 600);
                         arcLengthList.RemoveAt(i + 1);
@@ -77,19 +103,21 @@ namespace DistillationColumn
 
                     if (arcLengthList[i + 1] >2500)
                     {
-                        arcLengthList.Add((arcLengthList[i + 1] - 1100)/2);
-                        arcLengthList.Add((arcLengthList[i + 1] - 1100) / 2);
+                        double sum = (arcLengthList[i + 1] + arcLengthList[i]) / 2;
                         arcLengthList.RemoveAt(i + 1);
+                        arcLengthList.Add(sum);
+                        arcLengthList.Add(sum);
+                        
                     }
 
-                    //if (arcLengthList[i+1] < 600)
-                    //{
-                    //    double sum = (arcLengthList[i+1] + arcLengthList[i]) / 2;
-                    //    arcLengthList.RemoveAt(i);
-                    //    arcLengthList.RemoveAt(i + 1);
-                    //    arcLengthList.Add(sum);
-                    //    arcLengthList.Add(sum);
-                    //}
+                    if (arcLengthList[i + 1] >600 && arcLengthList[i+1]<1200)
+                    {
+                        double sum = (arcLengthList[i + 1] + arcLengthList[i]) / 2;
+                        arcLengthList.RemoveAt(i);
+                        arcLengthList.RemoveAt(i);
+                        arcLengthList.Add(sum);
+                        arcLengthList.Add(sum-600);
+                    }
 
                 }
                 
@@ -112,7 +140,7 @@ namespace DistillationColumn
                 handrail.Position.Rotation = Position.RotationEnum.TOP;
                 handrail.Position.Depth = Position.DepthEnum.FRONT;
 
-                bool b=handrail.Insert();
+                handrail.Insert();
                
 
                        
