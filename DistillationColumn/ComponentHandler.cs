@@ -19,6 +19,7 @@ namespace DistillationColumn
             _tModel = teklaModel;
 
             new Stack(_global, _tModel);
+            new Handrail(_global, _tModel);
         }
     }
 }
