@@ -46,7 +46,7 @@ namespace DistillationColumn
         }
         public void SetChairData()
         {
-            List<JToken> _chairlist = _global.jData["chair"].ToList();
+            List<JToken> _chairlist = _global.JData["chair"].ToList();
             foreach (JToken chair in _chairlist)
             {
                 //radius = (float)chair["radius"];

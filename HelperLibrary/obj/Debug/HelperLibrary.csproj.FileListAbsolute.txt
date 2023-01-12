@@ -24,3 +24,16 @@ C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\obj\Debug\Helpe
 C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
 C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\obj\Debug\HelperLibrary.dll
 C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\obj\Debug\HelperLibrary.pdb
+D:\customComponents\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.dll
+D:\customComponents\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.pdb
+D:\customComponents\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.dll
+D:\customComponents\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.dll
+D:\customComponents\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Model.dll
+D:\customComponents\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.xml
+D:\customComponents\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.xml
+D:\customComponents\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Model.xml
+D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.AssemblyReference.cache
+D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CoreCompileInputs.cache
+D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
+D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.dll
+D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.pdb
