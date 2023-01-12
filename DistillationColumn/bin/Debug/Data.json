@@ -267,5 +267,12 @@
       "width": 900,
       "breadth": 400
     }
+  ],
+  "RectangularPlatform": [
+    {
+      "elevation": 68000,
+      "height": 10000,
+      "width": 8000
+    }
   ]
 }
