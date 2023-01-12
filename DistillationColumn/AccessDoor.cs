@@ -78,64 +78,7 @@ namespace DistillationColumn
             CreateRightPlate();
 
             // cover plate
-            CreateCoverPlate();
-
-            // handle
-            CreateHandle();
-
-            // hinge
-            CreateHinge();*/
-
-            // stack cut
-            //CreateStackCut();
-
-            SetAccessDoorData();
-            CreateAccessDoor();
-        }
-
-
-        public void CreateAccessDoor()
-        {
-            foreach (List<double> acDoor in _accessDoorList)
-            {
-                double elevation = acDoor[0];
-                double orientationAngle = acDoor[1];
-                double topRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
-                double bottomRadius = _tModel.GetRadiusAtElevation(elevation - acDoor[2], _global.StackSegList, true);
-
-                TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
-                TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
-                TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, topRadius, 1, orientationAngle);
-
-
-                CustomPart accessDoor = new CustomPart();
-                accessDoor.Name = "HingedAccessDoor";
-                accessDoor.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
-
-                accessDoor.SetInputPositions(point1, point2);
-                accessDoor.SetAttribute("P1", acDoor[3]); // width
-                accessDoor.SetAttribute("P2", topRadius); // top radius
-                accessDoor.SetAttribute("P3", acDoor[2]); // height
-                accessDoor.SetAttribute("P4", acDoor[4]); // breadth
-                accessDoor.SetAttribute("P6", bottomRadius); // bottom radius
-                accessDoor.Insert();
-                _tModel.Model.CommitChanges();
-            }
-        }
-
-        public void SetAccessDoorData()
-        {
-            List<JToken> accessDoorList = _global.JData["access_door"].ToList();
-            foreach (JToken accessDoor in accessDoorList)
-            {
-                double elevation = (float)accessDoor["elevation"];
-                double orientationAngle = (float)accessDoor["orientation_angle"];
-                double height = (float)accessDoor["height"];
-                double width = (float)accessDoor["width"];
-                double breadth = (float)accessDoor["breadth"];
-
-                _accessDoorList.Add(new List<double> { elevation, orientationAngle, height, width, breadth});
-            }
+            CreateCoverPlate();*/
         }
 
         public void InitialisePlatePoints()

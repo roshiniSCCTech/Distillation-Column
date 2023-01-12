@@ -22,6 +22,7 @@ namespace DistillationColumn
 
         // 0 - bottom inner diameter, 1 - top inner diameter, 2 - thickness, 3 - height, 4 - height from base of stack to bottom of segment
         public readonly List<List<double>> StackSegList;
+        public JObject jData;
 
         // list of stack segment parts
         public readonly List<TSM.Beam> SegmentPartList;
