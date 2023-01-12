@@ -38,7 +38,7 @@ namespace DistillationColumn
 
         public void SetPlatformData()
         {
-            List<JToken> platformlist = _global.jData["RectangularPlatform"].ToList();
+            List<JToken> platformlist = _global.JData["RectangularPlatform"].ToList();
             foreach (JToken platform in platformlist)
             {
                 elevation = (float)platform["elevation"];
