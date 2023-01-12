@@ -274,5 +274,13 @@
       "height": 10000,
       "width": 8000
     }
+  ],
+  "chair": [
+    {
+      "radius": 1750,
+      "width": 1000,
+      "number_of_plates": 4,
+      "height": 500
+    }
   ]
 }

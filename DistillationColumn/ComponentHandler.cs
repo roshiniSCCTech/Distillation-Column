@@ -24,6 +24,7 @@ namespace DistillationColumn
             new Handrail(_global, _tModel);
             //new AccessDoor(_global, _tModel);
             new RectangularPlatform(_global,_tModel);
+            new Chair(_global, _tModel);
         }
     }
 }
