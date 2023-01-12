@@ -39,7 +39,7 @@ namespace DistillationColumn
 
         public void SetLadderData()
         {
-            List<JToken> ladderList = _global.jData["Ladder"].ToList();
+            List<JToken> ladderList = _global.JData["Ladder"].ToList();
             foreach (JToken ladder in ladderList)
             {
                 orientationAngle = (float)ladder["Orientation_Angle"];
