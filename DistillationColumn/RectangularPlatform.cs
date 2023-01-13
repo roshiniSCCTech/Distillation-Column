@@ -151,21 +151,21 @@ namespace DistillationColumn
 
                         else if (_distanceLengthList[i + 1] > 2500)
                         {
-                            double sum = (_distanceLengthList[i + 1] + _distanceLengthList[i]) / 2;
+                            double sum = (_distanceLengthList[i + 1]) / 2;
                             _distanceLengthList.RemoveAt(i + 1);
-                            _distanceLengthList.Add(sum);
-                            _distanceLengthList.Add(sum);
+                            _distanceLengthList.Add(sum-600);
+                            _distanceLengthList.Add(sum-600);
 
                         }
 
-                        else if (_distanceLengthList[i + 1] > 600 && _distanceLengthList[i + 1] < 1200)
-                        {
-                            double sum = (_distanceLengthList[i + 1] + _distanceLengthList[i]) / 2;
-                            _distanceLengthList.RemoveAt(i);
-                            _distanceLengthList.RemoveAt(i);
-                            _distanceLengthList.Add(sum);
-                            _distanceLengthList.Add(sum - 600);
-                        }
+                        //else if (_distanceLengthList[i + 1] > 600 && _distanceLengthList[i + 1] < 1200)
+                        //{
+                        //    double sum = (_distanceLengthList[i + 1] + _distanceLengthList[i]) / 2;
+                        //    _distanceLengthList.RemoveAt(i);
+                        //    _distanceLengthList.RemoveAt(i);
+                        //    _distanceLengthList.Add(sum);
+                        //    _distanceLengthList.Add(sum - 600);
+                        //}
 
                     }
 
