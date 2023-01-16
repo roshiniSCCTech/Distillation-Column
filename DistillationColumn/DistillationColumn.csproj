@@ -62,6 +62,7 @@
     <Compile Include="AccessDoor.cs" />
     <Compile Include="Chair.cs" />
     <Compile Include="ComponentHandler.cs" />
+    <Compile Include="Flange.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

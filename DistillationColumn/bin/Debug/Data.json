@@ -282,5 +282,15 @@
       "number_of_plates": 4,
       "height": 500
     }
+  ],
+  "Flange": [
+    {
+      "elevation": 20000,
+      "number_of_bolts": 10,
+      "bolt_length": 2000,
+      "inside_distance": 200,
+      "top_ring_thickness": 100,
+      "bottom_ring_thickness": 100
+    }
   ]
 }
