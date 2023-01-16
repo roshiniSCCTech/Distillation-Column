@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessDoor.cs" />
+    <Compile Include="CapAndOutlets.cs" />
     <Compile Include="ComponentHandler.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

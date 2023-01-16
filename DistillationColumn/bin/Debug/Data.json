@@ -213,9 +213,11 @@
   ],
   "RectangularPlatform": [
     {
-      "elevation": 68000,
+      "elevation": 69000,
       "height": 5000,
-      "width": 4000
+      "width": 4000,
+      "plateWidth": 400
+
     }
   ]
 }
