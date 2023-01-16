@@ -63,3 +63,4 @@ C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\Distillatio
 C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.csproj.CopyComplete
 C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.exe
 C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.pdb
+D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.csproj.SuggestedBindingRedirects.cache
