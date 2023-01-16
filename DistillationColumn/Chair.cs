@@ -17,15 +17,15 @@ namespace DistillationColumn
     class Chair
     {
         public double topRingThickness = 100;
-        public double topRingRadius = 1750;
-        public double bottomRingRadius = 1750;
+        public double topRingRadius = 5000;
+        public double bottomRingRadius = 7000;
         public double bottomRingThickness = 100;
-        public double insideDistance = 100;
-        public double ringWidth = 1500;
+        public double insideDistance = 500;
+        public double ringWidth = 2500;
         public double stiffnerLength = 2000;
         public double stiffnerThickness = 50;
         public double distBetweenStiffner = 500;
-        public int stiffnerCount = 3;
+        public int stiffnerCount = 4;
         public Globals _global;
         public TeklaModelling _tModel;
         double width;
@@ -67,15 +67,29 @@ namespace DistillationColumn
             //CreateRing("Top-Ring");
             //CreateRing("Bottom-Ring");
             //CreateStiffnerPlates();
+            double topRingWidth=ringWidth;
+            double bottomRingWidth=ringWidth;
 
             for (int i = 0; i < 4; i++)
-            {;
+            {
                
                 double elevation = 0;
-                int n = _tModel.GetSegmentAtElevation(stiffnerLength, _global.StackSegList);
-                topRingRadius = _tModel.GetRadiusAtElevation(stiffnerLength, _global.StackSegList);
-                topRingRadius += _global.StackSegList[n][2];
-                bottomRingRadius = (_global.StackSegList[0][0] / 2) + _global.StackSegList[0][2];
+                //int n = _tModel.GetSegmentAtElevation(stiffnerLength, _global.StackSegList);
+                //topRingRadius = _tModel.GetRadiusAtElevation(stiffnerLength, _global.StackSegList);
+                //topRingRadius += _global.StackSegList[n][2];
+                //bottomRingRadius = (_global.StackSegList[0][0] / 2) + _global.StackSegList[0][2];
+
+                if(topRingRadius>bottomRingRadius)
+                {
+                    topRingWidth = ringWidth;
+                    bottomRingWidth = (topRingRadius - bottomRingRadius) + ringWidth;
+                }
+
+                if (bottomRingRadius>topRingRadius )
+                {
+                    bottomRingWidth = ringWidth;
+                    topRingWidth = (bottomRingRadius - topRingRadius) + ringWidth;
+                }
 
 
                 ContourPoint origin = new ContourPoint(_tModel.ShiftVertically(_global.Origin, bottomRingThickness), null);
@@ -100,42 +114,14 @@ namespace DistillationColumn
                 CPart.SetAttribute("stiffnerCount", stiffnerCount);
                 CPart.SetAttribute("insideDistance", insideDistance);
                 CPart.SetAttribute("stiffnerThickness", stiffnerThickness);
+                CPart.SetAttribute("topRingWidth", topRingWidth);
+                CPart.SetAttribute("bottomRingWidth", bottomRingWidth);
 
                 CPart.Insert();
                 _tModel.Model.CommitChanges();
 
             }
-                //foreach (List<double> chair in chairlist)
-                //{
-                //    for (int i = 0; i < 4; i++)
-                //    {
-                //        height = chair[3];
-                //        width = chair[1];
-                //        number_of_plates = chair[2];
-                //        double elevation = 0;
-                //        radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
-                //        CustomPart CPart = new CustomPart();
-                //        CPart.Name = "FinalChair";
-                //        CPart.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
-                //        CPart.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.LEFT;
-                //        CPart.Position.PlaneOffset = 0;
-                //        CPart.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
-                //        CPart.Position.DepthOffset = 0;
-                //        CPart.Position.RotationOffset = i * 90;
-                //        CPart.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.TOP;
-                //        CPart.SetInputPositions(new Point(0, 0, 0), new Point(0, 0, 6000));
-                //        CPart.Insert();
-                //        CPart.SetAttribute("P5", height);
-                //        CPart.SetAttribute("P3", number_of_plates);
-                //        CPart.SetAttribute("P10", width);
-                //        CPart.SetAttribute("P1", radius);
-                //        CPart.Modify();
-
-                //        _tModel.Model.CommitChanges();
-                //    }
-                //}
-                
-            }
+        }
         public void CreateRing(string ringType)
         {
             double _insideDistance = 0;
