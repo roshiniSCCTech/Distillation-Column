@@ -369,7 +369,7 @@ namespace DistillationColumn
         public void CreateSupportPlate()
         {
             TSM.ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation);
-            TSM.ContourPoint point1 = new ContourPoint(new T3D.Point((origin.X + width / 2), origin.Y, origin.Z - 7.7), null);
+            TSM.ContourPoint point1 = new ContourPoint(new T3D.Point((origin.X + (width / 2)), origin.Y, origin.Z - 7.7), null);
             point1.Y += (height / 2);
             _platformPointList.Add(point1);
             TSM.ContourPoint point2 = new ContourPoint(new T3D.Point(point1.X, (point1.Y - height), point1.Z), null);
@@ -387,14 +387,42 @@ namespace DistillationColumn
                 _global.Position.Rotation = Position.RotationEnum.TOP;
                 _global.ClassStr = "2";
 
-
-                if (i == 3)
+                if (i == 0)
                 {
+                    _platformPointList[i].Y += 25;
+                    _platformPointList[i + 1].Y -= 25;
+                    
+
+                    _tModel.CreateBeam(_platformPointList[i], _platformPointList[i + 1], _global.ProfileStr, "ASTMA106", _global.ClassStr, _global.Position, "beam" + (i + 1));
+                    _platformPointList[i].Y -= 25;
+                    _platformPointList[i + 1].Y += 25;
+                   
+                }
+                else if (i == 1)
+                {
+                    _platformPointList[i].X += 25;
+                    _platformPointList[i + 1].X -= 25;
+                    _tModel.CreateBeam(_platformPointList[i], _platformPointList[i + 1], _global.ProfileStr, "ASTMA106", _global.ClassStr, _global.Position, "beam" + (i + 1));
+                    _platformPointList[i].X -= 25;
+                    _platformPointList[i].X += 25;
+                }
+                else if (i == 3)
+                {
+                    _platformPointList[i].X -= 25;
+                    _platformPointList[0].X += 50;
                     _tModel.CreateBeam(_platformPointList[i], _platformPointList[0], _global.ProfileStr, "ASTMA106", _global.ClassStr, _global.Position, "beam" + (i + 1));
+                    _platformPointList[i].X += 25;
+                    _platformPointList[0].X -= 25;
                 }
                 else
                 {
+                    _platformPointList[i].Y -= 25;
+                    _platformPointList[i + 1].Y += 25;
+                    _platformPointList[i].X += 25;
                     _tModel.CreateBeam(_platformPointList[i], _platformPointList[i + 1], _global.ProfileStr, "ASTMA106", _global.ClassStr, _global.Position, "beam" + (i + 1));
+                    _platformPointList[i].Y += 25;
+                    _platformPointList[i + 1].Y -= 25;
+                    _platformPointList[i].X -= 25;
                 }
             }
         }
