@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="AccessDoor.cs" />
     <Compile Include="Chair.cs" />
+    <Compile Include="CircularAccessDoor.cs" />
     <Compile Include="ComponentHandler.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

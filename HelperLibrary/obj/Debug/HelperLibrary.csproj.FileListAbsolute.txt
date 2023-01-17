@@ -37,3 +37,16 @@ D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.cs
 D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
 D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.dll
 D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.pdb
+D:\Tekla Project\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.dll
+D:\Tekla Project\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.pdb
+D:\Tekla Project\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.dll
+D:\Tekla Project\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.dll
+D:\Tekla Project\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Model.dll
+D:\Tekla Project\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.xml
+D:\Tekla Project\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.xml
+D:\Tekla Project\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Model.xml
+D:\Tekla Project\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.AssemblyReference.cache
+D:\Tekla Project\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CoreCompileInputs.cache
+D:\Tekla Project\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
+D:\Tekla Project\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.dll
+D:\Tekla Project\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.pdb
