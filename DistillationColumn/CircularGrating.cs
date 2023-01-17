@@ -24,14 +24,16 @@ namespace DistillationColumn
     double platLength;
     double width;
     double gap;
+    double gratingThickness;
+    double distanceFromStack;
 
 
     double radius;
     double plateAngle;
     double xcod, ycod, zcod;
-    double orientationAngle = 180;
+    double orientationAngle;
     double theta;
-    double ladderWidth = 500;
+    double ladderWidth = 800;
 
 
     ContourPoint p1;
@@ -46,18 +48,19 @@ namespace DistillationColumn
 
     public void SetGratingData()
     {
-      List<JToken> _gratinglist = _global.JData["grating"].ToList();
+      List<JToken> _gratinglist = _global.JData["Ladder"].ToList();
       foreach (JToken grating in _gratinglist)
       {
-        startAngle = (float)grating["startangle"];
-        endAngle = (float)grating["endangle"];
-        elevation = (float)grating["elevation"];
-        width = (float)grating["width"];
-        platLength = (float)grating["length"];
-        gap = (float)grating["gap"];
-
-
-        gratinglist.Add(new List<double> { startAngle, endAngle, elevation, width, platLength, gap });
+        startAngle = (float)grating["Platform_Start_Angle"];
+        endAngle = (float)grating["Platfrom_End_Angle"];
+        elevation = (float)grating["Elevation"];
+        width = (float)grating["Platform_Width"];
+        platLength = (float)grating["Platform_Length"];
+        gap = (float)grating["Gap_Between_Grating_Plate"];
+        gratingThickness = (float)grating["Grating_Thickness"];
+        distanceFromStack = (float)grating["Distance_From_Stack"];
+        orientationAngle = (float)grating["Orientation_Angle"];
+        gratinglist.Add(new List<double> { startAngle, endAngle, elevation, width, platLength, gap, gratingThickness, distanceFromStack, orientationAngle });
       }
     }
 
@@ -77,17 +80,21 @@ namespace DistillationColumn
         width = grating[3];
         platLength = grating[4];
         gap = grating[5];
-
+        distanceFromStack = grating[7];
+        orientationAngle = grating[8];
         radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+        radius = radius + distanceFromStack;
+
         if (orientationAngle == startAngle)
         {
-          theta = (180 / Math.PI) * (Math.Atan(ladderWidth / (radius * 2)));
+          theta = ((ladderWidth/2) / (radius+platLength)) * 180 / Math.PI;
+
           startAngle = startAngle + theta;
 
         }
         if (orientationAngle == endAngle)
         {
-          theta = (180 / Math.PI) * (Math.Atan(ladderWidth / (2 * radius)));
+          theta = ((ladderWidth / 2) / (radius + platLength)) * 180 / Math.PI;
           endAngle = endAngle - theta;
         }
         if (orientationAngle > startAngle && orientationAngle < endAngle)
@@ -100,7 +107,8 @@ namespace DistillationColumn
 
         }
 
-        plateAngle = (180 * width) / (Math.PI * (radius + platLength));
+        plateAngle =  ((width) / (radius + platLength)) * 180 / Math.PI;
+
 
         int count = Convert.ToInt32((endAngle - startAngle) / plateAngle);
 
@@ -114,13 +122,14 @@ namespace DistillationColumn
 
     public void CreateCircularGrating(int count)
     {
-      foreach (List<double> grating in gratinglist)
+      //foreach (List<double> grating in gratinglist)
       {
 
 
         for (int i = 0; i <= count; i++)
         {
           radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+          radius = radius + distanceFromStack;
           PolyBeam poly = new PolyBeam();
           poly.Profile.ProfileString = "PL20*" + platLength;
           poly.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
@@ -128,11 +137,9 @@ namespace DistillationColumn
 
           if ((startAngle + ((i + 1) * plateAngle)) < endAngle)
           {
-
-
             xcod = (radius + platLength) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
             ycod = (radius + platLength) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
-            zcod = elevation + 70;
+            zcod = elevation + 50 + gratingThickness;
 
             p1 = new ContourPoint(new Point(xcod, ycod, zcod), null);
             p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle / 2), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
@@ -145,15 +152,27 @@ namespace DistillationColumn
             poly.Insert();
 
             _tModel.Model.CommitChanges();
-            if (orientationAngle + theta == startAngle && i <= 1)
+            if (orientationAngle + theta == startAngle && i == 0)
             {
               //Beam cut = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p1,(Math.PI/180)*(-theta),1), _tModel.ShiftHorizontallyRad(p1,radius+platLength,3), "PL" + ladderWidth + "*50", "IS2062", "5", _global.Position, "");
-              Beam cut1 = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (-theta), 1), _tModel.ShiftHorizontallyRad(p1, radius + platLength, 3), "PL" + ladderWidth + "*250", "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
+              Beam cut1 = new Beam();
+              cut1.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
+              cut1.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
+              cut1.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
+
+              cut1 = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (-theta), 1), _tModel.ShiftHorizontallyRad(p1, radius + platLength, 3), "PL" + ladderWidth + "*250", "IS2062", BooleanPart.BooleanOperativeClassName, cut1.Position, "");
+
               _tModel.cutPart(cut1, poly);
             }
             if (orientationAngle > startAngle && orientationAngle < endAngle && orientationAngle > startAngle + ((i - 1) * plateAngle) && orientationAngle < startAngle + ((i + 2) * plateAngle))
             {
-              Beam cut1 = _tModel.CreateBeam(o1, o2, "PL" + ladderWidth + "*250", "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
+              Beam cut1 = new Beam();
+              cut1.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
+              cut1.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
+              cut1.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
+
+              cut1 = _tModel.CreateBeam(o1, o2, "PL" + ladderWidth + "*250", "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
+
               _tModel.cutPart(cut1, poly);
             }
 
@@ -164,7 +183,7 @@ namespace DistillationColumn
 
             xcod = (radius + platLength) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
             ycod = (radius + platLength) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
-            zcod = elevation + 70;
+            zcod = elevation + 50 + gratingThickness;
             plateAngle = (endAngle - (startAngle + (i * plateAngle)));
             p1 = new ContourPoint(new Point(xcod, ycod, zcod), null);
             p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle / 2), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
@@ -180,7 +199,13 @@ namespace DistillationColumn
             if (orientationAngle - theta == endAngle)
             {
               //Beam cut = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p3, (Math.PI / 180) * (theta), 1), _tModel.ShiftHorizontallyRad(p3, radius + platLength, 3), "PL" + ladderWidth + "*50", "IS2062", "5", _global.Position, "");
-              Beam cut1 = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p3, (Math.PI / 180) * (theta), 1), _tModel.ShiftHorizontallyRad(p3, radius + platLength, 3), "PL" + ladderWidth + "*250", "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
+              Beam cut1 = new Beam();
+              cut1.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
+              cut1.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
+              cut1.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
+
+              cut1 = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p3, (Math.PI / 180) * (theta), 1), _tModel.ShiftHorizontallyRad(p3, radius + platLength, 3), "PL" + ladderWidth + "*250", "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
+
               _tModel.cutPart(cut1, poly);
             }
             break;
