@@ -297,5 +297,15 @@
       "number_of_plates": 4,
       "height": 500
     }
+  ],
+  "grating": [
+    {
+      "startangle": 0,
+      "endangle": 270,
+      "elevation": 1900,
+      "width": 1000,
+      "length": 500,
+      "gap": 0
+    }
   ]
 }

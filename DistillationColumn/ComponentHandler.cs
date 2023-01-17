@@ -20,11 +20,12 @@ namespace DistillationColumn
 
             new Stack(_global, _tModel);
             new AccessDoor(_global, _tModel);
-            new Ladder(_global, _tModel);
+            //new Ladder(_global, _tModel);
             new Handrail(_global, _tModel);
             //new AccessDoor(_global, _tModel);
             new RectangularPlatform(_global,_tModel);
             new Chair(_global, _tModel);
+      new CircularGrating(_global, _tModel);
         }
     }
 }
