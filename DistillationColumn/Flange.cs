@@ -13,17 +13,14 @@ namespace DistillationColumn
 {
     internal class Flange
     {
-        public double topRingThickness = 500;
-        public double bottomRingThickness = 300;
+        public double topRingThickness = 150;
+        public double bottomRingThickness = 210;
         public double ringWidth = 1000;
-        public double ringRadius;
-        public double topRingRadius = 1750;
-        public double bottomRingRadius = 1750;
+        public double ringRadius=1750;    
         public double insideDistance = 200;
-        public double elevation = 9000;
+        public double elevation = 50000;
         public int numberOfBolts=4;
         public double shellThickness;
-        public double currentRingWidth;
         List<Part> _ringList;
         public Globals _global;
         public TeklaModelling _tModel;
@@ -43,47 +40,48 @@ namespace DistillationColumn
 
 
 
-            CreateRing("Bottom-Ring");
-            CreateRing("Top-Ring");
-            CreateBolt();
-            //int n = _tModel.GetSegmentAtElevation(elevation, _global.StackSegList);
-            //shellThickness = _global.StackSegList[n][2];
-            //ContourPoint sPoint = new ContourPoint(_tModel.ShiftVertically(_global.Origin, elevation), null);
-            //ringRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList);
-            //ringRadius += shellThickness;
+            //CreateRing("Bottom-Ring");
+            //CreateRing("Top-Ring");
+            //CreateBolt();
+            int n = _tModel.GetSegmentAtElevation(elevation, _global.StackSegList);
+            shellThickness = _global.StackSegList[n][2];
+            ContourPoint sPoint = new ContourPoint(_tModel.ShiftVertically(_global.Origin, elevation), null);
+            ringRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList);
+            ringRadius += shellThickness;
 
-            //for (int i = 0; i < 4; i++)
-            //{
+            for (int i = 0; i < 4; i++)
+            {
 
-            //    ContourPoint ePoint = new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint, ringRadius, i + 1), null);
-            //    CustomPart CPart = new CustomPart();
-            //    CPart.Name = "custom_flange";
-            //    CPart.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
-            //    CPart.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
-            //    CPart.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-            //    CPart.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.TOP;
-
-
-
-            //    CPart.SetInputPositions(sPoint, ePoint);
-
-
-            //    CPart.SetAttribute("ringWidth", ringWidth);
-            //    CPart.SetAttribute("Radius", ringRadius);
-            //    CPart.SetAttribute("topRingThickness", topRingThickness);
-            //    CPart.SetAttribute("bottomRingThickness", bottomRingThickness);
-            //    CPart.SetAttribute("insideDistance", insideDistance);
-            //    CPart.SetAttribute("shellThickness", shellThickness);
-            //    CPart.SetAttribute("numberOfBolts", numberOfBolts);
-            //    CPart.SetAttribute("bolt_standard_screwdin", "4.6CSK");
-            //    CPart.SetAttribute("bolt_diameter", 24);
+                ContourPoint ePoint = new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint, ringRadius, i + 1), null);
+                CustomPart CPart = new CustomPart();
+                CPart.Name = "custom_flange";
+                CPart.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
+                CPart.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
+                CPart.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
+                CPart.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.TOP;
 
 
 
-            //    CPart.Insert();
-            //    _tModel.Model.CommitChanges();
+                CPart.SetInputPositions(sPoint, ePoint);
 
-            //}
+
+                CPart.SetAttribute("ringWidth", ringWidth);
+                CPart.SetAttribute("Radius", ringRadius);
+                CPart.SetAttribute("topRingThickness", topRingThickness);
+                CPart.SetAttribute("bottomRingThickness", bottomRingThickness);
+                CPart.SetAttribute("insideDistance", insideDistance);
+                CPart.SetAttribute("shellThickness", shellThickness);
+                CPart.SetAttribute("numberOfBolts", numberOfBolts);
+                CPart.SetAttribute("bolt_standard_screwdin", "UNDEINED_BOLT");
+                CPart.SetAttribute("Cut_Length", -420);
+                CPart.SetAttribute("bolt_diameter", 20);
+
+
+
+                CPart.Insert();
+                _tModel.Model.CommitChanges();
+
+            }
 
 
         }
@@ -91,9 +89,9 @@ namespace DistillationColumn
 
         public void CreateRing(string ringType)
         {
-            currentRingWidth = ringWidth;
-            bottomRingRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList);
-            topRingRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList);
+           
+            ringRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList);
+           
             int n = _tModel.GetSegmentAtElevation(elevation, _global.StackSegList);
             double ringThickness = 0;
             ContourPoint sPoint = new ContourPoint();
@@ -101,12 +99,10 @@ namespace DistillationColumn
             {
                 ContourPoint origin = new ContourPoint(_tModel.ShiftVertically(_global.Origin, elevation), null);
                 // double bottomRingRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList);
-                sPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, (bottomRingRadius) - insideDistance - _global.StackSegList[n][2], 1), null);
+                sPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, (ringRadius) - insideDistance - _global.StackSegList[n][2], 1), null);
                 ringThickness = bottomRingThickness;
-                if (topRingRadius > bottomRingRadius)
-                {
-                    currentRingWidth += (bottomRingRadius - bottomRingRadius);
-                }
+               
+                
                 _global.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
 
             }
@@ -117,13 +113,8 @@ namespace DistillationColumn
                 // double topRingRadius = _tModel.GetRadiusAtElevation(elevation , _global.StackSegList) ;
                 ContourPoint origin = new ContourPoint(_tModel.ShiftVertically(_global.Origin, elevation), null);
                 ringThickness = topRingThickness;
-                sPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, topRingRadius - insideDistance - _global.StackSegList[n][2], 1), null);
+                sPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, ringRadius - insideDistance - _global.StackSegList[n][2], 1), null);
 
-                if (topRingRadius < bottomRingRadius)
-                {
-                    currentRingWidth += (bottomRingRadius - topRingRadius);
-
-                }
                 _global.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.FRONT;
             }
 
@@ -141,7 +132,7 @@ namespace DistillationColumn
                 pointList.Add(mPoint);
                 pointList.Add(ePoint);
 
-                _global.ProfileStr = "PL" + (currentRingWidth + insideDistance + _global.StackSegList[n][2]) + "*" + ringThickness;
+                _global.ProfileStr = "PL" + (ringWidth + insideDistance + _global.StackSegList[n][2]) + "*" + ringThickness;
                 _global.ClassStr = "3";
                 _global.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
                 _global.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.FRONT;
@@ -165,8 +156,8 @@ namespace DistillationColumn
             B.PartToBoltTo = _ringList[4];
 
             ContourPoint sPoint = new ContourPoint(_tModel.ShiftVertically(_global.Origin, elevation), null);
-            ContourPoint ePoint = new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint, topRingRadius + _global.StackSegList[n1][2] + (currentRingWidth), 1), null);
-            //ePoint = _tModel.ShiftAlongCircumferenceRad(ePoint, 100 / (topRingRadius + _global.StackSegList[n1][2] + currentRingWidth), 1);
+            ContourPoint ePoint = new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint, ringRadius + _global.StackSegList[n1][2] + (ringWidth), 1), null);
+            ePoint = _tModel.ShiftAlongCircumferenceRad(ePoint, 100 / (ringRadius + _global.StackSegList[n1][2] + ringWidth), 1);
             //sPoint = _tModel.ShiftHorizontallyRad(sPoint, topRingRadius + _global.StackSegList[n1][2] + (currentRingWidth / 2), 1);
             //sPoint = _tModel.ShiftAlongCircumferenceRad(sPoint, 100 / (topRingRadius + _global.StackSegList[n1][2] + (currentRingWidth / 2)), 1);
 
@@ -176,11 +167,11 @@ namespace DistillationColumn
             B.FirstPosition = sPoint;
             B.SecondPosition = ePoint;
 
-            B.BoltSize = 40;
+            B.BoltSize = 20;
             B.Tolerance = 3.00;
             B.BoltStandard = "UNDEFINED_BOLT";
             B.BoltType = BoltGroup.BoltTypeEnum.BOLT_TYPE_SITE;
-            B.CutLength = bottomRingThickness + topRingThickness;
+            B.CutLength = -300;
 
             B.Length = 100;
             B.ExtraLength = 15;
@@ -210,7 +201,7 @@ namespace DistillationColumn
 
 
             B.NumberOfBolts = 10;
-            B.Diameter = (topRingRadius + currentRingWidth + _global.StackSegList[n1][2]) * 1.5;
+            B.Diameter = (ringRadius + ringWidth + _global.StackSegList[n1][2]) * 1.5;
 
             if (!B.Insert())
                 Console.WriteLine("BoltCircle Insert failed!");
