@@ -48,12 +48,12 @@ namespace DistillationColumn
 
 
             SetPlatformData();
-            //createPlatform();
-            //CreateHandRailParallelToXAxis();
-            //CreateHandRailParallelToYAxis();
+            createPlatform();
+            CreateHandRailParallelToXAxis();
+            CreateHandRailParallelToYAxis();
             CreateSupportPlate();
-            createSupportBrackets();
-            createSupportBrackets1();
+            //createSupportBrackets();
+            //createSupportBrackets1();
         }
 
         public void SetPlatformData()
@@ -279,6 +279,10 @@ namespace DistillationColumn
         public void ManageLastDistance()
         {
             int n = _distanceLengthList.Count - 1;
+            if (n == 0)
+            {
+                n = 1;
+            }
             for(int i=0;i< n;i++)
             {
                 //if only one distance available
