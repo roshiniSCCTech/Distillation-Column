@@ -286,11 +286,21 @@
   "Flange": [
     {
       "elevation": 20000,
-      "number_of_bolts": 10,
-      "bolt_length": 2000,
+      "number_of_bolts": 4,
       "inside_distance": 200,
-      "top_ring_thickness": 100,
-      "bottom_ring_thickness": 100
+      "top_ring_thickness": 60,
+      "bottom_ring_thickness": 50,
+      "ring_width": 2000
+    },
+
+    {
+      "elevation": 30000,
+      "number_of_bolts": 5,
+      "inside_distance": 200,
+      "top_ring_thickness": 50,
+      "bottom_ring_thickness": 80,
+      "ring_width": 1500
     }
+
   ]
 }
