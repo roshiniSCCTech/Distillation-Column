@@ -16,33 +16,29 @@ namespace DistillationColumn
 {
     class Chair
     {
-        public double topRingThickness = 100;
-        public double topRingRadius = 5000;
-        public double bottomRingRadius = 7000;
-        public double bottomRingThickness = 100;
-        public double insideDistance = 500;
-        public double ringWidth = 2500;
-        public double stiffnerLength = 2000;
-        public double stiffnerThickness = 50;
-        public double distBetweenStiffner = 500;
-        public int stiffnerCount = 4;
+        public double topRingThickness;
+        public double topRingRadius ;
+        public double bottomRingRadius ;
+        public double bottomRingThickness ;
+        public double insideDistance ;
+        public double ringWidth;
+        public double stiffnerLength ;
+        public double stiffnerThickness;
+        public double distanceBetweenStiffner;
+        public int stiffnerCount;
         public Globals _global;
         public TeklaModelling _tModel;
-        double width;
-        double number_of_plates;
-        double height;
         List<Part> _rings;
 
 
-        List<List<double>> chairlist;
+       
 
 
         public Chair(Globals global, TeklaModelling tModel)
         {
             _global = global;
             _tModel = tModel;
-
-            chairlist = new List<List<double>>();
+           
             _rings = new List<Part>();
 
             SetChairData();
@@ -53,33 +49,32 @@ namespace DistillationColumn
             List<JToken> _chairlist = _global.jData["chair"].ToList();
             foreach (JToken chair in _chairlist)
             {
-                //radius = (float)chair["radius"];
-                width = (float)chair["width"];
-                number_of_plates = (float)chair["number_of_plates"];
-                height = (float)chair["height"];
+                ringWidth = (float)chair["width"];
+                stiffnerCount = (int)chair["number_of_plates"];
+                stiffnerLength = (float)chair["height"];
+                topRingThickness = (float)chair["top_ring_thickness"];
+                bottomRingThickness= (float)chair["bottom_ring_thickness"];
+                insideDistance = (float)chair["inside_distance"];
+                stiffnerThickness = (float)chair["stiffner_plate_thickness"];
+                distanceBetweenStiffner = (float)chair["distance_between_stiffner_plates"];
 
-                // chairlist.Add(new List<double> { radius, width, number_of_plates, height });
             }
         }
         public void CreateChair()
         {
 
-            //CreateRing("Top-Ring");
-            //CreateRing("Bottom-Ring");
-            //CreateStiffnerPlates();
+           
             double topRingWidth=ringWidth;
             double bottomRingWidth=ringWidth;
 
             for (int i = 0; i < 4; i++)
             {
-               
-                double elevation = 0;
-                //int n = _tModel.GetSegmentAtElevation(stiffnerLength, _global.StackSegList);
-                //topRingRadius = _tModel.GetRadiusAtElevation(stiffnerLength, _global.StackSegList);
-                //topRingRadius += _global.StackSegList[n][2];
-                //bottomRingRadius = (_global.StackSegList[0][0] / 2) + _global.StackSegList[0][2];
+                int n = _tModel.GetSegmentAtElevation(stiffnerLength, _global.StackSegList);
+                topRingRadius = _tModel.GetRadiusAtElevation(stiffnerLength, _global.StackSegList);
+                topRingRadius += _global.StackSegList[n][2];
+                bottomRingRadius = (_global.StackSegList[0][0] / 2) + _global.StackSegList[0][2];
 
-                if(topRingRadius>bottomRingRadius)
+                if (topRingRadius>bottomRingRadius)
                 {
                     topRingWidth = ringWidth;
                     bottomRingWidth = (topRingRadius - bottomRingRadius) + ringWidth;
@@ -110,7 +105,7 @@ namespace DistillationColumn
                 CPart.SetAttribute("bottomRadius", bottomRingRadius);
                 CPart.SetAttribute("topRingThickness", topRingThickness);
                 CPart.SetAttribute("bottomRingThickness", bottomRingThickness);
-                CPart.SetAttribute("PlateDistance", distBetweenStiffner);
+                CPart.SetAttribute("PlateDistance", distanceBetweenStiffner);
                 CPart.SetAttribute("stiffnerCount", stiffnerCount);
                 CPart.SetAttribute("insideDistance", insideDistance);
                 CPart.SetAttribute("stiffnerThickness", stiffnerThickness);
@@ -121,105 +116,109 @@ namespace DistillationColumn
                 _tModel.Model.CommitChanges();
 
             }
+
+            //CreateRing("Top-Ring");
+            //CreateRing("Bottom-Ring");
+            //CreateStiffnerPlates();
         }
-        public void CreateRing(string ringType)
-        {
-            double _insideDistance = 0;
-            ContourPoint sPoint = new ContourPoint();
-            if (ringType == "Bottom-Ring")
-            {
-                _insideDistance = insideDistance;
-                sPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(_global.Origin, (_global.StackSegList[0][1] / 2) - insideDistance, 1), null);
-            }
+        //public void CreateRing(string ringType)
+        //{
+        //    double _insideDistance = 0;
+        //    ContourPoint sPoint = new ContourPoint();
+        //    if (ringType == "Bottom-Ring")
+        //    {
+        //        _insideDistance = insideDistance;
+        //        sPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(_global.Origin, (_global.StackSegList[0][1] / 2) - insideDistance, 1), null);
+        //    }
 
-            if (ringType == "Top-Ring")
-            {
-                _insideDistance = 0;
-                double radius = _tModel.GetRadiusAtElevation(stiffnerLength + topRingThickness, _global.StackSegList);
+        //    if (ringType == "Top-Ring")
+        //    {
+        //        _insideDistance = 0;
+        //        double radius = _tModel.GetRadiusAtElevation(stiffnerLength + topRingThickness, _global.StackSegList);
 
-                sPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(_tModel.ShiftVertically(_global.Origin, stiffnerLength + topRingThickness), radius, 1), null);
-            }
-
-
-
-            for (int i = 1; i <= 4; i++)
-            {
-                List<ContourPoint> pointList = new List<ContourPoint>();
-
-                ContourPoint mPoint = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(sPoint, Math.PI / 4, 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-                ContourPoint ePoint = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(mPoint, Math.PI / 4, 1), null);
+        //        sPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(_tModel.ShiftVertically(_global.Origin, stiffnerLength + topRingThickness), radius, 1), null);
+        //    }
 
 
-                pointList.Add(sPoint);
-                pointList.Add(mPoint);
-                pointList.Add(ePoint);
 
-                _global.ProfileStr = "PL" + (ringWidth + _insideDistance) + "*" + bottomRingThickness;
-                _global.ClassStr = "3";
-                _global.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
-                _global.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.FRONT;
-                _global.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
+        //    for (int i = 1; i <= 4; i++)
+        //    {
+        //        List<ContourPoint> pointList = new List<ContourPoint>();
 
-                _rings.Add(_tModel.CreatePolyBeam(pointList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "b" + i));
+        //        ContourPoint mPoint = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(sPoint, Math.PI / 4, 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
+        //        ContourPoint ePoint = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(mPoint, Math.PI / 4, 1), null);
 
-                sPoint = ePoint;
 
-            }
-        }
+        //        pointList.Add(sPoint);
+        //        pointList.Add(mPoint);
+        //        pointList.Add(ePoint);
 
-        public void CreateStiffnerPlates()
-        {
-            double distance1 = ((2 * Math.PI * _global.StackSegList[0][0] / 2) - (stiffnerCount * distBetweenStiffner) + (2 * stiffnerThickness)) / stiffnerCount;
-            double radius = _tModel.GetRadiusAtElevation(stiffnerLength, _global.StackSegList);
-            double distance2 = ((2 * Math.PI * radius) - (stiffnerCount * distBetweenStiffner) + (2 * stiffnerThickness)) / stiffnerCount;
+        //        _global.ProfileStr = "PL" + (ringWidth + _insideDistance) + "*" + bottomRingThickness;
+        //        _global.ClassStr = "3";
+        //        _global.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
+        //        _global.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.FRONT;
+        //        _global.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
 
-            ContourPoint sPoint1 = new ContourPoint(_tModel.ShiftHorizontallyRad(_global.Origin, _global.StackSegList[0][1] / 2, 1), null);
+        //        _rings.Add(_tModel.CreatePolyBeam(pointList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "b" + i));
 
-            ContourPoint sPoint2 = new ContourPoint(_tModel.ShiftHorizontallyRad(_tModel.ShiftVertically(_global.Origin, stiffnerLength), radius, 1), null);
+        //        sPoint = ePoint;
 
-            for (int i = 0; i < stiffnerCount; i++)
-            {
+        //    }
+        //}
 
-                ContourPoint ePoint1 = new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint1, ringWidth, 1), null);
-                ContourPoint ePoint2 = new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint2, ringWidth, 1), null);
+        //public void CreateStiffnerPlates()
+        //{
+        //    double distance1 = ((2 * Math.PI * _global.StackSegList[0][0] / 2) - (stiffnerCount * distBetweenStiffner) + (2 * stiffnerThickness)) / stiffnerCount;
+        //    double radius = _tModel.GetRadiusAtElevation(stiffnerLength, _global.StackSegList);
+        //    double distance2 = ((2 * Math.PI * radius) - (stiffnerCount * distBetweenStiffner) + (2 * stiffnerThickness)) / stiffnerCount;
 
-                _global.ProfileStr = "PL" + stiffnerThickness;
-                _global.ClassStr = "1";
-                _global.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
-                _global.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.TOP;
-                _global.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
+        //    ContourPoint sPoint1 = new ContourPoint(_tModel.ShiftHorizontallyRad(_global.Origin, _global.StackSegList[0][1] / 2, 1), null);
 
-                List<ContourPoint> platePoints = new List<ContourPoint>()
-                {
-                    sPoint1,ePoint1,ePoint2,sPoint2
-                };
+        //    ContourPoint sPoint2 = new ContourPoint(_tModel.ShiftHorizontallyRad(_tModel.ShiftVertically(_global.Origin, stiffnerLength), radius, 1), null);
 
-                _tModel.CreateContourPlate(platePoints, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "plate");
-                platePoints.Clear();
+        //    for (int i = 0; i < stiffnerCount; i++)
+        //    {
 
-                sPoint1 = _tModel.ShiftAlongCircumferenceRad(sPoint1, distBetweenStiffner, 2);
-                sPoint2 = _tModel.ShiftAlongCircumferenceRad(sPoint2, distBetweenStiffner, 2);
-                ePoint1 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(ePoint1, distBetweenStiffner, 2), null);
-                ePoint2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(ePoint2, distBetweenStiffner, 2), null);
-                platePoints.Add(sPoint1);
-                platePoints.Add(ePoint1);
-                platePoints.Add(ePoint2);
-                platePoints.Add(sPoint2);
-                
+        //        ContourPoint ePoint1 = new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint1, ringWidth, 1), null);
+        //        ContourPoint ePoint2 = new ContourPoint(_tModel.ShiftHorizontallyRad(sPoint2, ringWidth, 1), null);
 
-                _tModel.CreateContourPlate(platePoints, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "plate");
-                platePoints.Clear();
+        //        _global.ProfileStr = "PL" + stiffnerThickness;
+        //        _global.ClassStr = "1";
+        //        _global.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
+        //        _global.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.TOP;
+        //        _global.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
 
-                sPoint1 = _tModel.ShiftAlongCircumferenceRad(sPoint1, distance1, 2);
-                sPoint2 = _tModel.ShiftAlongCircumferenceRad(sPoint2, distance2, 2);
+        //        List<ContourPoint> platePoints = new List<ContourPoint>()
+        //        {
+        //            sPoint1,ePoint1,ePoint2,sPoint2
+        //        };
 
-            }
+        //        _tModel.CreateContourPlate(platePoints, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "plate");
+        //        platePoints.Clear();
 
-        }
+        //        sPoint1 = _tModel.ShiftAlongCircumferenceRad(sPoint1, distBetweenStiffner, 2);
+        //        sPoint2 = _tModel.ShiftAlongCircumferenceRad(sPoint2, distBetweenStiffner, 2);
+        //        ePoint1 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(ePoint1, distBetweenStiffner, 2), null);
+        //        ePoint2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(ePoint2, distBetweenStiffner, 2), null);
+        //        platePoints.Add(sPoint1);
+        //        platePoints.Add(ePoint1);
+        //        platePoints.Add(ePoint2);
+        //        platePoints.Add(sPoint2);
 
-      
 
-       
+        //        _tModel.CreateContourPlate(platePoints, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "plate");
+        //        platePoints.Clear();
+
+        //        sPoint1 = _tModel.ShiftAlongCircumferenceRad(sPoint1, distance1, 2);
+        //        sPoint2 = _tModel.ShiftAlongCircumferenceRad(sPoint2, distance2, 2);
+
+        //    }
+
+        //}
+
+
+
+
     }
 
 

@@ -213,10 +213,15 @@
   ],
   "chair": [
     {
-      "radius": 1750,
       "width": 1000,
       "number_of_plates": 4,
-      "height": 500
+      "height": 1000,
+      "top_ring_thickness": 50,
+      "bottom_ring_thickness": 50,
+      "stiffner_plate_thickness": 20,
+      "inside_distance": 200,
+      "distance_between_stiffner_plates": 200
+
     }
   ]
 }
