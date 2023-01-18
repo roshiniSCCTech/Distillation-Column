@@ -1,221 +1,221 @@
-﻿{
+{
   "stack": [
     {
       "key": 0,
       "seg_height": 0.8,
-      "inside_dia_top": 1.2,
-      "inside_dia_bottom": 1.2,
+      "inside_dia_top": 2.8,
+      "inside_dia_bottom": 2.8,
       "shell_thickness": 0.0085
     },
     {
       "key": 1,
       "seg_height": 1.5,
-      "inside_dia_top": 1.2,
-      "inside_dia_bottom": 1.2,
+      "inside_dia_top": 2.8,
+      "inside_dia_bottom": 2.8,
       "shell_thickness": 0.0085
     },
     {
       "key": 2,
       "seg_height": 2,
-      "inside_dia_top": 1.2,
-      "inside_dia_bottom": 1.2,
+      "inside_dia_top": 2.8,
+      "inside_dia_bottom": 2.8,
       "shell_thickness": 0.0085
     },
     {
       "key": 3,
       "seg_height": 1.7,
-      "inside_dia_top": 1.2,
-      "inside_dia_bottom": 1.5,
+      "inside_dia_top": 2.8,
+      "inside_dia_bottom": 3,
       "shell_thickness": 0.0085
     },
     {
       "key": 4,
       "seg_height": 1,
-      "inside_dia_top": 1.5,
-      "inside_dia_bottom": 1.5,
+      "inside_dia_top": 3,
+      "inside_dia_bottom": 3,
       "shell_thickness": 0.009
     },
     {
       "key": 5,
       "seg_height": 1.6,
-      "inside_dia_top": 1.5,
-      "inside_dia_bottom": 1.5,
+      "inside_dia_top": 3,
+      "inside_dia_bottom": 3,
       "shell_thickness": 0.009
     },
     {
       "key": 6,
       "seg_height": 1.4,
-      "inside_dia_top": 1.5,
-      "inside_dia_bottom": 1.7,
+      "inside_dia_top": 3,
+      "inside_dia_bottom": 3.2,
       "shell_thickness": 0.009
     },
     {
       "key": 7,
       "seg_height": 2.3,
-      "inside_dia_top": 1.7,
-      "inside_dia_bottom": 1.7,
+      "inside_dia_top": 3.2,
+      "inside_dia_bottom": 3.2,
       "shell_thickness": 0.01
     },
     {
       "key": 8,
       "seg_height": 2,
-      "inside_dia_top": 1.7,
-      "inside_dia_bottom": 1.7,
+      "inside_dia_top": 3.2,
+      "inside_dia_bottom": 3.2,
       "shell_thickness": 0.01
     },
     {
       "key": 9,
       "seg_height": 3,
-      "inside_dia_top": 1.7,
-      "inside_dia_bottom": 1.7,
+      "inside_dia_top": 3.2,
+      "inside_dia_bottom": 3.2,
       "shell_thickness": 0.01
     },
     {
       "key": 10,
       "seg_height": 1.2,
-      "inside_dia_top": 1.7,
-      "inside_dia_bottom": 1.7,
+      "inside_dia_top": 3.2,
+      "inside_dia_bottom": 3.2,
       "shell_thickness": 0.01
     },
     {
       "key": 11,
       "seg_height": 2.5,
-      "inside_dia_top": 1.7,
-      "inside_dia_bottom": 1.7,
+      "inside_dia_top": 3.2,
+      "inside_dia_bottom": 3.2,
       "shell_thickness": 0.01
     },
     {
       "key": 12,
       "seg_height": 4,
-      "inside_dia_top": 1.7,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 3.2,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 13,
       "seg_height": 2,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 14,
       "seg_height": 4.5,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 15,
       "seg_height": 1.8,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 16,
       "seg_height": 1,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 17,
       "seg_height": 3.5,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 18,
       "seg_height": 2,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 19,
       "seg_height": 2.2,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 20,
       "seg_height": 2.5,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 21,
       "seg_height": 2,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.8,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 4.3,
       "shell_thickness": 0.01
     },
     {
       "key": 22,
       "seg_height": 2,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
+      "inside_dia_top": 4.3,
+      "inside_dia_bottom": 4.3,
       "shell_thickness": 0.01
     },
     {
       "key": 23,
       "seg_height": 3,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
+      "inside_dia_top": 4.3,
+      "inside_dia_bottom": 4.3,
       "shell_thickness": 0.01
     },
     {
       "key": 24,
       "seg_height": 5,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
+      "inside_dia_top": 4.3,
+      "inside_dia_bottom": 4.3,
       "shell_thickness": 0.01
     },
     {
       "key": 25,
       "seg_height": 2,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
+      "inside_dia_top": 4.3,
+      "inside_dia_bottom": 4.3,
       "shell_thickness": 0.01
     },
     {
       "key": 26,
       "seg_height": 3,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
+      "inside_dia_top": 4.3,
+      "inside_dia_bottom": 4.3,
       "shell_thickness": 0.01
     },
     {
       "key": 27,
       "seg_height": 3.5,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 3.5,
+      "inside_dia_top": 4.3,
+      "inside_dia_bottom": 5,
       "shell_thickness": 0.01
     },
     {
       "key": 28,
       "seg_height": 2,
-      "inside_dia_top": 3.5,
-      "inside_dia_bottom": 3.5,
+      "inside_dia_top": 5,
+      "inside_dia_bottom": 5,
       "shell_thickness": 0.01
     },
     {
       "key": 29,
       "seg_height": 1,
-      "inside_dia_top": 3.5,
-      "inside_dia_bottom": 3.5,
+      "inside_dia_top": 5,
+      "inside_dia_bottom": 5,
       "shell_thickness": 0.01
     }
   ],
   "RectangularPlatform": [
     {
-      "elevation": 69000,
-      "height": 3000,
-      "width": 2000,
+      "elevation": 70000,
+      "height": 5500,
+      "width": 4500,
       "plateWidth": 400
 
     }

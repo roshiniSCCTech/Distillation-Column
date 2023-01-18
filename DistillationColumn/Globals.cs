@@ -34,7 +34,7 @@ namespace DistillationColumn
             NameStr = "";
             Position = new TSM.Position();
             StackSegList = new List<List<double>>();
-            string jDataString = File.ReadAllText("Data.json");
+            string jDataString = File.ReadAllText("jsconfig1.json");
             jData = JObject.Parse(jDataString);
 
             GetData();
