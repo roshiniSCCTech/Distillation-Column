@@ -18,9 +18,10 @@ namespace DistillationColumn
             _global = global;
             _tModel = teklaModel;
 
-            new Stack(_global, _tModel);
+            new Stack(_global, _tModel);            
             new RectangularPlatform(_global,_tModel);
-            //new CapAndOutlets(_global, _tModel);
+            new CapAndOutlets(_global, _tModel);
+
         }
     }
 }

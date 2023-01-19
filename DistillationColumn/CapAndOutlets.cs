@@ -19,6 +19,7 @@ namespace DistillationColumn
 
         double elevation=68000;
         List<List<double>> _platformList;
+        List<ContourPoint> _pointList;
 
 
         public CapAndOutlets(Globals global, TeklaModelling tModel)
@@ -26,6 +27,7 @@ namespace DistillationColumn
             _global = global;
             _tModel = tModel;
             _platformList = new List<List<double>>();
+            _pointList = new List<ContourPoint>();
 
             createCapAndOutlets();
             capBrackets();
@@ -48,13 +50,13 @@ namespace DistillationColumn
             string profile = "CAP" + diameter;
             Beam cap = _tModel.CreateBeam(capTop, capBottom, profile, "IS2062", "8", _global.Position, "cap");
 
-            TSM.ContourPoint middleOutletTop = _tModel.ShiftVertically(capTop,heightOfOutletAboveCap);
-            _tModel.CreateBeam(new T3D.Point(capTop.X, capTop.Y, capTop.Z - heightOfOutletBelowCap), middleOutletTop, "PIPE"+middleOutletRadius+"*10", "IS2062", "5", _global.Position, "");
+            TSM.ContourPoint middleOutletTop = _tModel.ShiftVertically(capTop, heightOfOutletAboveCap);
+            _tModel.CreateBeam(new T3D.Point(capTop.X, capTop.Y, capTop.Z - heightOfOutletBelowCap), middleOutletTop, "PIPE" + middleOutletRadius + "*10", "IS2062", "5", _global.Position, "");
             TSM.ContourPoint outletCap = _tModel.ShiftVertically(middleOutletTop, 20);
-            _tModel.CreateBeam(middleOutletTop, outletCap, "ROD"+(middleOutletRadius+50), "IS2062", "6", _global.Position, "");
-            Beam cut = _tModel.CreateBeam(new T3D.Point(capTop.X, capTop.Y, capTop.Z - heightOfOutletBelowCap), middleOutletTop, "ROD"+middleOutletRadius, "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
+            _tModel.CreateBeam(middleOutletTop, outletCap, "ROD" + (middleOutletRadius + 50), "IS2062", "6", _global.Position, "");
+            Beam cut = _tModel.CreateBeam(new T3D.Point(capTop.X, capTop.Y, capTop.Z - heightOfOutletBelowCap), middleOutletTop, "ROD" + middleOutletRadius, "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
             _tModel.cutPart(cut, cap);
-            Cuts(new T3D.Point(capTop.X, capTop.Y, capTop.Z - heightOfOutletBelowCap), middleOutletTop,middleOutletRadius);
+            Cuts(new T3D.Point(capTop.X, capTop.Y, capTop.Z - heightOfOutletBelowCap), middleOutletTop, middleOutletRadius);
 
             TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, 400, 1, -45 * (Math.PI / 180));
             for (int i = 1; i <= 4; i++)
@@ -63,16 +65,16 @@ namespace DistillationColumn
                 {
                     TSM.ContourPoint sideOutletBottom = _tModel.ShiftAlongCircumferenceRad(point5, i * (90 * (Math.PI / 180)), 1);
                     TSM.ContourPoint sideOutletTop = _tModel.ShiftVertically(sideOutletBottom, heightOfOutletAboveCap);
-                    _tModel.CreateBeam(new T3D.Point(sideOutletBottom.X, sideOutletBottom.Y, sideOutletBottom.Z - heightOfOutletBelowCap), sideOutletTop, "PIPE"+sideOutletRadius+"*10", "IS2062", "5", _global.Position, "");
-                    Beam cut1 = _tModel.CreateBeam(new T3D.Point(sideOutletBottom.X, sideOutletBottom.Y, sideOutletBottom.Z - heightOfOutletBelowCap), sideOutletTop, "ROD"+sideOutletRadius, "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
+                    _tModel.CreateBeam(new T3D.Point(sideOutletBottom.X, sideOutletBottom.Y, sideOutletBottom.Z - heightOfOutletBelowCap), sideOutletTop, "PIPE" + sideOutletRadius + "*10", "IS2062", "5", _global.Position, "");
+                    Beam cut1 = _tModel.CreateBeam(new T3D.Point(sideOutletBottom.X, sideOutletBottom.Y, sideOutletBottom.Z - heightOfOutletBelowCap), sideOutletTop, "ROD" + sideOutletRadius, "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
                     _tModel.cutPart(cut1, cap);
-                    Cuts(new T3D.Point(sideOutletBottom.X, sideOutletBottom.Y, sideOutletBottom.Z - heightOfOutletBelowCap), sideOutletTop,sideOutletRadius);
+                    Cuts(new T3D.Point(sideOutletBottom.X, sideOutletBottom.Y, sideOutletBottom.Z - heightOfOutletBelowCap), sideOutletTop, sideOutletRadius);
                     TSM.ContourPoint point8 = _tModel.ShiftVertically(sideOutletTop, 20);
-                    _tModel.CreateBeam(sideOutletTop, point8, "ROD"+(sideOutletRadius+50), "IS2062", "6", _global.Position, "");
+                    _tModel.CreateBeam(sideOutletTop, point8, "ROD" + (sideOutletRadius + 50), "IS2062", "6", _global.Position, "");
 
                 }
             }
-            
+
         }
 
        
@@ -133,12 +135,13 @@ namespace DistillationColumn
                     TSM.ContourPoint capPlatformBracketBottom = _tModel.ShiftAlongCircumferenceRad(point6, ang, 1);
                     TSM.ContourPoint capPlatformBracketTop = RectangularPlatform._platformPointList[i];
                     _tModel.CreateBeam(new T3D.Point(capPlatformBracketBottom.X, capPlatformBracketBottom.Y, capPlatformBracketBottom.Z - 1000), capPlatformBracketTop, "ISMC100", "IS2062", "2", _global.Position, "");
-
-
                 }
             }
 
         }
+
+        
+        
 
 
     }

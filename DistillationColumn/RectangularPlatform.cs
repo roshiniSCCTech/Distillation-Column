@@ -34,7 +34,7 @@ namespace DistillationColumn
         List<Point> Intersect;
         ArrayList myList = new ArrayList();
         List<Part> _platformBracketParts;
-        List<Point> my = new List<Point>();
+        //List<Point> my = new List<Point>();
         public RectangularPlatform(Globals global, TeklaModelling tModel)
         {
             _global = global;
@@ -47,9 +47,9 @@ namespace DistillationColumn
 
 
             SetPlatformData();
-            //createPlatform();
-            //CreateHandRailParallelToXAxis();
-            //CreateHandRailParallelToYAxis();
+            createPlatform();
+            CreateHandRailParallelToXAxis();
+            CreateHandRailParallelToYAxis();
             CreateSupportPlate();
             createSupportBrackets();
             createSupportBrackets1();
@@ -456,9 +456,7 @@ namespace DistillationColumn
             TSM.ContourPoint point2 = new ContourPoint(new T3D.Point(point1.X - 200, point1.Y + height / 2, point1.Z), null);
             TSM.ContourPoint point3 = new ContourPoint(new T3D.Point(point2.X, (point2.Y - height), point2.Z), null);
             Beam p1 = _tModel.CreateBeam(point2, point3, _global.ProfileStr, "ASTMA106", _global.ClassStr, _global.Position, "beam");
-            //Intersection(p1);
             _platformBracketParts.Add(p1);
-
 
             TSM.ContourPoint point21 = new ContourPoint(new T3D.Point(point1.X - width + 200, point1.Y + height / 2, point1.Z), null);
             TSM.ContourPoint point31 = new ContourPoint(new T3D.Point(point21.X, (point21.Y - height), point21.Z), null);
@@ -516,7 +514,6 @@ namespace DistillationColumn
             TSM.ContourPoint point31 = new ContourPoint(new T3D.Point(point21.X - width, (point21.Y), point21.Z), null);
             Beam p2 = _tModel.CreateBeam(point21, point31, _global.ProfileStr, "ASTMA106", _global.ClassStr, _global.Position, "beam");
             _platformBracketParts.Add(p2);
-            Intersection(point21, point31);
 
             double no = (height - 400) / 1000;
             var x = (no - Math.Truncate(no)) * 1000;
@@ -557,9 +554,7 @@ namespace DistillationColumn
 
                 Intersection(point41, point51);
             }
-
-
-
+            Intersection(point21, point31);
         }
 
         public void Intersection(Point p1, Point p2)
@@ -578,14 +573,11 @@ namespace DistillationColumn
                 }
                 foreach (var p in Intersect)
                 {
-
-                    //Beam b1;
                     Operation.Split(part, p);
                     _tModel.Model.CommitChanges();
-                    //_platformBracketParts.Add(b1)
+                  
                 }
-                //Operation.Split(part,intersect);
-                //_tModel.Model.CommitChanges();
+
 
             }
 
