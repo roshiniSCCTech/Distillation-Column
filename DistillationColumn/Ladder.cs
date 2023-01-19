@@ -97,7 +97,7 @@ namespace DistillationColumn
                     D.SetReferencePoint(point3);
                     D.SetAttribute("P1", Height);
                     //D.SetAttribute("P3", );
-                    D.Insert();
+                    //D.Insert();
 
                 }
                 _tModel.Model.CommitChanges();
