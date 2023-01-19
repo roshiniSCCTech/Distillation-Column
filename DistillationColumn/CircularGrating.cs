@@ -16,300 +16,307 @@ using System.Windows.Forms;
 
 namespace DistillationColumn
 {
-  class CircularGrating
-  {
-    double startAngle;
-    double endAngle;
-    double elevation;
-    double platLength;
-    double width;
-    double gap;
-    double gratingThickness;
-    double distanceFromStack;
-
-
-    double radius;
-    double plateAngle;
-    double xcod, ycod, zcod;
-    double orientationAngle;
-    double theta;
-    double ladderWidth = 800;
-
-
-    ContourPoint p1;
-    ContourPoint p2;
-    ContourPoint p3;
-    ContourPoint o1;
-    ContourPoint o2;
-
-    List<List<double>> gratinglist;
-    public Globals _global;
-    public TeklaModelling _tModel;
-
-    public void SetGratingData()
+    class CircularGrating
     {
-      List<JToken> _gratinglist = _global.JData["Ladder"].ToList();
-      foreach (JToken grating in _gratinglist)
-      {
-        startAngle = (float)grating["Platform_Start_Angle"];
-        endAngle = (float)grating["Platfrom_End_Angle"];
-        elevation = (float)grating["Elevation"];
-        width = (float)grating["Platform_Width"];
-        platLength = (float)grating["Platform_Length"];
-        gap = (float)grating["Gap_Between_Grating_Plate"];
-        gratingThickness = (float)grating["Grating_Thickness"];
-        distanceFromStack = (float)grating["Distance_From_Stack"];
-        orientationAngle = (float)grating["Orientation_Angle"];
-        gratinglist.Add(new List<double> { startAngle, endAngle, elevation, width, platLength, gap, gratingThickness, distanceFromStack, orientationAngle });
-      }
-    }
+        double startAngle;
+        double endAngle;
+        double elevation;
+        double platLength;
+        double width;
+        double gap;
+        double gratingThickness;
+        double distanceFromStack;
+        double frameStartAngle;
+        double frameEndAngle;
 
-    public CircularGrating(Globals global, TeklaModelling tModel)
-    {
-      _global = global;
-      _tModel = tModel;
+        double radius;
+        double plateAngle;
+        double xcod, ycod, zcod;
+        double orientationAngle;
+        double theta;
+        double ladderWidth = 800;
 
-      gratinglist = new List<List<double>>();
 
-      SetGratingData();
-      foreach (List<double> grating in gratinglist)
-      {
-        startAngle = grating[0];
-        endAngle = grating[1];
-        elevation = grating[2];
-        width = grating[3];
-        platLength = grating[4];
-        gap = grating[5];
-        distanceFromStack = grating[7];
-        orientationAngle = grating[8];
-        radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
-        radius = radius + distanceFromStack;
+        ContourPoint p1;
+        ContourPoint p2;
+        ContourPoint p3;
+        ContourPoint p4;
+        ContourPoint p5;
+        ContourPoint p6;
+        ContourPoint o1;
+        ContourPoint o2;
 
-        if (orientationAngle == startAngle)
+        List<List<double>> gratinglist;
+        public Globals _global;
+        public TeklaModelling _tModel;
+
+        public void SetGratingData()
         {
-          theta = ((ladderWidth/2) / (radius+platLength)) * 180 / Math.PI;
-
-          startAngle = startAngle + theta;
-
-        }
-        if (orientationAngle == endAngle)
-        {
-          theta = ((ladderWidth / 2) / (radius + platLength)) * 180 / Math.PI;
-          endAngle = endAngle - theta;
-        }
-        if (orientationAngle > startAngle && orientationAngle < endAngle)
-        {
-
-          ContourPoint xaxis = new ContourPoint(new Point(radius, 0, elevation), null);
-          o1 = _tModel.ShiftHorizontallyRad(_tModel.ShiftAlongCircumferenceRad(xaxis, (Math.PI / 180) * orientationAngle, 1), platLength, 1);
-          o2 = _tModel.ShiftHorizontallyRad(o1, radius + platLength, 3);
-          //Beam cut = _tModel.CreateBeam(o1,o2, "PL"+ladderWidth+"*50", "IS2062", "5", _global.Position, "");
-
+            List<JToken> _gratinglist = _global.JData["Ladder"].ToList();
+            foreach (JToken grating in _gratinglist)
+            {
+                startAngle = (float)grating["Platform_Start_Angle"];
+                endAngle = (float)grating["Platfrom_End_Angle"];
+                elevation = (float)grating["Elevation"];
+                width = (float)grating["Platform_Width"];
+                platLength = (float)grating["Platform_Length"];
+                gap = (float)grating["Gap_Between_Grating_Plate"];
+                gratingThickness = (float)grating["Grating_Thickness"];
+                distanceFromStack = (float)grating["Distance_From_Stack"];
+                orientationAngle = (float)grating["Orientation_Angle"];
+                gratinglist.Add(new List<double> { startAngle, endAngle, elevation, width, platLength, gap, gratingThickness, distanceFromStack, orientationAngle });
+            }
         }
 
-        plateAngle =  ((width) / (radius + platLength)) * 180 / Math.PI;
-
-
-        int count = Convert.ToInt32((endAngle - startAngle) / plateAngle);
-
-        CreateCircularGrating(count);
-        CreateFrame();
-
-      }
-
-
-    }
-
-    public void CreateCircularGrating(int count)
-    {
-      //foreach (List<double> grating in gratinglist)
-      {
-
-
-        for (int i = 0; i <= count; i++)
+        public void ShiftAngle()
         {
-          radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
-          radius = radius + distanceFromStack;
-          PolyBeam poly = new PolyBeam();
-          poly.Profile.ProfileString = "PL20*" + platLength;
-          poly.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
-          poly.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.LEFT;
+            if (orientationAngle == startAngle)
+            {
+                //theta = (180 / Math.PI) * (Math.Atan(ladderWidth / (radius * 2)));
+                theta = ((ladderWidth / 2) / (radius + platLength)) * 180 / Math.PI;
+                startAngle = startAngle + theta;
 
-          if ((startAngle + ((i + 1) * plateAngle)) < endAngle)
-          {
-            xcod = (radius + platLength) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
-            ycod = (radius + platLength) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
-            zcod = elevation + 50 + gratingThickness;
+            }
+            if (orientationAngle == endAngle)
+            {
+                //theta = (180 / Math.PI) * (Math.Atan(ladderWidth / (2 * radius)));
+                theta = ((ladderWidth / 2) / (radius + platLength)) * 180 / Math.PI;
+                endAngle = endAngle - theta;
+            }
+        }
 
-            p1 = new ContourPoint(new Point(xcod, ycod, zcod), null);
-            p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle / 2), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-            p3 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle), 1), null);
+        public CircularGrating(Globals global, TeklaModelling tModel)
+        {
+            _global = global;
+            _tModel = tModel;
+
+            gratinglist = new List<List<double>>();
+
+            SetGratingData();
+            foreach (List<double> grating in gratinglist)
+            {
+                startAngle = grating[0];
+                endAngle = grating[1];
+                elevation = grating[2];
+                width = grating[3];
+                platLength = grating[4];
+                gap = grating[5];
+                distanceFromStack = grating[7];
+                orientationAngle = grating[8];
+                gratingThickness = (float)grating[6];
+
+                radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+                radius = radius + distanceFromStack;
+
+                frameStartAngle = startAngle;
+                frameEndAngle = endAngle;
+
+                ShiftAngle();
+
+                plateAngle = (180 * width) / (Math.PI * (radius + platLength));
+
+                int count = Convert.ToInt32((endAngle - startAngle) / plateAngle);
+
+                CreateCircularGrating(count);
+                CreateFrame();
+                CreateBrackets();
+
+            }
 
 
-            poly.AddContourPoint(p1);
-            poly.AddContourPoint(p2);
-            poly.AddContourPoint(p3);
-            poly.Insert();
+        }
+
+        public void CreateCuts(Part poly)
+        {
+            ContourPoint xaxis = new ContourPoint(new Point(radius, 0, elevation), null);
+            o1 = _tModel.ShiftHorizontallyRad(_tModel.ShiftAlongCircumferenceRad(xaxis, (Math.PI / 180) * orientationAngle, 1), platLength, 1);
+            o2 = _tModel.ShiftHorizontallyRad(o1, radius + platLength, 3);
+
+            Beam cut1 = new Beam();
+            cut1.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
+            cut1.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
+            cut1 = _tModel.CreateBeam(o1, o2, "PL" + ladderWidth + "*" + ladderWidth, "IS2062", BooleanPart.BooleanOperativeClassName, cut1.Position, "");
+            _tModel.cutPart(cut1, poly);
+        }
+
+        public void CreateCircularGrating(int count)
+        {
+            {
+
+
+                for (int i = 0; i <= count; i++)
+                {
+                    radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+                    radius = radius + distanceFromStack;
+
+                    PolyBeam poly = new PolyBeam();
+                    poly.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
+                    poly.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.LEFT;
+
+                    if ((startAngle + ((i + 1) * plateAngle)) < endAngle)
+                    {
+                        xcod = (radius + platLength) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
+                        ycod = (radius + platLength) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
+                        zcod = elevation + 50 + gratingThickness;
+
+                        p1 = new ContourPoint(new Point(xcod, ycod, zcod), null);
+                        p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle / 2), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
+                        p3 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle), 1), null);
+
+
+                        List<ContourPoint> gratingPointList = new List<ContourPoint> { p1, p2, p3 };
+
+                        poly = _tModel.CreatePolyBeam(gratingPointList, "PL" + gratingThickness + "*" + platLength, "IS2062", "1", poly.Position);
+
+                        if (orientationAngle + theta == startAngle && i == 0)
+                        {
+                            CreateCuts(poly);
+                        }
+                        if (orientationAngle > startAngle && orientationAngle < endAngle && orientationAngle > startAngle + ((i - 1) * plateAngle) && orientationAngle < startAngle + ((i + 2) * plateAngle))
+                        {
+                            CreateCuts(poly);
+                        }
+
+
+                    }
+                    else
+                    {
+
+                        xcod = (radius + platLength) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
+                        ycod = (radius + platLength) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
+                        zcod = elevation + 50 + gratingThickness;
+                        plateAngle = (endAngle - (startAngle + (i * plateAngle)));
+                        p1 = new ContourPoint(new Point(xcod, ycod, zcod), null);
+                        p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle / 2), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
+                        p3 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle), 1), null);
+
+                        List<ContourPoint> gratingPointList = new List<ContourPoint> { p1, p2, p3 };
+
+                        poly = _tModel.CreatePolyBeam(gratingPointList, "PL" + gratingThickness + "*" + platLength, "IS2062", "1", poly.Position);
+
+                        if (orientationAngle - theta == endAngle)
+                        {
+                            CreateCuts(poly);
+                        }
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+        public void CreateFrame()
+        {
+            p1 = new ContourPoint(new Point(radius * Math.Cos(Math.PI * frameStartAngle / 180), radius * Math.Sin(Math.PI * frameStartAngle / 180), elevation), null);
+            p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 360) * (frameEndAngle - frameStartAngle), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
+            p3 = _tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (frameEndAngle - frameStartAngle), 1);
+
+            p4 = new ContourPoint(new Point((radius + platLength) * Math.Cos(Math.PI * frameStartAngle / 180), (radius + platLength) * Math.Sin(Math.PI * frameStartAngle / 180), elevation), null);
+            p5 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p4, (Math.PI / 360) * (frameEndAngle - frameStartAngle), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
+            p6 = _tModel.ShiftAlongCircumferenceRad(p4, (Math.PI / 180) * (frameEndAngle - frameStartAngle), 1);
+
+            double phi = (ladderWidth / 2) / radius;
+            double phi2 = (ladderWidth / 2) / (radius + platLength);
+
+            if (orientationAngle == frameStartAngle)
+            {
+                p1 = _tModel.ShiftAlongCircumferenceRad(p1, phi, 1);
+                p4 = _tModel.ShiftAlongCircumferenceRad(p4, phi2, 1);
+            }
+            if (orientationAngle == frameEndAngle)
+            {
+                p3 = _tModel.ShiftAlongCircumferenceRad(p3, -phi, 1);
+                p6 = _tModel.ShiftAlongCircumferenceRad(p6, -phi2, 1);
+            }
+
+            List<ContourPoint> innerBeamList = new List<ContourPoint> { p1, p2, p3 };
+
+            PolyBeam innerBeam = new PolyBeam();
+            innerBeam.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
+            innerBeam.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
+
+            innerBeam = _tModel.CreatePolyBeam(innerBeamList, "C100*100*10", "IS2062", "3", innerBeam.Position);
 
             _tModel.Model.CommitChanges();
-            if (orientationAngle + theta == startAngle && i == 0)
+
+            List<ContourPoint> outerBeamList = new List<ContourPoint> { p6, p5, p4 };
+
+            PolyBeam outerBeam = _tModel.CreatePolyBeam(outerBeamList, "C100*100*10", "IS2062", "3", innerBeam.Position);
+
+            Beam startBeam = _tModel.CreateBeam(p4, p1, "C100*100*10", "IS2062", "3", innerBeam.Position);
+
+            Beam endBeam = _tModel.CreateBeam(p3, p6, "C100*100*10", "IS2062", "3", innerBeam.Position);
+
+            if (orientationAngle > startAngle && orientationAngle < endAngle)
             {
-              //Beam cut = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p1,(Math.PI/180)*(-theta),1), _tModel.ShiftHorizontallyRad(p1,radius+platLength,3), "PL" + ladderWidth + "*50", "IS2062", "5", _global.Position, "");
-              Beam cut1 = new Beam();
-              cut1.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-              cut1.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
-              cut1.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
+                double theta2 = (180 / Math.PI) * (Math.Atan(ladderWidth / (2 * (radius + platLength))));
 
-              cut1 = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (-theta), 1), _tModel.ShiftHorizontallyRad(p1, radius + platLength, 3), "PL" + ladderWidth + "*250", "IS2062", BooleanPart.BooleanOperativeClassName, cut1.Position, "");
+                theta = (180 / Math.PI) * (Math.Atan(ladderWidth / (2 * radius)));
 
-              _tModel.cutPart(cut1, poly);
+                //p1 = new ContourPoint(new Point(radius * Math.Cos((Math.PI / 180) * (orientationAngle - theta)), radius * Math.Sin((Math.PI / 180) * (orientationAngle - theta)), elevation), null);
+
+                ContourPoint x1 = new ContourPoint(new Point(radius * Math.Cos((Math.PI / 180) * (orientationAngle - theta)), radius * Math.Sin((Math.PI / 180) * (orientationAngle - theta)), elevation), null);
+
+                _tModel.CreateBeam(x1, _tModel.ShiftAlongCircumferenceRad(o1, -(Math.PI * theta2 / 180), 1), "C100*100*10", "IS2062", "3", innerBeam.Position);
+
+                _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(o1, (Math.PI * theta2 / 180), 1), _tModel.ShiftAlongCircumferenceRad(x1, (Math.PI * theta / 90), 1), "C100*100*10", "IS2062", "3", innerBeam.Position);
+
+
+                CreateCuts(outerBeam);
+
+                CreateCuts(innerBeam);
             }
-            if (orientationAngle > startAngle && orientationAngle < endAngle && orientationAngle > startAngle + ((i - 1) * plateAngle) && orientationAngle < startAngle + ((i + 2) * plateAngle))
-            {
-              Beam cut1 = new Beam();
-              cut1.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-              cut1.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
-              cut1.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
-
-              cut1 = _tModel.CreateBeam(o1, o2, "PL" + ladderWidth + "*250", "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
-
-              _tModel.cutPart(cut1, poly);
-            }
-
-
-          }
-          else
-          {
-
-            xcod = (radius + platLength) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
-            ycod = (radius + platLength) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
-            zcod = elevation + 50 + gratingThickness;
-            plateAngle = (endAngle - (startAngle + (i * plateAngle)));
-            p1 = new ContourPoint(new Point(xcod, ycod, zcod), null);
-            p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle / 2), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-            p3 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle), 1), null);
-
-            poly.AddContourPoint(p1);
-            poly.AddContourPoint(p2);
-            poly.AddContourPoint(p3);
-
-
-            poly.Insert();
-            _tModel.Model.CommitChanges();
-            if (orientationAngle - theta == endAngle)
-            {
-              //Beam cut = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p3, (Math.PI / 180) * (theta), 1), _tModel.ShiftHorizontallyRad(p3, radius + platLength, 3), "PL" + ladderWidth + "*50", "IS2062", "5", _global.Position, "");
-              Beam cut1 = new Beam();
-              cut1.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-              cut1.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
-              cut1.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
-
-              cut1 = _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(p3, (Math.PI / 180) * (theta), 1), _tModel.ShiftHorizontallyRad(p3, radius + platLength, 3), "PL" + ladderWidth + "*250", "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
-
-              _tModel.cutPart(cut1, poly);
-            }
-            break;
-          }
-          //p1 = new ContourPoint(new Point(xcod, ycod, zcod), null);
-          //p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle / 2), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-          //p3 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle), 1), null);
-
-
-
-          //if (orientationAngle < startAngle && i == 0)
-          //{
-          //    theta = startAngle - orientationAngle;
-          //    ContourPoint p0 = _tModel.ShiftHorizontallyRad(p1, 100, 4, theta);
-          //    poly.AddContourPoint(p0);
-          //}
-
-          //poly.AddContourPoint(p1);
-          //poly.AddContourPoint(p2);
-          //poly.AddContourPoint(p3);
-
-          //if (orientationAngle > endAngle && i == count)
-          //{
-          //    theta = orientationAngle-endAngle;
-          //    ContourPoint p0 = _tModel.ShiftHorizontallyRad(p1, 100, 3, theta);
-          //    poly.AddContourPoint(p0);
-          //}
-
-          //poly.Insert();
-          //_tModel.Model.CommitChanges();
         }
 
-      }
+        public void CreateBrackets()
+        {
+            double arcLength = (Math.PI / 180) * (frameEndAngle - frameStartAngle) * (radius + platLength);
+            int count = Convert.ToInt32((arcLength - 200) / 1000);
 
+            double theta2 = Math.Atan(((ladderWidth / 2) / (radius + platLength)) * (180 / Math.PI));
+            double cutArc = (Math.PI / 180) * (orientationAngle - frameStartAngle + theta2) * (radius + platLength);
+            double cutArc2 = (Math.PI / 180) * (orientationAngle - frameStartAngle - theta2) * (radius + platLength);
+
+            for (int i = 0; i < count; i++)
+            {
+                CustomPart CPart = new CustomPart();
+                CPart.Name = "Platform_Bracket";
+                CPart.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
+                CPart.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
+                CPart.Position.PlaneOffset = 0;
+                CPart.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
+                CPart.Position.DepthOffset = 50;
+                CPart.Position.RotationOffset = 0;
+                CPart.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.TOP;
+                CPart.SetAttribute("P1", distanceFromStack);
+                CPart.SetAttribute("P2", platLength);
+
+                ContourPoint b1 = _tModel.ShiftAlongCircumferenceRad(p4, 200, 2);
+                ContourPoint b2 = _tModel.ShiftAlongCircumferenceRad(p1, 200, 2);
+                if (i == 0)
+                {
+                    CPart.SetInputPositions(b2, b1);
+                }
+                else
+                {
+                    b1 = _tModel.ShiftAlongCircumferenceRad(b1, i * 1000, 2);
+                    b2 = _tModel.ShiftHorizontallyRad(b1, platLength, 3);
+                    CPart.SetInputPositions(b2, b1);
+                }
+                //CPart.Insert();
+                if (orientationAngle > frameStartAngle && orientationAngle < frameEndAngle)
+                {
+                    if ((i * 1000) + 200 < cutArc2 || (i * 1000) > cutArc)
+                    {
+                        CPart.Insert();
+                    }
+
+                }
+                else CPart.Insert();
+            }
+
+            _tModel.Model.CommitChanges();
+        }
     }
-
-    public void CreateFrame()
-    {
-      p1 = new ContourPoint(new Point(radius * Math.Cos(Math.PI * startAngle / 180), radius * Math.Sin(Math.PI * startAngle / 180), elevation), null);
-      p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 360) * (endAngle - startAngle), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-      p3 = _tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (endAngle - startAngle), 1);
-      PolyBeam innerBeam = new PolyBeam();
-      innerBeam.Profile.ProfileString = "C100*100*10";
-      innerBeam.AddContourPoint(p1);
-      innerBeam.AddContourPoint(p2);
-      innerBeam.AddContourPoint(p3);
-      innerBeam.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
-      innerBeam.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-      innerBeam.Insert();
-      _tModel.Model.CommitChanges();
-
-      Beam startBeam = new Beam(_tModel.ShiftHorizontallyRad(p1, platLength, 1), p1);
-      startBeam.Profile.ProfileString = "C100*100*10";
-      startBeam.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-      startBeam.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
-      startBeam.Insert();
-
-      Beam endBeam = new Beam(p3, _tModel.ShiftHorizontallyRad(p3, platLength, 1));
-      endBeam.Profile.ProfileString = "C100*100*10";
-      endBeam.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-      endBeam.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
-      endBeam.Insert();
-
-
-      PolyBeam outerBeam = new PolyBeam();
-      outerBeam.AddContourPoint(_tModel.ShiftHorizontallyRad(p3, platLength, 1));
-      outerBeam.AddContourPoint(new ContourPoint(new Point(_tModel.ShiftHorizontallyRad(p2, platLength, 1)), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT)));
-      outerBeam.AddContourPoint(_tModel.ShiftHorizontallyRad(p1, platLength, 1));
-      outerBeam.Profile.ProfileString = "C100*100*10";
-      outerBeam.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-      outerBeam.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
-      outerBeam.Insert();
-      _tModel.Model.CommitChanges();
-
-      if (orientationAngle > startAngle && orientationAngle < endAngle)
-      {
-        double theta2 = (180 / Math.PI) * (Math.Atan(ladderWidth / (2 * (radius + platLength))));
-
-        theta = (180 / Math.PI) * (Math.Atan(ladderWidth / (2 * radius)));
-
-        p1 = new ContourPoint(new Point(radius * Math.Cos((Math.PI / 180) * (orientationAngle - theta)), radius * Math.Sin((Math.PI / 180) * (orientationAngle - theta)), elevation), null);
-
-        Beam midBeam1 = new Beam(p1, _tModel.ShiftAlongCircumferenceRad(o1, -(Math.PI * theta2 / 180), 1));
-        //Beam midBeam1 = new Beam(p1, _tModel.ShiftHorizontallyRad(p1, platLength, 1));
-        midBeam1.Profile.ProfileString = "C100*100*10";
-        midBeam1.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
-        midBeam1.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-        midBeam1.Insert();
-
-        Beam midBeam2 = new Beam(_tModel.ShiftAlongCircumferenceRad(o1, (Math.PI * theta2 / 180), 1), _tModel.ShiftAlongCircumferenceRad(p1, (Math.PI * theta / 90), 1));
-        midBeam2.Profile.ProfileString = "C100*100*10";
-        midBeam2.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
-        midBeam2.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.MIDDLE;
-        midBeam2.Insert();
-
-
-        Beam cut2 = _tModel.CreateBeam(o1, o2, "PL" + ladderWidth + "*100", "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
-        _tModel.cutPart(cut2, outerBeam);
-
-        Beam cut1 = _tModel.CreateBeam(o1, o2, "PL" + ladderWidth + "*100", "IS2062", BooleanPart.BooleanOperativeClassName, _global.Position, "");
-        _tModel.cutPart(cut1, innerBeam);
-
-        _tModel.Model.CommitChanges();
-      }
-    }
-  }
 }
