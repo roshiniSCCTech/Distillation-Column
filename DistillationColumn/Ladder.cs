@@ -20,9 +20,9 @@ namespace DistillationColumn
 
         double orientationAngle;
         double elevation;
-        double height;
-        double width;
+        double width = 800;
         double rungSpacing;
+        double ladderBase = 0;
 
         List<List<double>> _ladderList;
 
@@ -44,10 +44,16 @@ namespace DistillationColumn
             {
                 orientationAngle = (float)ladder["Orientation_Angle"];
                 elevation = (float)ladder["Elevation"];
-                width = (float)ladder["Width"];
-                height = (float)ladder["Height"];
+                //width = (float)ladder["Width"];
+                //height = (float)ladder["Height"];
                 rungSpacing = (float)ladder["Rungs_spacing"];
-                _ladderList.Add(new List<double> {orientationAngle, elevation, width,height, rungSpacing });
+                _ladderList.Add(new List<double> { orientationAngle, elevation, rungSpacing });
+            }
+
+            List<JToken> ladderBaseList = _global.JData["chair"].ToList();
+            foreach (JToken ladder in ladderBaseList)
+            {
+                ladderBase = (float)ladder["height"];
             }
         }
 
@@ -57,25 +63,26 @@ namespace DistillationColumn
             {
                 double elevation = ladder[1];
                 double orientationAngle = ladder[0] * Math.PI / 180;
-                double Height = ladder[3];
-                double radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+                double Height = elevation - ladderBase + (4 * ladder[2]);
+                double radius = _tModel.GetRadiusAtElevation(ladderBase, _global.StackSegList, true);
 
                 TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
-                TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
-                TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, radius+10, 1, orientationAngle);
+                TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, ladderBase);
+                TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, radius + 10, 1, orientationAngle);
                 TSM.ContourPoint point3 = _tModel.ShiftVertically(point2, Height);
 
+                ladderBase = elevation;
 
                 CustomPart Ladder = new CustomPart();
                 Ladder.Name = "Ladder1";
                 Ladder.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
 
                 Ladder.SetInputPositions(point2, point3);
-                Ladder.SetAttribute("P1", ladder[2]);
-                Ladder.SetAttribute("P2", ladder[3]); 
-                Ladder.SetAttribute("P3", ladder[4]);
+                Ladder.SetAttribute("P1", width);  //Ladder Width
+                Ladder.SetAttribute("P2", Height);  // Ladder Height
+                Ladder.SetAttribute("P3", ladder[2]);  // Ladder Dist btwn Rungs
 
-                
+
                 Ladder.Position.Rotation = Position.RotationEnum.TOP;
                 Ladder.Position.Depth = Position.DepthEnum.MIDDLE;
                 //Ladder.Position.Rotation = Position.RotationEnum.FRONT;
@@ -97,7 +104,7 @@ namespace DistillationColumn
                     D.SetReferencePoint(point3);
                     D.SetAttribute("P1", Height);
                     //D.SetAttribute("P3", );
-                    //D.Insert();
+                    D.Insert();
 
                 }
                 _tModel.Model.CommitChanges();
@@ -105,3 +112,4 @@ namespace DistillationColumn
         }
     }
 }
+
