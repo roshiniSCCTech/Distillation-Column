@@ -120,6 +120,7 @@ namespace DistillationColumn
                 CreateCircularGrating(count);
                 CreateFrame();
                 CreateBrackets();
+                createHandrail();
 
             }
 
@@ -317,6 +318,30 @@ namespace DistillationColumn
             }
 
             _tModel.Model.CommitChanges();
+        }
+
+        public void createHandrail()
+        {
+            ContourPoint point = new ContourPoint(new Point(_tModel.ShiftVertically(_global.Origin,elevation)),null);
+            ContourPoint point1 = new ContourPoint(new Point(_tModel.ShiftHorizontallyRad(point,radius+(platLength/2),1,(frameEndAngle* Math.PI/180))), null);
+            ContourPoint point2 = new ContourPoint(new Point(_tModel.ShiftHorizontallyRad(point1,500 , 2)), null);
+
+            CustomPart CPart = new CustomPart();
+            CPart.Name = "Rectangular_Handrail";
+            CPart.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
+            CPart.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
+            CPart.Position.PlaneOffset = 0.0;
+            CPart.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.FRONT;
+            CPart.Position.DepthOffset = 0;
+            CPart.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.TOP;
+            CPart.SetInputPositions(point1,point2);
+
+            CPart.SetAttribute("width", 5);
+            CPart.SetAttribute("distance",(platLength-600));
+            CPart.SetAttribute("P2", 0);
+
+            bool b = CPart.Insert();
+
         }
     }
 }
