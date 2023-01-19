@@ -69,10 +69,10 @@ namespace DistillationColumn
 
             for (int i = 0; i < 4; i++)
             {
-                int n = _tModel.GetSegmentAtElevation(stiffnerLength, _global.StackSegList);
-                topRingRadius = _tModel.GetRadiusAtElevation(stiffnerLength, _global.StackSegList);
+                int n = _tModel.GetSegmentAtElevation(stiffnerLength+bottomRingThickness, _global.StackSegList);
+                topRingRadius = _tModel.GetRadiusAtElevation(stiffnerLength+bottomRingThickness, _global.StackSegList)+ _global.StackSegList[n][2];
                 topRingRadius += _global.StackSegList[n][2];
-                bottomRingRadius = (_global.StackSegList[0][0] / 2) + _global.StackSegList[0][2];
+                bottomRingRadius = _tModel.GetRadiusAtElevation(bottomRingThickness, _global.StackSegList) + _global.StackSegList[0][2];
 
                 if (topRingRadius>bottomRingRadius)
                 {

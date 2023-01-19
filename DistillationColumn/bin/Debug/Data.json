@@ -200,14 +200,14 @@
       "key": 28,
       "seg_height": 2,
       "inside_dia_top": 3.5,
-      "inside_dia_bottom": 3.5,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 29,
-      "seg_height": 1,
-      "inside_dia_top": 3.5,
-      "inside_dia_bottom": 3.5,
+      "seg_height": 2,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 5,
       "shell_thickness": 0.01
     }
   ],
