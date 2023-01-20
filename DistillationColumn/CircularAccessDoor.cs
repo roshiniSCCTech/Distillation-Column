@@ -42,6 +42,7 @@ namespace DistillationColumn
         double HandleRodDiamter;
         double thicknessofLiningPlate;
         double arcDistance;
+        double hingedPlateThickness;
         PolyBeam flangePlate;
         PolyBeam gasketPlate;
         PolyBeam padPlate;
@@ -88,6 +89,7 @@ namespace DistillationColumn
             hingeddistancefromcoverPlate = 150;
             horizontalHingedDistance = 474;
             hingedDiameter = 60;
+            hingedPlateThickness = 10;
             plateTopPoint = new TSM.ContourPoint();
             plateBottomPoint = new TSM.ContourPoint();
             plateLeftPoint = new TSM.ContourPoint();
@@ -109,47 +111,24 @@ namespace DistillationColumn
             stackRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList,true);
             stackOrigin = new TSM.ContourPoint(_global.Origin, null);
             stackOrigin = _tModel.ShiftVertically(stackOrigin, elevation);
-            plateOrigin = _tModel.ShiftHorizontallyRad(stackOrigin, stackRadius, 1, orientationAngle);  
-            
+            plateOrigin = _tModel.ShiftHorizontallyRad(stackOrigin, stackRadius, 1, orientationAngle);
+
             CreatePadPlate();
             RefernceCutPlate();
             ReferenceneckPlate();
-            //CreateNeckPlate();
-            //CreateLiningPlate();
-            //CreateFlangePlate();
-            //CreateGasketPlate();
-            //CreateBolts();
-            //CreateCoverPlate();
-            //CreateHandle();
-
-            //HorizontalHinged();
+            CreateNeckPlate();
+            CreateLiningPlate();
+            CreateFlangePlate();
+            CreateGasketPlate();
+            CreateBolts();
+            CreateCoverPlate();
+            CreateHandle();
+            CreateHinge();
         }
         void CreatePadPlate()
-        { 
+        {
 
-            double halfPadPlateAngle = Math.Asin((plateRadius+neckPlateThickness)/stackRadius);
-            /* padTopPoint = new TSM.ContourPoint(_tModel.ShiftVertically(plateOrigin, plateRadius), new TSM.Chamfer(0, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-             padBottomPoint = new TSM.ContourPoint(_tModel.ShiftVertically(plateOrigin, -plateRadius), new TSM.Chamfer(0, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-             padLeftPoint = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(stackOrigin, stackRadius, 1, orientationAngle + halfPadPlateAngle), new TSM.Chamfer(0, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-             padRightPoint = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(stackOrigin, stackRadius, 1, orientationAngle - halfPadPlateAngle), new TSM.Chamfer(0, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-
-
-             _global.Position.Depth = TSM.Position.DepthEnum.MIDDLE;
-             _global.Position.Plane = TSM.Position.PlaneEnum.MIDDLE;
-             _global.Position.Rotation = TSM.Position.RotationEnum.BELOW;
-
-             _pointsList.Add(padTopPoint);
-             _pointsList.Add(padRightPoint);
-             _pointsList.Add(padBottomPoint);
-             _pointsList.Add(padLeftPoint);
-             _pointsList.Add(padTopPoint);
- */
-            //_tModel.CreatePolyBeam(_pointsList, "PL" + widthOfGasketPlate + "*" + padPlateThickness, Globals.MaterialStr, "5", _global.Position, "");
-            //_pointsList.Clear();
-
-
-            
-
+            double halfPadPlateAngle = Math.Asin((plateRadius + neckPlateThickness) / stackRadius);
             TSM.ContourPoint startPoint = new TSM.ContourPoint(_tModel.ShiftAlongCircumferenceRad(plateOrigin, halfPadPlateAngle, 1), null);
             startPoint = _tModel.ShiftAlongCircumferenceRad(startPoint, arcDistance, 2);
             TSM.ContourPoint midPoint = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(stackOrigin, stackRadius, 1, orientationAngle), new TSM.Chamfer(0, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
@@ -164,10 +143,8 @@ namespace DistillationColumn
             _pointsList.Add(midPoint);
             _pointsList.Add(endPoint);
             
-
-            //padPlate = _tModel.CreateBeam(startPoint, endPoint, "PL" + "500" + "*" + 2*(plateRadius + arcDistance + neckPlateThickness), "IS2062", "11", _global.Position, "");
-
             padPlate = _tModel.CreatePolyBeam(_pointsList, "PL" + "50" + "*" + 2 * (plateRadius + arcDistance + neckPlateThickness), "IS2062", "11", _global.Position, "");
+            _pointsList.Clear();
         }
         void RefernceCutPlate()
         {
@@ -183,7 +160,6 @@ namespace DistillationColumn
             _global.ProfileStr = "PL50*1000";//"PL" + (plateRadius + arcDistance + neckPlateThickness) + "*" + (plateRadius + arcDistance + neckPlateThickness);
 
 
-
             _pointsList.Add(plateTopPoint);
             _pointsList.Add(plateRightPoint);
             _pointsList.Add(plateBottomPoint);
@@ -195,8 +171,6 @@ namespace DistillationColumn
 
             _tModel.cutPart(cutPlate, padPlate);
 
-            
-
         }
         void ReferenceneckPlate()
         {
@@ -207,13 +181,11 @@ namespace DistillationColumn
             _global.Position.Rotation = TSM.Position.RotationEnum.FRONT;
             _global.ProfileStr = "ROD"+plateDiameter;
 
-
-            //plateOrigin = _tModel.ShiftHorizontallyRad(stackOrigin, stackRadius, 1, orientationAngle);
             plateOrigin = _tModel.ShiftHorizontallyRad(stackOrigin, stackRadius-500, 1, orientationAngle);
             TSM.ContourPoint point1= _tModel.ShiftHorizontallyRad(plateOrigin,1000, 1);
+
+
             Beam neckPlate1 = _tModel.CreateBeam(plateOrigin,point1,_global.ProfileStr, Globals.MaterialStr, BooleanPart.BooleanOperativeClassName, _global.Position, "");
-
-
             _tModel.cutPart(neckPlate1, padPlate);
 
         }
@@ -231,19 +203,14 @@ namespace DistillationColumn
             _global.Position.Rotation = TSM.Position.RotationEnum.FRONT;
 
 
-
             _pointsList.Add(plateTopPoint);
             _pointsList.Add(plateRightPoint);
             _pointsList.Add(plateBottomPoint);
             _pointsList.Add(plateLeftPoint);
             _pointsList.Add(plateTopPoint);
 
-           _tModel.CreatePolyBeam(_pointsList, "PL" +widthofNeckPlate + "*" + neckPlateThickness, Globals.MaterialStr, "12", _global.Position, "");
-            
+           _tModel.CreatePolyBeam(_pointsList, "PL" +widthofNeckPlate + "*" + neckPlateThickness, Globals.MaterialStr, "12", _global.Position, "");            
             _pointsList.Clear();
-
-            
-            
 
         }
         void CreateLiningPlate()
@@ -257,7 +224,6 @@ namespace DistillationColumn
             _global.Position.Depth = TSM.Position.DepthEnum.BEHIND;
             _global.Position.Plane = TSM.Position.PlaneEnum.RIGHT;
             _global.Position.Rotation = TSM.Position.RotationEnum.FRONT;
-
 
 
             _pointsList.Add(plateTopPoint);
@@ -464,33 +430,129 @@ namespace DistillationColumn
             _pointsList.Clear();
         }
 
-        void HorizontalHinged()
+        void CreateHinge()
         {
-            double hingedAngle = Math.Asin(hingeddistancefromcoverPlate / plateRadius);
-            //double upHingedAngle= Math.Asin(hingeddistancefromcoverPlate+(hingedDiameter/2) / plateRadius);
-            //double downHingedAngle = Math.Asin(hingeddistancefromcoverPlate - (hingedDiameter / 2) / plateRadius);
-            plateOrigin = _tModel.ShiftHorizontallyRad(plateOrigin, widthofLiningPlate, 1, orientationAngle);
-            TSM.ContourPoint hingedOrigin = _tModel.ShiftAlongCircumferenceRad(plateOrigin, hingedAngle, 1);
-            TSM.ContourPoint upPoint = _tModel.ShiftHorizontallyRad(hingedOrigin, hingedDiameter / 2, 3);
-            TSM.ContourPoint downPoint= _tModel.ShiftHorizontallyRad(hingedOrigin, hingedDiameter / 2, 1);
-            TSM.ContourPoint downRight= _tModel.ShiftHorizontallyRad(plateOrigin, horizontalHingedDistance, 2);
-            downRight = _tModel.ShiftVertically(downRight, hingeddistancefromcoverPlate);
-            TSM.ContourPoint UpRight = _tModel.ShiftHorizontallyRad(downRight, hingedDiameter, 3);
 
-            _global.Position.Depth = TSM.Position.DepthEnum.BEHIND;
+            // hinge rod
+
+            TSM.ContourPoint plateOrigin1 = _tModel.ShiftHorizontallyRad(stackOrigin, stackRadius, 1, orientationAngle);
+            TSM.ContourPoint hingeRodMidPoint = _tModel.ShiftHorizontallyRad(plateOrigin1, horizontalHingedDistance, 2,orientationAngle);
+            hingeRodMidPoint = _tModel.ShiftHorizontallyRad(hingeRodMidPoint, widthofNeckPlate + widthofLiningPlate, 1,orientationAngle);
+
+            TSM.ContourPoint hingeRodPoint1 = _tModel.ShiftVertically(hingeRodMidPoint, hingeddistancefromcoverPlate);
+            TSM.ContourPoint hingeRodPoint11 = _tModel.ShiftVertically(hingeRodPoint1, 50);
+            TSM.ContourPoint hingeRodPoint2 = _tModel.ShiftVertically(hingeRodMidPoint, -(hingeddistancefromcoverPlate));
+            TSM.ContourPoint hingeRodPoint21 = _tModel.ShiftVertically(hingeRodPoint2, -50);
+
+            _global.Position.Depth = TSM.Position.DepthEnum.MIDDLE;
+            _global.Position.Plane = TSM.Position.PlaneEnum.MIDDLE;
+            _global.Position.Rotation = TSM.Position.RotationEnum.BELOW;
+
+
+            _tModel.CreateBeam(hingeRodPoint11, hingeRodPoint21, "NUT_M20", Globals.MaterialStr, _global.ClassStr, _global.Position, "HingeRod");
+
+
+
+            // top horizontal hinged plate
+
+            plateOrigin = _tModel.ShiftHorizontallyRad(plateOrigin, widthofLiningPlate, 1, orientationAngle);
+
+            double hingedAngle = Math.Asin(hingeddistancefromcoverPlate / plateRadius);
+           
+            TSM.ContourPoint hingedOrigin =_tModel.ShiftHorizontallyRad(hingeRodPoint1,hingeddistancefromcoverPlate+coverPlateThickness,4,orientationAngle);
+            TSM.ContourPoint upPoint = _tModel.ShiftHorizontallyRad(hingedOrigin, (hingedDiameter / 2), 3,orientationAngle);
+            TSM.ContourPoint downPoint = _tModel.ShiftHorizontallyRad(hingedOrigin, (hingedDiameter / 2), 1, orientationAngle);
+            TSM.ContourPoint downRight = _tModel.ShiftHorizontallyRad(hingeRodPoint1, (hingedDiameter / 2), 1, orientationAngle);
+            downRight= new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(downRight,(hingedDiameter/2),2,orientationAngle), new TSM.Chamfer(30, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
+            TSM.ContourPoint UpRight = _tModel.ShiftHorizontallyRad(hingeRodPoint1, (hingedDiameter / 2), 3, orientationAngle);
+            UpRight = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(UpRight,(hingedDiameter)/2,2,orientationAngle), new TSM.Chamfer(30, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
+
+
+            _global.Position.Depth = TSM.Position.DepthEnum.FRONT;
 
             _pointsList.Add(upPoint);
-            _pointsList.Add(UpRight);
-            _pointsList.Add(downRight);
             _pointsList.Add(downPoint);
+            _pointsList.Add(downRight);
+            _pointsList.Add(UpRight);
 
-            _tModel.CreateContourPlate(_pointsList, "PLT" + coverPlateThickness, Globals.MaterialStr, "99", _global.Position, "");
+
+            _tModel.CreateContourPlate(_pointsList, "PLT" + hingedPlateThickness, Globals.MaterialStr, "99", _global.Position, "");
             _pointsList.Clear();
 
 
 
+            //bottom horizontal hinge plate
+
+            hingedAngle = Math.Asin(-(hingeddistancefromcoverPlate) / plateRadius);
+
+            hingedOrigin = _tModel.ShiftHorizontallyRad(hingeRodPoint2, hingeddistancefromcoverPlate+coverPlateThickness, 4,orientationAngle);
+
+            upPoint = _tModel.ShiftHorizontallyRad(hingedOrigin, (hingedDiameter / 2), 3, orientationAngle);
+            downPoint = _tModel.ShiftHorizontallyRad(hingedOrigin, (hingedDiameter / 2), 1, orientationAngle);
+            downRight = _tModel.ShiftHorizontallyRad(hingeRodPoint2, (hingedDiameter / 2), 1, orientationAngle);
+            downRight = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(downRight, (hingedDiameter / 2), 2, orientationAngle), new TSM.Chamfer(30, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
+            UpRight = _tModel.ShiftHorizontallyRad(hingeRodPoint2, (hingedDiameter / 2), 3, orientationAngle);
+            UpRight = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(UpRight, (hingedDiameter / 2), 2, orientationAngle), new TSM.Chamfer(30, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
 
 
+            _global.Position.Depth = TSM.Position.DepthEnum.FRONT;
+
+            _pointsList.Add(upPoint);
+            _pointsList.Add(downPoint);
+            _pointsList.Add(downRight);
+            _pointsList.Add(UpRight);
+
+
+            _tModel.CreateContourPlate(_pointsList, "PLT" + hingedPlateThickness, Globals.MaterialStr, "99", _global.Position, "");
+            _pointsList.Clear();
+
+
+
+            //top vertical hinge plate
+
+            double angle1 = (horizontalHingedDistance / stackRadius);
+            TSM.ContourPoint padMidPoint = _tModel.ShiftAlongCircumferenceRad(plateOrigin1, angle1, 1);
+            padMidPoint = _tModel.ShiftVertically(padMidPoint, hingeddistancefromcoverPlate);
+            TSM.ContourPoint plateLeftPoint = _tModel.ShiftHorizontallyRad(padMidPoint, hingedDiameter/2, 4);
+            TSM.ContourPoint plateRightPoint = _tModel.ShiftHorizontallyRad(padMidPoint, hingedDiameter/2, 2);
+            TSM.ContourPoint frontLeftPoint = _tModel.ShiftHorizontallyRad(hingeRodPoint1, (hingedDiameter / 2), 4, orientationAngle);
+            frontLeftPoint = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(frontLeftPoint, (hingedDiameter / 2), 1, orientationAngle), new TSM.Chamfer(30, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
+            TSM.ContourPoint frontRightPoint = _tModel.ShiftHorizontallyRad(frontLeftPoint, (hingedDiameter / 2), 2, orientationAngle);
+            frontRightPoint = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(frontRightPoint, (hingedDiameter / 2), 2, orientationAngle), new TSM.Chamfer(30, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
+
+            _global.Position.Depth = TSM.Position.DepthEnum.BEHIND;
+
+            _pointsList.Add(plateLeftPoint);
+            _pointsList.Add(plateRightPoint);
+            _pointsList.Add(frontRightPoint);
+            _pointsList.Add(frontLeftPoint);
+
+
+            _tModel.CreateContourPlate(_pointsList, "PLT" + hingedPlateThickness, Globals.MaterialStr, "99", _global.Position, "");
+            _pointsList.Clear();
+
+
+
+            //bottom vertical hinge plate
+
+            padMidPoint = _tModel.ShiftVertically(padMidPoint, -(2*hingeddistancefromcoverPlate));
+            plateLeftPoint = _tModel.ShiftHorizontallyRad(padMidPoint, hingedDiameter / 2, 4);
+            plateRightPoint = _tModel.ShiftHorizontallyRad(padMidPoint, hingedDiameter / 2, 2);
+            frontLeftPoint =_tModel.ShiftHorizontallyRad(hingeRodPoint2, (hingedDiameter / 2), 4,orientationAngle);
+            frontLeftPoint= new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(frontLeftPoint, (hingedDiameter / 2), 1, orientationAngle), new TSM.Chamfer(30, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
+            frontRightPoint =_tModel.ShiftHorizontallyRad(hingeRodPoint2, (hingedDiameter / 2), 2,orientationAngle);
+            frontRightPoint= new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(frontRightPoint, (hingedDiameter / 2), 1, orientationAngle), new TSM.Chamfer(30, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
+
+            _global.Position.Depth = TSM.Position.DepthEnum.BEHIND;
+
+            _pointsList.Add(plateLeftPoint);
+            _pointsList.Add(plateRightPoint);
+            _pointsList.Add(frontRightPoint);
+            _pointsList.Add(frontLeftPoint);
+
+
+            _tModel.CreateContourPlate(_pointsList, "PLT" + hingedPlateThickness, Globals.MaterialStr, "99", _global.Position, "");
+            _pointsList.Clear();
         }
     }
 }
