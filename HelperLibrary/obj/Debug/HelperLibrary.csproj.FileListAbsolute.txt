@@ -37,3 +37,16 @@ D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.cs
 D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
 D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.dll
 D:\customComponents\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.pdb
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.dll
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.pdb
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.dll
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.dll
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Model.dll
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.xml
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Datatype.xml
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Model.xml
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.AssemblyReference.cache
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.dll
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.pdb

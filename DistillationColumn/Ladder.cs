@@ -22,6 +22,7 @@ namespace DistillationColumn
         double elevation;
         double width = 800;
         double rungSpacing;
+        double obstructionDist;
         double ladderBase = 0;
 
         List<List<double>> _ladderList;
@@ -47,7 +48,8 @@ namespace DistillationColumn
                 //width = (float)ladder["Width"];
                 //height = (float)ladder["Height"];
                 rungSpacing = (float)ladder["Rungs_spacing"];
-                _ladderList.Add(new List<double> { orientationAngle, elevation, rungSpacing });
+                obstructionDist = (float)ladder["Obstruction_Distance"];
+                _ladderList.Add(new List<double> { orientationAngle, elevation, rungSpacing, obstructionDist});
             }
 
             List<JToken> ladderBaseList = _global.JData["chair"].ToList();
@@ -65,11 +67,33 @@ namespace DistillationColumn
                 double orientationAngle = ladder[0] * Math.PI / 180;
                 double Height = elevation - ladderBase + (4 * ladder[2]);
                 double radius = _tModel.GetRadiusAtElevation(ladderBase, _global.StackSegList, true);
+                double count = 0;
+                foreach(var seg in _global.StackSegList)
+                {
+                    if(seg[4] < ladder[1] && (seg[4]+ seg[3]) > elevation - Height)
+                    {
+                        if (seg[0] != seg[1])
+                            count++;
+                    }
+                }
 
                 TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
                 TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, ladderBase);
-                TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, radius + 10, 1, orientationAngle);
-                TSM.ContourPoint point3 = _tModel.ShiftVertically(point2, Height);
+                TSM.ContourPoint point2;
+                if (count != 0)
+                {
+                    point2 = _tModel.ShiftHorizontallyRad(point1, radius + 400 + ladder[3], 1, orientationAngle);
+                }
+                else
+                {
+                    point2 =  _tModel.ShiftHorizontallyRad(point1, radius+ 200 + ladder[3], 1, orientationAngle);
+                }
+
+
+                TSM.ContourPoint point11 = _tModel.ShiftVertically(point1, Height);
+                double radius1 = _tModel.GetRadiusAtElevation(point11.Z, _global.StackSegList, true);
+                TSM.ContourPoint point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + 200 + ladder[3], 1, orientationAngle);
+
 
                 ladderBase = elevation;
 
@@ -77,22 +101,22 @@ namespace DistillationColumn
                 Ladder.Name = "Ladder1";
                 Ladder.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
 
-                Ladder.SetInputPositions(point2, point3);
+                Ladder.SetInputPositions(point2, point21);
                 Ladder.SetAttribute("P1", width);  //Ladder Width
                 Ladder.SetAttribute("P2", Height);  // Ladder Height
                 Ladder.SetAttribute("P3", ladder[2]);  // Ladder Dist btwn Rungs
 
 
-                Ladder.Position.Rotation = Position.RotationEnum.TOP;
+                //Ladder.Position.Rotation = Position.RotationEnum.TOP;
                 Ladder.Position.Depth = Position.DepthEnum.MIDDLE;
-                //Ladder.Position.Rotation = Position.RotationEnum.FRONT;
-                Ladder.Position.RotationOffset = ladder[0] + 270;
+                Ladder.Position.Rotation = Position.RotationEnum.BACK;
+                //Ladder.Position.RotationOffset = ladder[0]+ 270 ;
                 Ladder.Insert();
 
                 if (Height > 3000)
                 {
                     Detail D = new Detail();
-                    D.Name = "testDetail";
+                    D.Name = "ladderHoop1";
                     D.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
                     D.LoadAttributesFromFile("standard");
                     D.UpVector = new Vector(0, 0, 0);
@@ -101,14 +125,18 @@ namespace DistillationColumn
                     D.DetailType = DetailTypeEnum.END;
 
                     D.SetPrimaryObject(Ladder);
-                    D.SetReferencePoint(point3);
-                    D.SetAttribute("P1", Height);
-                    //D.SetAttribute("P3", );
+                    D.SetReferencePoint(point21);
+                    D.SetAttribute("P1", 0);           //Ladder top hoop open at both sides
+                    D.SetAttribute("P2", 0);           //Ladder top hoop open at right side
+                    D.SetAttribute("P3", 1);           //Ladder top hoop open at left side
+                    D.SetAttribute("P4", Height);      //Height of ladder
+                    D.SetAttribute("P5", 460);         //Width of ladder
                     D.Insert();
 
                 }
                 _tModel.Model.CommitChanges();
             }
+            
         }
     }
 }

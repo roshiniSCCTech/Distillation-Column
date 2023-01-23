@@ -222,7 +222,8 @@
       "Distance_From_Stack": 200,
       "Gap_Between_Grating_Plate": 6,
       "Grating_Thickness": 25,
-      "Rungs_spacing": 500
+      "Rungs_spacing": 500,
+      "Obstruction_Distance": 0
     },
     {
       "Elevation": 11000,
@@ -234,7 +235,8 @@
       "Distance_From_Stack": 200,
       "Gap_Between_Grating_Plate": 6,
       "Grating_Thickness": 25,
-      "Rungs_spacing": 300
+      "Rungs_spacing": 300,
+      "Obstruction_Distance": 0
     },
     {
       "Elevation": 16000,
@@ -246,7 +248,8 @@
       "Distance_From_Stack": 200,
       "Gap_Between_Grating_Plate": 6,
       "Grating_Thickness": 25,
-      "Rungs_spacing": 400
+      "Rungs_spacing": 400,
+      "Obstruction_Distance": 0
     }
   ],
   "access_door": [
