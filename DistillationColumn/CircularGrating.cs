@@ -227,6 +227,7 @@ namespace DistillationColumn
 
                 for (int i = 0; i <= count; i++)
                 {
+                    ContourPoint origin = new ContourPoint(_tModel.ShiftVertically(_global.Origin, elevation+50+gratingThickness),null);
                     radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
                     radius = radius + distanceFromStack;
 
@@ -252,7 +253,10 @@ namespace DistillationColumn
                         p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1), null);
                         if (orientationAngle + theta == startAngle && i == 0)
                         {
-                            p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1, orientationAngle * Math.PI / 180), null);
+                            double t = Math.Asin(500 / (radius + length)); ;
+                            p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1,(orientationAngle*Math.PI/180)+t), null);
+                           
+                            //p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1, orientationAngle * Math.PI / 180), null);
                         }
 
 
@@ -305,7 +309,8 @@ namespace DistillationColumn
                         p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(p3, length, 1), null);
                         if (orientationAngle - theta == endAngle)
                         {
-                            p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(p3, length, 1, orientationAngle * Math.PI / 180), null);
+                            double t = Math.Asin(500 / (radius + length)); ;
+                            p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1, (orientationAngle * Math.PI / 180) - t), null);
                         }
 
 
@@ -340,24 +345,27 @@ namespace DistillationColumn
 
         public void CreateFrame(int platformSection)
         {
+
+            ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation);
             p1 = new ContourPoint(new Point(radius * Math.Cos(Math.PI * frameStartAngle / 180), radius * Math.Sin(Math.PI * frameStartAngle / 180), elevation), null);
 
 
-            double phi = ((ladderWidth + 125) / 2) / stackRadius;
-            double phi2 = ((ladderWidth + 125) / 2) / (stackRadius + length);
+            double phi =Math.Atan( ((ladderWidth + 125) / 2) / stackRadius);
+            double phi2 = Math.Atan(((ladderWidth + 125) / 2) / (stackRadius + length));
 
             p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1), null);
             if (orientationAngle == frameStartAngle)
             {
-                p1 = _tModel.ShiftAlongCircumferenceRad(p1, phi, 1);
-                p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1, orientationAngle * Math.PI / 180), null);
+                p1 = _tModel.ShiftAlongCircumferenceRad(p1, phi, 1); ;
+                double t = Math.Asin(500 / (radius + length)) ;
+                p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1, (orientationAngle * Math.PI / 180) + t), null);
             }
             /*p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 360) * (frameEndAngle - frameStartAngle), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
             p3 = _tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (frameEndAngle - frameStartAngle), 1);
             p5 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p4, (Math.PI / 360) * (frameEndAngle - frameStartAngle), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
             p6 = _tModel.ShiftAlongCircumferenceRad(p4, (Math.PI / 180) * (frameEndAngle - frameStartAngle), 1);*/
 
-            ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation);
+            //ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation);
 
             p2 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius, 1, (frameEndAngle + frameStartAngle) * Math.PI / 360), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
             p3 = _tModel.ShiftHorizontallyRad(origin, radius, 1, frameEndAngle * Math.PI / 180);
@@ -368,6 +376,7 @@ namespace DistillationColumn
             {
                 p3 = _tModel.ShiftAlongCircumferenceRad(p3, -phi, 1);
                 p6 = _tModel.ShiftAlongCircumferenceRad(p6, -phi2, 1);
+                
             }
 
             List<ContourPoint> innerBeamList = new List<ContourPoint> { p1, p2, p3 };
