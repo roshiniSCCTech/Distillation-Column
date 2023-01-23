@@ -30,8 +30,6 @@ namespace DistillationColumn
         public readonly List<TSM.Beam> SegmentPartList;
 
 
-        public JObject JData;
-
         public Globals()
         {
             Origin = new TSM.ContourPoint(new T3D.Point(0, 0, 0), null);
