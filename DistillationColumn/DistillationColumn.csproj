@@ -62,6 +62,8 @@
     <Compile Include="AccessDoor.cs" />
     <Compile Include="Chair.cs" />
     <Compile Include="CircularGrating.cs" />
+    <Compile Include="CircularAccessDoor.cs" />
+    <Compile Include="CapAndOutlets.cs" />
     <Compile Include="ComponentHandler.cs" />
     <Compile Include="Flange.cs" />
     <Compile Include="Form1.cs">
@@ -72,6 +74,7 @@
     </Compile>
     <Compile Include="Globals.cs" />
     <Compile Include="Handrail.cs" />
+    <Compile Include="InstrumentNozzle.cs" />
     <Compile Include="Ladder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,6 +94,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="bin\Debug\Data.json" />
+    <None Include="bin\Debug\jsconfig1.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

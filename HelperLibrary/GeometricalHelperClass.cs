@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Tekla.Structures.Datatype;
 using Tekla.Structures.Model;
 using static Tekla.Structures.Filtering.Categories.ReinforcingBarFilterExpressions;
+using static Tekla.Structures.Filtering.Categories.TaskFilterExpressions;
 using T3D = Tekla.Structures.Geometry3d;
 using TSM = Tekla.Structures.Model;
 

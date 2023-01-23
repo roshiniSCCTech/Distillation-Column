@@ -19,6 +19,8 @@ namespace DistillationColumn
         TeklaModelling _tModel;
 
         double orientationAngle;
+        double startAngle;
+        double endAngle;
         double elevation;
         double width = 800;
         double rungSpacing;
@@ -49,7 +51,9 @@ namespace DistillationColumn
                 //height = (float)ladder["Height"];
                 rungSpacing = (float)ladder["Rungs_spacing"];
                 obstructionDist = (float)ladder["Obstruction_Distance"];
-                _ladderList.Add(new List<double> { orientationAngle, elevation, rungSpacing, obstructionDist});
+                startAngle = (float)ladder["Platform_Start_Angle"];
+                endAngle = (float)ladder["Platfrom_End_Angle"];
+                _ladderList.Add(new List<double> { orientationAngle, elevation, rungSpacing, obstructionDist,startAngle,endAngle});
             }
 
             List<JToken> ladderBaseList = _global.JData["chair"].ToList();
@@ -65,6 +69,8 @@ namespace DistillationColumn
             {
                 double elevation = ladder[1];
                 double orientationAngle = ladder[0] * Math.PI / 180;
+                double startAngle = ladder[4] * Math.PI / 180;
+                double endAngle = ladder[5] * Math.PI / 180;
                 double Height = elevation - ladderBase + (4 * ladder[2]);
                 double radius = _tModel.GetRadiusAtElevation(ladderBase, _global.StackSegList, true);
                 double count = 0;
@@ -126,9 +132,27 @@ namespace DistillationColumn
 
                     D.SetPrimaryObject(Ladder);
                     D.SetReferencePoint(point21);
-                    D.SetAttribute("P1", 0);           //Ladder top hoop open at both sides
-                    D.SetAttribute("P2", 0);           //Ladder top hoop open at right side
-                    D.SetAttribute("P3", 1);           //Ladder top hoop open at left side
+                    if(orientationAngle == startAngle)
+                    {
+                        D.SetAttribute("P1", 0);           //Ladder top hoop open at both sides
+                        D.SetAttribute("P2", 1);           //Ladder top hoop open at right side
+                        D.SetAttribute("P3", 0);           //Ladder top hoop open at left side
+
+                    }
+                    else if (orientationAngle == endAngle)
+                    {
+                        D.SetAttribute("P1", 0);           //Ladder top hoop open at both sides
+                        D.SetAttribute("P2", 0);           //Ladder top hoop open at right side
+                        D.SetAttribute("P3", 1);           //Ladder top hoop open at left side
+
+                    }
+                    else
+                    {
+                        D.SetAttribute("P1", 1);           //Ladder top hoop open at both sides
+                        D.SetAttribute("P2", 0);           //Ladder top hoop open at right side
+                        D.SetAttribute("P3", 0);           //Ladder top hoop open at left side
+                    }
+
                     D.SetAttribute("P4", Height);      //Height of ladder
                     D.SetAttribute("P5", 460);         //Width of ladder
                     D.Insert();
