@@ -297,9 +297,10 @@
   ],
   "RectangularPlatform": [
     {
-      "elevation": 68000,
+      "elevation": 70000,
       "height": 5000,
-      "width": 3000
+      "width": 3000,
+      "plateWidth": 400
     }
   ],
   "chair": [
