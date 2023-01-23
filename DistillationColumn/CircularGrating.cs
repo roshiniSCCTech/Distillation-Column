@@ -555,10 +555,10 @@ namespace DistillationColumn
                 CustomPart CPart = new CustomPart();
                 CPart.Name = "Platform_Bracket";
                 CPart.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
-                CPart.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.MIDDLE;
-                CPart.Position.PlaneOffset = 0;
+                CPart.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.LEFT;
+                CPart.Position.PlaneOffset = -10;
                 CPart.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
-                CPart.Position.DepthOffset = 0;
+                CPart.Position.DepthOffset = 5;
                 CPart.Position.RotationOffset = 0;
                 CPart.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.TOP;
                 CPart.SetAttribute("P1", distanceFromStack);
