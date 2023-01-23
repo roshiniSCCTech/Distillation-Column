@@ -23,7 +23,7 @@ namespace DistillationColumn
         Globals _global;
         TeklaModelling _tModel;
 
-        double elevation;
+        static public double elevation;
         double height;
         double width;
         double plateWidth;

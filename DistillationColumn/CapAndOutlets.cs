@@ -18,6 +18,8 @@ namespace DistillationColumn
         TeklaModelling _tModel;
 
         double elevation=68000;
+        double platformElevation;
+        double height1;
         List<List<double>> _platformList;
         List<ContourPoint> _pointList;
 
@@ -40,6 +42,7 @@ namespace DistillationColumn
             double sideOutletRadius = 150;
             double radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
             double diameter = 2 * radius;
+            
 
             TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
             TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
@@ -50,6 +53,7 @@ namespace DistillationColumn
             string profile = "CAP" + diameter;
             Beam cap = _tModel.CreateBeam(capTop, capBottom, profile, "IS2062", "8", _global.Position, "cap");
 
+
             TSM.ContourPoint middleOutletTop = _tModel.ShiftVertically(capTop, heightOfOutletAboveCap);
             _tModel.CreateBeam(new T3D.Point(capTop.X, capTop.Y, capTop.Z - heightOfOutletBelowCap), middleOutletTop, "PIPE" + middleOutletRadius + "*10", "IS2062", "5", _global.Position, "");
             TSM.ContourPoint outletCap = _tModel.ShiftVertically(middleOutletTop, 20);
@@ -58,7 +62,7 @@ namespace DistillationColumn
             _tModel.cutPart(cut, cap);
             Cuts(new T3D.Point(capTop.X, capTop.Y, capTop.Z - heightOfOutletBelowCap), middleOutletTop, middleOutletRadius);
 
-            TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, 400, 1, -45 * (Math.PI / 180));
+            TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, radius/2, 1, -45 * (Math.PI / 180));
             for (int i = 1; i <= 4; i++)
             {
                 if ((i * 90) <= 360)
@@ -95,7 +99,8 @@ namespace DistillationColumn
             TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
             TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
             TSM.ContourPoint capTop = _tModel.ShiftVertically(point1, radius);
-            TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, 800, 1, 0 * (Math.PI / 180));
+            height1 = RectangularPlatform.elevation - capTop.Z;
+            TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, (radius)/2, 1, 0 * (Math.PI / 180));
             for (int i = 1; i <= 4; i++)
             {
                 if ((i * 90) <= 360)
@@ -118,14 +123,14 @@ namespace DistillationColumn
                         _global.Position.Rotation = TSM.Position.RotationEnum.FRONT;
                     }
                     TSM.ContourPoint capBracketBottom = _tModel.ShiftAlongCircumferenceRad(point5, ang, 1);
-                    TSM.ContourPoint capBracketTop = _tModel.ShiftVertically(capBracketBottom, 600);
-                    _tModel.CreateBeam(new T3D.Point(capBracketBottom.X, capBracketBottom.Y, capBracketBottom.Z - 500), capBracketTop, "ISMC100", "IS2062", "2", _global.Position, "");
+                    TSM.ContourPoint capBracketTop = _tModel.ShiftVertically(capBracketBottom, height1);
+                    _tModel.CreateBeam(new T3D.Point(capBracketBottom.X, capBracketBottom.Y, capBracketBottom.Z - 300), capBracketTop, "ISMC100", "IS2062", "2", _global.Position, "");
 
 
                 }
             }
 
-            TSM.ContourPoint point6 = _tModel.ShiftHorizontallyRad(capTop, 1200, 1, 45 * (Math.PI / 180));
+            TSM.ContourPoint point6 = _tModel.ShiftHorizontallyRad(capTop, radius-100, 1, 45 * (Math.PI / 180));
             for (int i = 0; i < 4; i++)
             {
                 if ((i * 90) <= 360)
@@ -134,7 +139,7 @@ namespace DistillationColumn
                     _global.Position.Rotation = TSM.Position.RotationEnum.FRONT;
                     TSM.ContourPoint capPlatformBracketBottom = _tModel.ShiftAlongCircumferenceRad(point6, ang, 1);
                     TSM.ContourPoint capPlatformBracketTop = RectangularPlatform._platformPointList[i];
-                    _tModel.CreateBeam(new T3D.Point(capPlatformBracketBottom.X, capPlatformBracketBottom.Y, capPlatformBracketBottom.Z - 1000), capPlatformBracketTop, "ISMC100", "IS2062", "2", _global.Position, "");
+                    _tModel.CreateBeam(new T3D.Point(capPlatformBracketBottom.X, capPlatformBracketBottom.Y, capPlatformBracketBottom.Z - radius), capPlatformBracketTop, "ISMC100", "IS2062", "2", _global.Position, "");
                 }
             }
 
