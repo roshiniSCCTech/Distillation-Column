@@ -38,7 +38,7 @@ namespace DistillationColumn
         double xcod, ycod, zcod;
         double orientationAngle;
         double theta;
-        double ladderWidth = 470;
+        double ladderWidth = 470 + 100 + 20; // handrail pipe diameter * 2 + weld plate thickness * 2
 
         double startAngle;
         double endAngle;
@@ -253,8 +253,10 @@ namespace DistillationColumn
                         p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1), null);
                         if (orientationAngle + theta == startAngle && i == 0)
                         {
-                            double t = Math.Asin(500 / (radius + length)); ;
-                            p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1,(orientationAngle*Math.PI/180)+t), null);
+                            double angle1 = Math.Asin(((ladderWidth + 200) / 2) / radius);
+                            double angle2 = Math.Asin(((ladderWidth + 200) / 2) / (radius + length));
+                            p1 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius, 1,(orientationAngle*Math.PI/180) + angle1), null);
+                            p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1,(orientationAngle*Math.PI/180) + angle2), null);
                            
                             //p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1, orientationAngle * Math.PI / 180), null);
                         }
@@ -309,8 +311,10 @@ namespace DistillationColumn
                         p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(p3, length, 1), null);
                         if (orientationAngle - theta == endAngle)
                         {
-                            double t = Math.Asin(500 / (radius + length)); ;
-                            p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1, (orientationAngle * Math.PI / 180) - t), null);
+                            double angle1 = Math.Asin(((ladderWidth + 200) / 2) / radius);
+                            double angle2 = Math.Asin(((ladderWidth + 200) / 2) / (radius + length));
+                            p3 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius, 1, (orientationAngle * Math.PI / 180) - angle1), null);
+                            p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1, (orientationAngle * Math.PI / 180) - angle2), null);
                         }
 
 
@@ -350,14 +354,14 @@ namespace DistillationColumn
             p1 = new ContourPoint(new Point(radius * Math.Cos(Math.PI * frameStartAngle / 180), radius * Math.Sin(Math.PI * frameStartAngle / 180), elevation), null);
 
 
-            double phi =Math.Atan( ((ladderWidth + 125) / 2) / stackRadius);
-            double phi2 = Math.Atan(((ladderWidth + 125) / 2) / (stackRadius + length));
+            double phi = Math.Asin(((ladderWidth + 200) / 2) / radius);
+            double phi2 = Math.Asin(((ladderWidth + 200) / 2) / (radius + length));
 
             p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1), null);
             if (orientationAngle == frameStartAngle)
             {
                 p1 = _tModel.ShiftAlongCircumferenceRad(p1, phi, 1); ;
-                double t = Math.Asin(500 / (radius + length)) ;
+                double t = Math.Asin(((ladderWidth + 200) / 2) / (radius + length)) ;
                 p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1, (orientationAngle * Math.PI / 180) + t), null);
             }
             /*p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 360) * (frameEndAngle - frameStartAngle), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
