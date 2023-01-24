@@ -23,7 +23,7 @@ namespace DistillationColumn
         Globals _global;
         TeklaModelling _tModel;
 
-        double elevation;
+        static public double elevation;
         double height;
         double width;
         double plateWidth;
@@ -95,6 +95,7 @@ namespace DistillationColumn
                     T3D.Point end = new T3D.Point(point2.X - i * plateWidth, point2.Y + height / 2, point2.Z);
                     T3D.Point end2 = new T3D.Point(point2.X - i * plateWidth, -(point2.Y + height / 2), point2.Z);
                     _global.Position.Depth = TSM.Position.DepthEnum.FRONT;
+                    _global.Position.Rotation = TSM.Position.RotationEnum.FRONT;
                     _global.Position.Plane = TSM.Position.PlaneEnum.LEFT;
 
                     Beam beamRight = _tModel.CreateBeam(start, end, profile1, "IS2062", "5", _global.Position, "");
