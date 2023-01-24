@@ -38,7 +38,7 @@ namespace DistillationColumn
         double xcod, ycod, zcod;
         double orientationAngle;
         double theta;
-        double ladderWidth = 800;
+        double ladderWidth = 470;
 
         double startAngle;
         double endAngle;
@@ -386,22 +386,22 @@ namespace DistillationColumn
 
             if (platformSection == 2)
             {
-                if (extensionStartsAtMiddleOfPlatform)
+                if (extensionStartsAtMiddleOfPlatform && orientationAngle != frameStartAngle)
                 {
                     p1 = _tModel.ShiftHorizontallyRad(p1, platformLength - 100, 1);
                 }
-                if (extensionEndsAtMiddleOfPlatform)
+                if (extensionEndsAtMiddleOfPlatform && orientationAngle != frameEndAngle)
                 {
                     p3 = _tModel.ShiftHorizontallyRad(p3, platformLength - 100, 1);
                 }
             }
 
-            if (!(platformSection == 3 && extensionEndsAtMiddleOfPlatform))
+            if (!(platformSection == 3 && extensionEndsAtMiddleOfPlatform && orientationAngle != frameStartAngle))
             {
                 Beam startBeam = _tModel.CreateBeam(p4, p1, "C100*100*10", "IS2062", "3", innerBeam.Position);
             }
 
-            if (!(platformSection == 1 && extensionStartsAtMiddleOfPlatform))
+            if (!(platformSection == 1 && extensionStartsAtMiddleOfPlatform && orientationAngle != frameEndAngle))
             {
                 Beam endBeam = _tModel.CreateBeam(p3, p6, "C100*100*10", "IS2062", "3", innerBeam.Position);
             }
@@ -433,8 +433,8 @@ namespace DistillationColumn
                 _tModel.CreateBeam(_tModel.ShiftAlongCircumferenceRad(o1, (Math.PI * theta2 / 180), 1), _tModel.ShiftAlongCircumferenceRad(x1, (Math.PI * theta / 90), 1), "C100*100*10", "IS2062", "3", innerBeam.Position);
 */
 
-                double angle1 = Math.Asin(500 / radius);
-                double angle2 = Math.Asin(500 / (radius + length));
+                double angle1 = Math.Asin(((ladderWidth + 200) /2) / radius);
+                double angle2 = Math.Asin(((ladderWidth + 200) / 2) / (radius + length));
 
                 ContourPoint p1 = _tModel.ShiftHorizontallyRad(origin, radius, 1, (orientationAngle * Math.PI / 180) + angle1);
                 ContourPoint p2 = _tModel.ShiftHorizontallyRad(origin, radius + length, 1, (orientationAngle * Math.PI / 180) + angle2);

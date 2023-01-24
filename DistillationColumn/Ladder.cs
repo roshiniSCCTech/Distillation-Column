@@ -20,7 +20,7 @@ namespace DistillationColumn
 
         double orientationAngle;
         double elevation;
-        double width = 800;
+        double width = 470;
         double rungSpacing;
         double obstructionDist;
         double ladderBase = 0;
@@ -82,17 +82,17 @@ namespace DistillationColumn
                 TSM.ContourPoint point2;
                 if (count != 0)
                 {
-                    point2 = _tModel.ShiftHorizontallyRad(point1, radius + 400 + ladder[3], 1, orientationAngle);
+                    point2 = _tModel.ShiftHorizontallyRad(point1, radius + Math.Max(400, ladder[3]), 1, orientationAngle);
                 }
                 else
                 {
-                    point2 =  _tModel.ShiftHorizontallyRad(point1, radius+ 200 + ladder[3], 1, orientationAngle);
+                    point2 =  _tModel.ShiftHorizontallyRad(point1, radius+ Math.Max(200, ladder[3]), 1, orientationAngle);
                 }
 
 
                 TSM.ContourPoint point11 = _tModel.ShiftVertically(point1, Height);
                 double radius1 = _tModel.GetRadiusAtElevation(point11.Z, _global.StackSegList, true);
-                TSM.ContourPoint point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + 200 + ladder[3], 1, orientationAngle);
+                TSM.ContourPoint point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
 
 
                 ladderBase = elevation;
