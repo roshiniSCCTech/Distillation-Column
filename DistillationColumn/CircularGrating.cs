@@ -47,6 +47,8 @@ namespace DistillationColumn
         bool extensionStartsAtMiddleOfPlatform;
         bool extensionEndsAtMiddleOfPlatform;
 
+        bool createdFirstPlate;
+
         ContourPoint p1;
         ContourPoint p2;
         ContourPoint p3;
@@ -126,6 +128,7 @@ namespace DistillationColumn
                 radius = stackRadius + distanceFromStack;
                 extensionStartsAtMiddleOfPlatform = false;
                 extensionEndsAtMiddleOfPlatform = false;
+
 
                 if (extensionStartAngle > platformStartAngle)
                 {
@@ -224,7 +227,6 @@ namespace DistillationColumn
 
 
 
-
                 for (int i = 0; i <= count; i++)
                 {
                     ContourPoint origin = new ContourPoint(_tModel.ShiftVertically(_global.Origin, elevation+50+gratingThickness),null);
@@ -236,13 +238,14 @@ namespace DistillationColumn
                     ContourPlate poly = new ContourPlate();
                     poly.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BACK;
                     poly.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.LEFT;
+                    poly.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
 
 
 
                     if ((startAngle + ((i + 1) * plateAngle)) < endAngle)
                     {
-                        xcod = (radius) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
-                        ycod = (radius) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
+                        xcod = (radius + 25) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
+                        ycod = (radius + 25) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
                         zcod = elevation + 50 + gratingThickness;
 
 
@@ -250,13 +253,13 @@ namespace DistillationColumn
                         p1 = new ContourPoint(new Point(xcod, ycod, zcod), null);
                         p2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle / 2), 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
                         p3 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(p1, (Math.PI / 180) * (plateAngle), 1), null);
-                        p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1), null);
+                        p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length - 50, 1), null);
                         if (orientationAngle + theta == startAngle && i == 0)
                         {
-                            double angle1 = Math.Asin(((ladderWidth + 200) / 2) / radius);
-                            double angle2 = Math.Asin(((ladderWidth + 200) / 2) / (radius + length));
-                            p1 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius, 1,(orientationAngle*Math.PI/180) + angle1), null);
-                            p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1,(orientationAngle*Math.PI/180) + angle2), null);
+                            double angle1 = Math.Asin(((ladderWidth + 200) / 2) / (radius + 25));
+                            double angle2 = Math.Asin(((ladderWidth + 200) / 2) / (radius + length - 25));
+                            p1 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + 25, 1,(orientationAngle*Math.PI/180) + angle1), null);
+                            p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length - 25, 1,(orientationAngle*Math.PI/180) + angle2), null);
                            
                             //p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1, orientationAngle * Math.PI / 180), null);
                         }
@@ -264,10 +267,14 @@ namespace DistillationColumn
 
 
 
-                        p5 = new ContourPoint(_tModel.ShiftHorizontallyRad(p2, length, 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-                        p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(p3, length, 1), null);
+                        p5 = new ContourPoint(_tModel.ShiftHorizontallyRad(p2, length - 50, 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
+                        p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(p3, length - 50, 1), null);
 
-
+                        if (i == 0 && (startAngle == platformStartAngle || startAngle - theta == platformStartAngle))
+                        {
+                            p1 = _tModel.ShiftAlongCircumferenceRad(p1, 25, 2);
+                            p4 = _tModel.ShiftAlongCircumferenceRad(p4, 25, 2);
+                        }
 
 
                         List<ContourPoint> gratingPointList = new List<ContourPoint> { p1, p2, p3, p6, p5, p4 };
@@ -296,8 +303,8 @@ namespace DistillationColumn
 
 
 
-                        xcod = (radius) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
-                        ycod = (radius) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
+                        xcod = (radius + 25) * Math.Cos((Math.PI / 180) * (startAngle + (i * plateAngle)));
+                        ycod = (radius + 25) * Math.Sin((Math.PI / 180) * (startAngle + (i * plateAngle)));
                         zcod = elevation + 50 + gratingThickness;
                         double lastPlateAngle = (endAngle - (startAngle + (i * plateAngle)));
                         p1 = new ContourPoint(new Point(xcod, ycod, zcod), null);
@@ -306,18 +313,22 @@ namespace DistillationColumn
 
 
 
-                        p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length, 1), null);
-                        p5 = new ContourPoint(_tModel.ShiftHorizontallyRad(p2, length, 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
-                        p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(p3, length, 1), null);
+                        p4 = new ContourPoint(_tModel.ShiftHorizontallyRad(p1, length - 50, 1), null);
+                        p5 = new ContourPoint(_tModel.ShiftHorizontallyRad(p2, length - 50, 1), new Chamfer(0, 0, Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT));
+                        p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(p3, length - 50, 1), null);
                         if (orientationAngle - theta == endAngle)
                         {
-                            double angle1 = Math.Asin(((ladderWidth + 200) / 2) / radius);
-                            double angle2 = Math.Asin(((ladderWidth + 200) / 2) / (radius + length));
-                            p3 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius, 1, (orientationAngle * Math.PI / 180) - angle1), null);
-                            p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length, 1, (orientationAngle * Math.PI / 180) - angle2), null);
+                            double angle1 = Math.Asin(((ladderWidth + 200) / 2) / (radius + 25));
+                            double angle2 = Math.Asin(((ladderWidth + 200) / 2) / (radius + length - 25));
+                            p3 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + 25, 1, (orientationAngle * Math.PI / 180) - angle1), null);
+                            p6 = new ContourPoint(_tModel.ShiftHorizontallyRad(origin, radius + length - 25, 1, (orientationAngle * Math.PI / 180) - angle2), null);
                         }
 
-
+                        if (endAngle == platformEndAngle || endAngle + theta == platformEndAngle)
+                        {
+                            p3 = _tModel.ShiftAlongCircumferenceRad(p3, -25, 2);
+                            p6 = _tModel.ShiftAlongCircumferenceRad(p6, -25, 2);
+                        }
 
                         List<ContourPoint> gratingPointList = new List<ContourPoint> { p1, p2, p3, p6, p5, p4 };
 
