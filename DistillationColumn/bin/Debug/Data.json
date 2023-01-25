@@ -223,10 +223,10 @@
       "Gap_Between_Grating_Plate": 6,
       "Grating_Thickness": 25,
       "Rungs_spacing": 500,
-      "Extended_Length": 500,
+      "Extended_Length": 1000,
       "Extended_Start_Angle": 0,
       "Extended_End_Angle": 90,
-      "Obstruction_Distance": 0
+      "Obstruction_Distance": 200
     },
     {
       "Elevation": 11000,
@@ -242,7 +242,7 @@
       "Extended_Length": 500,
       "Extended_Start_Angle": 200,
       "Extended_End_Angle": 270,
-      "Obstruction_Distance": 0
+      "Obstruction_Distance": 200
     },
     {
       "Elevation": 16000,
@@ -258,7 +258,7 @@
       "Extended_Length": 500,
       "Extended_Start_Angle": 100,
       "Extended_End_Angle": 270,
-      "Obstruction_Distance": 0
+      "Obstruction_Distance": 200
     }
   ],
   "access_door": [
