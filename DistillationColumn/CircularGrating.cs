@@ -38,7 +38,7 @@ namespace DistillationColumn
         double xcod, ycod, zcod;
         double orientationAngle;
         double theta;
-        double ladderWidth = 800;
+        double ladderWidth = 470;
 
         double startAngle;
         double endAngle;

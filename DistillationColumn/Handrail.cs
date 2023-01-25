@@ -11,6 +11,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures;
 using Render;
+using Tekla.Structures.ModelInternal;
 
 namespace DistillationColumn
 {
@@ -39,12 +40,14 @@ namespace DistillationColumn
     double theta;
     List<double> arcLengthList = new List<double>();
     List<List<double>> handRailData;
+        List<ContourPoint> _pointsList;
 
     public Handrail(Globals global, TeklaModelling tModel)
     {
         _global = global;
         _tModel = tModel;
         handRailData= new List<List<double>>();
+            _pointsList = new List<ContourPoint>();
         SetHandrailrData();
 
 
@@ -165,7 +168,7 @@ namespace DistillationColumn
         TSM.ContourPoint point1 = _tModel.ShiftVertically(_global.Origin, elevation-50);
         TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, gratingOuterRadius, 1,startAngle * (Math.PI / 180));
         //second point for handrail
-        point2 = _tModel.ShiftAlongCircumferenceRad(point2, 275, 2);
+        point2 = _tModel.ShiftAlongCircumferenceRad(point2, 250, 2);
 
 
 
@@ -175,22 +178,69 @@ namespace DistillationColumn
 
             if (i > 0)
             {
-                point2 = _tModel.ShiftAlongCircumferenceRad(point2, arcLengthList[i - 1] + 600, 2);
+                point2 = _tModel.ShiftAlongCircumferenceRad(point2, arcLengthList[i - 1] + 500, 2);
             }
-             CreateWeld(point2, arcLengthList[i]);
+            
 
 
-            handrail.SetInputPositions(point1, point2);
+           
             handrail.SetAttribute("Radius", gratingOuterRadius);
             handrail.SetAttribute("Arc_Length", arcLengthList[i]);
-            handrail.SetAttribute("P1", 0);
-
+            handrail.SetAttribute("P1", 1);
+            handrail.SetAttribute("startBend", 1);
+            handrail.SetAttribute("endBend", 1);
             handrail.Position.Plane = Position.PlaneEnum.LEFT;
-            handrail.Position.PlaneOffset = -300;
+            handrail.Position.PlaneOffset = -250;
             handrail.Position.Rotation = Position.RotationEnum.TOP;
             handrail.Position.Depth = Position.DepthEnum.FRONT;
+           
+                if ((startAngle==extensionStartAngle) && i==0)
+            {
+                handrail.SetAttribute("startBend", 0);
+                arcLengthList[i] = arcLengthList[i] + 155;
+                handrail.SetAttribute("Arc_Length", arcLengthList[i]);
+                handrail.SetAttribute("firstPost", 0);
+                handrail.Position.PlaneOffset = 0.0;
+                point2 = _tModel.ShiftHorizontallyRad(point1, gratingOuterRadius, 1, startAngle * (Math.PI / 180));
+                point2 = _tModel.ShiftAlongCircumferenceRad(point2, 94, 2);
+                ContourPoint tPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(point1, (radius+25+10+50)+distanceFromStack+platformLength, 1, startAngle*Math.PI/180), null);
+                
+                tPoint = _tModel.ShiftVertically(tPoint, 1075);
+                tPoint = _tModel.ShiftAlongCircumferenceRad(tPoint, -35, 2);
+                tPoint.Chamfer = new Chamfer(100, 0, Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING);
+                ContourPoint bPoint = new ContourPoint(_tModel.ShiftVertically(tPoint, -475), null);
+                bPoint.Chamfer = new Chamfer(100, 0, Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING);
+                BentPipe(tPoint,bPoint,135);
+                    
+
+               }
+            if ((endAngle == extensionEndAngle) && i == arcLengthList.Count-1)
+            {
+                handrail.SetAttribute("endBend", 0);
+                arcLengthList[i] = arcLengthList[i] + 155;
+                handrail.SetAttribute("Arc_Length", arcLengthList[i]);
+                ContourPoint tPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(point1, (radius+25+10+50) + distanceFromStack + platformLength, 1, endAngle*Math.PI/180),null);
+               
+                tPoint = _tModel.ShiftVertically(tPoint, 1075);
+                tPoint = _tModel.ShiftAlongCircumferenceRad(tPoint, 35, 2);
+                tPoint.Chamfer = new Chamfer(100, 0, Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING);
+                ContourPoint bPoint = new ContourPoint(_tModel.ShiftVertically(tPoint, -475), null);
+              
+                bPoint.Chamfer = new Chamfer(25, 0, Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING);
+                BentPipe(tPoint, bPoint, -135);
+
+                handrail.SetAttribute("thirdPost", 0);
+
+            }
+            handrail.SetInputPositions(point1, point2);
+            CreateWeld(point2, arcLengthList[i]);
+
+
 
             handrail.Insert();
+                handrail.SetAttribute("P1", 0);
+                handrail.Modify();
+
 
 
 
@@ -235,7 +285,7 @@ namespace DistillationColumn
       double tempArcLength = 0.0;
       while (totalArcLength > 0)
       {
-        tempArcLength = totalArcLength - 2600; //2500+50+50  2500-module length 50-diameter of pipe
+        tempArcLength = totalArcLength - 2500; //2500+50+50  2500-module length 50-diameter of pipe
         if (tempArcLength < 600)
         {
           arcLengthList.Add(totalArcLength);
@@ -244,7 +294,7 @@ namespace DistillationColumn
         else
         {
           arcLengthList.Add(2000);
-          totalArcLength = totalArcLength - 2600;
+          totalArcLength = totalArcLength - 2500;
         }
       }
 
@@ -262,22 +312,23 @@ namespace DistillationColumn
             //if only one distance available
             if (arcLengthList.Count == 1)
             {
-                if (arcLengthList[i] >= 1200 && arcLengthList[i] <= 2600)
+                if (arcLengthList[i] >= 1100 && arcLengthList[i] <= 2500)
                 {
-                    arcLengthList.Add(arcLengthList[i] - 600);
+                    arcLengthList.Add(arcLengthList[i] - 500);
                     arcLengthList.RemoveAt(i);
                 }
 
                 else if (arcLengthList[i] > 2600)
                 {
-                    arcLengthList.Add((arcLengthList[i] - 1200) / 2);
-                    arcLengthList.Add((arcLengthList[i] - 1200) / 2);
+                    arcLengthList.Add((arcLengthList[i] - 1100) / 2);
+                    arcLengthList.Add((arcLengthList[i] - 1100) / 2);
                     arcLengthList.RemoveAt(i);
                 }
 
                 //To create only single handrail minimum 1200 distance is required 
-                else if (arcLengthList[0] < 1200)
+                else if (arcLengthList[0] < 1100)
                 {
+                        arcLengthList.Clear();
                     break;
                 }
             }
@@ -285,29 +336,29 @@ namespace DistillationColumn
             //check the distance of last handrail and according to that either modify second last or keep as it is
             if (i + 1 == arcLengthList.Count - 1)
             {
-                if (arcLengthList[i + 1] >= 1200 && arcLengthList[i + 1] <= 2600)
+                if (arcLengthList[i + 1] >= 1100 && arcLengthList[i + 1] <= 2500)
                 {
-                    arcLengthList.Add(arcLengthList[i + 1] - 600);
+                    arcLengthList.Add(arcLengthList[i + 1] - 500);
                     arcLengthList.RemoveAt(i + 1);
                 }
 
 
-                else if (arcLengthList[i + 1] > 2600)
+                else if (arcLengthList[i + 1] > 2500)
                 {
                     double sum = (arcLengthList[i + 1]) / 2;
                     arcLengthList.RemoveAt(i + 1);
-                    arcLengthList.Add(sum - 600);
+                    arcLengthList.Add(sum - 500);
                     arcLengthList.Add(sum - 600);
 
                 }
 
-                else if (arcLengthList[i + 1] >= 600 && arcLengthList[i + 1] < 1200)
+                else if (arcLengthList[i + 1] >= 500 && arcLengthList[i + 1] < 1100)
                 {
                     double sum = (arcLengthList[i + 1] + arcLengthList[i]) / 2;
                     arcLengthList.RemoveAt(i);
                     arcLengthList.RemoveAt(i);
                     arcLengthList.Add(sum);
-                    arcLengthList.Add(sum - 600);
+                    arcLengthList.Add(sum - 500);
                 }
 
             }
@@ -317,6 +368,7 @@ namespace DistillationColumn
 
     public void CreateWeld(ContourPoint pt,double arclength)
     {
+            
             CreatePlate(pt);
             if(arclength>600)
             {
@@ -385,6 +437,74 @@ namespace DistillationColumn
             _tModel.Model.CommitChanges();
 
 
+
+        }
+
+        void BentPipe(TSM.ContourPoint topPoint, TSM.ContourPoint bottomPoint, double l,double distance = 250)
+        {
+            double radius = _tModel.GetRadiusAtElevation(elevation-50, _global.StackSegList, true);
+
+
+
+            TSM.ContourPoint bentTopPoint = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(topPoint,distance, 1),null);
+            TSM.ContourPoint bentBottomPoint = new TSM.ContourPoint(_tModel.ShiftHorizontallyRad(bottomPoint, distance, 1), null);
+            _global.ProfileStr = "PIPE50*5";
+            _global.Position.Depth = Position.DepthEnum.MIDDLE;
+            _global.Position.Plane = Position.PlaneEnum.MIDDLE;
+            _global.Position.Rotation = Position.RotationEnum.TOP;
+            _global.ClassStr = "10";
+          
+            _tModel.CreateBeam(bentTopPoint, _tModel.ShiftVertically(bentTopPoint, -1075), _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
+            bentBottomPoint = _tModel.ShiftHorizontallyRad(bottomPoint, extensionLength - 100-50, 1);
+            bentTopPoint = _tModel.ShiftHorizontallyRad(topPoint, extensionLength - 100-50, 1);
+
+            _pointsList.Add(bentTopPoint);
+            _pointsList.Add(topPoint);
+            _pointsList.Add(bottomPoint);
+            _pointsList.Add(bentBottomPoint);
+             _global.Position.Depth = Position.DepthEnum.MIDDLE;
+             _global.Position.Plane = Position.PlaneEnum.MIDDLE;
+             _global.Position.Rotation = Position.RotationEnum.FRONT;
+
+
+           
+
+            _tModel.CreatePolyBeam(_pointsList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
+            _pointsList.Clear();
+
+
+
+            _global.Position.Depth = Position.DepthEnum.MIDDLE;
+            _global.Position.Plane = Position.PlaneEnum.MIDDLE;
+            _global.Position.Rotation = Position.RotationEnum.FRONT;
+            ContourPoint mPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(bentBottomPoint, 100, 1), new Chamfer(25, 0, Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
+            ContourPoint lPoint = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(mPoint, l, 2), null);
+            _pointsList.Add(bentBottomPoint);
+            _pointsList.Add(mPoint);
+            _pointsList.Add(lPoint);
+
+            _tModel.CreatePolyBeam(_pointsList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
+            _pointsList.Clear();
+
+
+            _global.Position.Depth = Position.DepthEnum.MIDDLE;
+            _global.Position.Plane = Position.PlaneEnum.MIDDLE;
+            _global.Position.Rotation = Position.RotationEnum.FRONT;
+            mPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(bentTopPoint, 100, 1), new Chamfer(25, 0, Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING));
+            lPoint = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(mPoint, l, 2), null);
+            _pointsList.Add(bentTopPoint);
+            _pointsList.Add(mPoint);
+            _pointsList.Add(lPoint);
+            _tModel.CreatePolyBeam(_pointsList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
+
+            _pointsList.Clear();
+
+            
+           
+           
+            
+
+           
 
         }
 
