@@ -181,7 +181,7 @@ namespace DistillationColumn
                 {
                     point2 = _tModel.ShiftAlongCircumferenceRad(point2, arcLengthList[i - 1] + 600, 2);
                 }
-                CreateWeld(point2, arcLengthList[i]);
+                CreateWeldAlongCircumference(point2, arcLengthList[i]);
 
 
                 handrail.SetInputPositions(point1, point2);
@@ -319,17 +319,17 @@ namespace DistillationColumn
 
         }
 
-        public void CreateWeld(ContourPoint pt, double arclength)
+        public void CreateWeldAlongCircumference(ContourPoint pt, double arclength)
         {
-            CreatePlate(pt);
+            CreatePlateAlongCircumference(pt);
             if (arclength > 600)
             {
-                CreatePlate(_tModel.ShiftAlongCircumferenceRad(pt, arclength / 2, 2));
+                CreatePlateAlongCircumference(_tModel.ShiftAlongCircumferenceRad(pt, arclength / 2, 2));
             }
-            CreatePlate(_tModel.ShiftAlongCircumferenceRad(pt, arclength, 2));
+            CreatePlateAlongCircumference(_tModel.ShiftAlongCircumferenceRad(pt, arclength, 2));
         }
 
-        public void CreatePlate(ContourPoint point)
+        public void CreatePlateAlongCircumference(ContourPoint point)
         {
             point = _tModel.ShiftHorizontallyRad(point, 25, 3);
             ContourPoint pt = new ContourPoint(_tModel.ShiftVertically(point, 100), null);
@@ -339,9 +339,10 @@ namespace DistillationColumn
             ContourPoint pt4 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(point, 85, 2), null);
             List<ContourPoint> pts = new List<ContourPoint>() { pt1, pt2, pt4, pt3 };
 
+            _global.ClassStr = "1";
             _global.Position.Depth = Position.DepthEnum.FRONT;
 
-            ContourPlate cp = _tModel.CreateContourPlate(pts, "PL10", "IS2062", "3", _global.Position);
+            ContourPlate cp = _tModel.CreateContourPlate(pts, "PL10", "IS2062", _global.ClassStr, _global.Position);
             pt1 = _tModel.ShiftVertically(_tModel.ShiftAlongCircumferenceRad(pt1, 30, 2), -50);
             pt2 = _tModel.ShiftAlongCircumferenceRad(pt1, 110, 2);
 
@@ -386,7 +387,7 @@ namespace DistillationColumn
 
 
             if (!B.Insert())
-                Console.WriteLine("BoltCircle Insert failed!");
+                Console.WriteLine("Bolt Insert failed!");
             _tModel.Model.CommitChanges();
 
 
@@ -443,6 +444,8 @@ namespace DistillationColumn
             _global.ClassStr = "10";
             TSM.Beam post = _tModel.CreateBeam(postBottomPoint, postTopPoint, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
 
+            CreateWeld(postBottomPoint, side);
+
             // bent pipe
             postTopPoint = _tModel.ShiftHorizontallyRad(postTopPoint, 25, 1, ladderOrientation * Math.PI / 180);
             postTopPoint = _tModel.ShiftVertically(postTopPoint, -25);
@@ -483,7 +486,15 @@ namespace DistillationColumn
 
             _global.ProfileStr = "PIPE50*5";
             _global.ClassStr = "10";
+            _global.Position.Plane = Position.PlaneEnum.MIDDLE;
+            _global.Position.PlaneOffset = 0;
+            _global.Position.Rotation = Position.RotationEnum.TOP;
+            _global.Position.RotationOffset = 0;
+            _global.Position.Depth = Position.DepthEnum.MIDDLE;
+            _global.Position.DepthOffset = 0;
             TSM.Beam verticalPost = _tModel.CreateBeam(postBottomPoint, postTopPoint, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
+
+            CreateWeld(postBottomPoint, side);
 
             horizontalRodPoint1 = _tModel.ShiftHorizontallyRad(postTopPoint, 25, 3, ladderOrientation * Math.PI / 180);
             horizontalRodPoint1 = _tModel.ShiftVertically(horizontalRodPoint1, -25);
@@ -513,10 +524,12 @@ namespace DistillationColumn
             BentPipeAtLadderLocation(postTopPoint, _tModel.ShiftVertically(postTopPoint, -500 + 25), 1, 250 - 25);
 
             horizontalRodPoint2 = new ContourPoint(postTopPoint, null);
-            remainingDistance = _tModel.DistanceBetweenPoints(horizontalRodPoint1, horizontalRodPoint2) - 25;
 
             //vertical posts
-            while (remainingDistance > 200)
+
+            remainingDistance = _tModel.DistanceBetweenPoints(horizontalRodPoint1, horizontalRodPoint2) - 25;
+
+            /*while (remainingDistance > 200)
             {
                 _tModel.CreateBeam(postBottomPoint, postTopPoint, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
                 if (remainingDistance - 600 > 200)
@@ -532,9 +545,31 @@ namespace DistillationColumn
                     remainingDistance /= 2;
                 }
 
+            }*/
+
+            int count = 1;
+            double distanceBetweenVerticalPost = remainingDistance/count;
+            while(distanceBetweenVerticalPost > 600)
+            {
+                count++;
+                distanceBetweenVerticalPost = remainingDistance/count;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                _global.ProfileStr = "PIPE50*5";
+                _global.ClassStr = "10";
+                _global.Position.Depth = Position.DepthEnum.MIDDLE;
+                _tModel.CreateBeam(postBottomPoint, postTopPoint, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
+                CreateWeld(postBottomPoint, side);
+                postBottomPoint = _tModel.ShiftHorizontallyRad(postBottomPoint, distanceBetweenVerticalPost, 3, ladderOrientation * Math.PI / 180);
+                postTopPoint = _tModel.ShiftVertically(postBottomPoint, handrailHeight - 25);
             }
 
             // hotizontal pipes 
+            _global.ProfileStr = "PIPE50*5";
+            _global.ClassStr = "10";
+            _global.Position.Depth = Position.DepthEnum.MIDDLE;
             TSM.Beam horizontalPipe = _tModel.CreateBeam(horizontalRodPoint1, horizontalRodPoint2, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
             HandrailAtLadderLocationCut(verticalPost, horizontalPipe, 1);
 
@@ -543,6 +578,7 @@ namespace DistillationColumn
 
             _global.ProfileStr = "PIPE50*5";
             _global.ClassStr = "10";
+            _global.Position.Depth = Position.DepthEnum.MIDDLE;
             _tModel.CreateBeam(_tModel.ShiftHorizontallyRad(horizontalRodPoint1, 25, 1, ladderOrientation * Math.PI / 180), horizontalRodPoint2, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
         }
 
@@ -556,6 +592,14 @@ namespace DistillationColumn
             _pointsList.Add(bentBottomPoint);
             _pointsList.Add(bottomPoint);
 
+            _global.ProfileStr = "PIPE50*5";
+            _global.ClassStr = "10";
+            _global.Position.Plane = Position.PlaneEnum.MIDDLE;
+            _global.Position.PlaneOffset = 0;
+            _global.Position.Rotation = Position.RotationEnum.TOP;
+            _global.Position.RotationOffset = 0;
+            _global.Position.Depth = Position.DepthEnum.MIDDLE;
+            _global.Position.DepthOffset = 0;
 
             TSM.Part pipe = _tModel.CreatePolyBeam(_pointsList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position);
 
@@ -598,6 +642,83 @@ namespace DistillationColumn
 
             _tModel.cutPart(cut, vertical);
 
+        }
+
+        void CreateWeld(TSM.ContourPoint point, int side)
+        {
+            point = _tModel.ShiftHorizontallyRad(point, 35, side, ladderOrientation * Math.PI / 180);
+            TSM.ContourPoint point1 = _tModel.ShiftHorizontallyRad(point, 85, 1, ladderOrientation * Math.PI / 180);
+            TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point, 85, 3, ladderOrientation * Math.PI / 180);
+            TSM.ContourPoint point3 = _tModel.ShiftVertically(point2, 100);
+            TSM.ContourPoint point4 = _tModel.ShiftVertically(point1, 100);
+
+            _pointsList.Add(point1);
+            _pointsList.Add(point2);
+            _pointsList.Add(point3);
+            _pointsList.Add(point4);
+
+            _global.ClassStr = "1";
+            _global.Position.Depth = Position.DepthEnum.BEHIND;
+            if (side == 4)
+            {
+                _global.Position.Depth = Position.DepthEnum.FRONT;
+            }
+
+            ContourPlate cp = _tModel.CreateContourPlate(_pointsList, "PL10", "IS2062", _global.ClassStr, _global.Position);
+
+            _pointsList.Clear();
+
+            point1 = _tModel.ShiftHorizontallyRad(point3, 30, 1, ladderOrientation * Math.PI / 180);
+            point1 = _tModel.ShiftVertically(point1, -50);
+            point2 = _tModel.ShiftHorizontallyRad(point1, 110, 1, ladderOrientation * Math.PI / 180);
+
+            BoltArray B = new BoltArray();
+            B.PartToBeBolted = cp;
+            B.PartToBoltTo = cp;
+
+            B.FirstPosition = point1;
+            B.SecondPosition = point2;
+
+            B.BoltSize = 10;
+            B.Tolerance = 3.00;
+            B.BoltStandard = "8.8XOX";
+            B.BoltType = BoltGroup.BoltTypeEnum.BOLT_TYPE_SITE;
+            B.CutLength = 100;
+
+            B.Length = 100;
+            B.ExtraLength = 15;
+            B.ThreadInMaterial = BoltGroup.BoltThreadInMaterialEnum.THREAD_IN_MATERIAL_YES;
+
+            B.Position.Depth = Position.DepthEnum.MIDDLE;
+            B.Position.Plane = Position.PlaneEnum.MIDDLE;
+            B.Position.Rotation = Position.RotationEnum.TOP;
+            if (side == 4)
+            {
+                B.Position.Rotation = Position.RotationEnum.BELOW;
+            }
+
+            B.Bolt = true;
+            B.Washer1 = true;
+            B.Washer2 = true;
+            B.Washer3 = true;
+            B.Nut1 = true;
+            B.Nut2 = true;
+
+            B.Hole1 = true;
+            B.Hole2 = true;
+            B.Hole3 = true;
+            B.Hole4 = true;
+            B.Hole5 = true;
+
+            B.AddBoltDistX(110);
+
+
+            B.AddBoltDistY(50);
+
+
+            if (!B.Insert())
+                Console.WriteLine("Bolt Insert failed!");
+            _tModel.Model.CommitChanges();
         }
 
     }
