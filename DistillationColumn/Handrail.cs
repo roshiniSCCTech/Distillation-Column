@@ -191,7 +191,9 @@ namespace DistillationColumn
             handrail.SetAttribute("P1", 1);
             handrail.SetAttribute("startBend", 1);
             handrail.SetAttribute("endBend", 1);
-            handrail.Position.Plane = Position.PlaneEnum.LEFT;
+                handrail.SetAttribute("firstPost", 1);
+                handrail.SetAttribute("thirdPost", 1);
+                handrail.Position.Plane = Position.PlaneEnum.LEFT;
             handrail.Position.PlaneOffset = -250;
             handrail.Position.Rotation = Position.RotationEnum.TOP;
             handrail.Position.Depth = Position.DepthEnum.FRONT;
@@ -219,7 +221,7 @@ namespace DistillationColumn
             if ((endAngle == extensionEndAngle) && i == arcLengthList.Count-1)
             {
                 handrail.SetAttribute("endBend", 0);
-                arcLengthList[i] = arcLengthList[i] + 155;
+                arcLengthList[i] = arcLengthList[i] + 160;
                 handrail.SetAttribute("Arc_Length", arcLengthList[i]);
                 ContourPoint tPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(point1, (radius+25+10+50) + distanceFromStack + platformLength, 1, endAngle*Math.PI/180),null);
                
@@ -235,7 +237,7 @@ namespace DistillationColumn
 
             }
             handrail.SetInputPositions(point1, point2);
-            CreateWeld(point2, arcLengthList[i]);
+            //CreateWeld(point2, arcLengthList[i]);
 
 
 
@@ -320,7 +322,7 @@ namespace DistillationColumn
                     arcLengthList.RemoveAt(i);
                 }
 
-                else if (arcLengthList[i] > 2600)
+                else if (arcLengthList[i] > 2500)
                 {
                     arcLengthList.Add((arcLengthList[i] - 1100) / 2);
                     arcLengthList.Add((arcLengthList[i] - 1100) / 2);
@@ -336,7 +338,7 @@ namespace DistillationColumn
             }
 
             //check the distance of last handrail and according to that either modify second last or keep as it is
-            if (i + 1 == arcLengthList.Count - 1)
+            else if (i + 1 == arcLengthList.Count - 1)
             {
                 if (arcLengthList[i + 1] >= 1100 && arcLengthList[i + 1] <= 2500)
                 {
@@ -350,7 +352,7 @@ namespace DistillationColumn
                     double sum = (arcLengthList[i + 1]) / 2;
                     arcLengthList.RemoveAt(i + 1);
                     arcLengthList.Add(sum - 500);
-                    arcLengthList.Add(sum - 600);
+                    arcLengthList.Add(sum - 500);
 
                     }
 
@@ -745,6 +747,7 @@ namespace DistillationColumn
             {
                 B.Position.Rotation = Position.RotationEnum.BELOW;
             }
+        }
 
         void BentPipe(TSM.ContourPoint topPoint, TSM.ContourPoint bottomPoint, double l,double distance = 250)
         {
