@@ -332,16 +332,17 @@ namespace DistillationColumn
         public void CreatePlate(ContourPoint point)
         {
             point = _tModel.ShiftHorizontallyRad(point, 25, 3);
-            ContourPoint pt = new ContourPoint(_tModel.ShiftVertically(point, 130), null);
+            ContourPoint pt = new ContourPoint(_tModel.ShiftVertically(point, 100), null);
             ContourPoint pt1 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(pt, -85, 2), null);
             ContourPoint pt2 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(pt, 85, 2), null);
             ContourPoint pt3 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(point, -85, 2), null);
             ContourPoint pt4 = new ContourPoint(_tModel.ShiftAlongCircumferenceRad(point, 85, 2), null);
             List<ContourPoint> pts = new List<ContourPoint>() { pt1, pt2, pt4, pt3 };
 
+            _global.Position.Depth = Position.DepthEnum.FRONT;
 
             ContourPlate cp = _tModel.CreateContourPlate(pts, "PL10", "IS2062", "3", _global.Position);
-            pt1 = _tModel.ShiftVertically(_tModel.ShiftAlongCircumferenceRad(pt1, 30, 2), -65);
+            pt1 = _tModel.ShiftVertically(_tModel.ShiftAlongCircumferenceRad(pt1, 30, 2), -50);
             pt2 = _tModel.ShiftAlongCircumferenceRad(pt1, 110, 2);
 
             BoltArray B = new BoltArray();
@@ -351,9 +352,9 @@ namespace DistillationColumn
             B.FirstPosition = pt1;
             B.SecondPosition = pt2;
 
-            B.BoltSize = 20;
+            B.BoltSize = 10;
             B.Tolerance = 3.00;
-            B.BoltStandard = "UNDEFINED_BOLT";
+            B.BoltStandard = "8.8XOX";
             B.BoltType = BoltGroup.BoltTypeEnum.BOLT_TYPE_SITE;
             B.CutLength = 100;
 
