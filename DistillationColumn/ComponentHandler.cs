@@ -22,7 +22,7 @@ namespace DistillationColumn
 
             new Stack(_global, _tModel);
 
-            //new Chair(_global, _tModel);
+            new Chair(_global, _tModel);
             //new AccessDoor(_global, _tModel);
             //new Flange(_global, _tModel);
             //new StiffnerRings(_global, _tModel);
