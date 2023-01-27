@@ -1054,8 +1054,14 @@
         <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.DensityUnitEnum.TON_M3">
             <summary> Ton per cubic meter. </summary>
         </member>
-        <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.DensityUnitEnum.LB_INCH3">
-            <summary> Lb per cubic inch. </summary>
+        <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.DensityUnitEnum.N_M3">
+            <summary> Newton per cubic meter. </summary>
+        </member>
+        <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.DensityUnitEnum.kN_M3">
+            <summary> kiloNewton per cubic meter. </summary>
+        </member>
+        <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.DensityUnitEnum.LB_FEET3">
+            <summary> Lb per cubic feet. </summary>
         </member>
         <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.DensityUnitEnum.UNKNOWN">
             <summary> unknown unit. </summary>
@@ -1150,11 +1156,11 @@
         <member name="T:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.KinematicViscosityUnitEnum">
             <summary> The Mep kinematic viscosity unit type. </summary>
         </member>
-        <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.KinematicViscosityUnitEnum.KG_M2SEC">
-            <summary> Kg per square meter-second. </summary>
+        <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.KinematicViscosityUnitEnum.M2_SEC">
+            <summary> Square meter per second. </summary>
         </member>
-        <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.KinematicViscosityUnitEnum.LB_FEET2SEC">
-            <summary> Lb per square feet-second. </summary>
+        <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.KinematicViscosityUnitEnum.FEET2_SEC">
+            <summary> Square feet per second. </summary>
         </member>
         <member name="F:Tekla.Structures.TeklaStructuresInternal.TeklaStructuresSettingsHelper.MepUnitsDecimals.KinematicViscosityUnitEnum.UNKNOWN">
             <summary> unknown unit. </summary>
@@ -2307,6 +2313,9 @@
         <member name="F:Tekla.Structures.TeklaStructuresInternal.dotTestingFeaturesCommandEnum_e.TestFeatures_SetState">
             <exclude/>
         </member>
+        <member name="F:Tekla.Structures.TeklaStructuresInternal.dotTestingFeaturesCommandEnum_e.TestFeatures_EnableCustomLineWidth">
+            <exclude/>
+        </member>
         <member name="F:Tekla.Structures.TeklaStructuresInternal.dotTestingFeaturesCommandEnum_e.MarksLearning_ExportData">
             <exclude/>
         </member>
@@ -2506,6 +2515,9 @@
             <exclude/>
         </member>
         <member name="F:Tekla.Structures.TeklaStructuresInternal.dotTestingFeaturesCommandEnum_e.FabDrawing_ChangeLibraryTitle">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.TeklaStructuresInternal.dotTestingFeaturesCommandEnum_e.SedProto_DumpUdas">
             <exclude/>
         </member>
         <member name="T:Tekla.Structures.TeklaStructuresInternal.TestingFeaturesHandler">
@@ -9366,6 +9378,9 @@
              <param name="method"></param>
              <returns></returns>
         </member>
+        <member name="M:Tekla.Structures.Internal.FormWrapperFunctionality.Invoke5vvvvv``6(``0,``1,``2,``3,``4,Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod5vvvvv{``0,``1,``2,``3,``4,``5})">
+            <exclude/>
+        </member>
         <member name="M:Tekla.Structures.Internal.FormWrapperFunctionality.Invoke9rrrrrrrrr``10(``0@,``1@,``2@,``3@,``4@,``5@,``6@,``7@,``8@,Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod9rrrrrrrrr{``0,``1,``2,``3,``4,``5,``6,``7,``8,``9})">
             <exclude/>
         </member>
@@ -9621,6 +9636,9 @@
         <member name="M:Tekla.Structures.Internal.SynchronizeInvokeFunctionality.Invoke5vvrrv``6(``0,``1,``2@,``3@,``4,Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod5vvrrv{``0,``1,``2,``3,``4,``5})">
             <exclude/>
         </member>
+        <member name="M:Tekla.Structures.Internal.SynchronizeInvokeFunctionality.Invoke5vvvvv``6(``0,``1,``2,``3,``4,Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod5vvvvv{``0,``1,``2,``3,``4,``5})">
+            <exclude/>
+        </member>
         <member name="M:Tekla.Structures.Internal.SynchronizeInvokeFunctionality.Invoke5vvvrr``6(``0,``1,``2,``3@,``4@,Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod5vvvrr{``0,``1,``2,``3,``4,``5})">
              <summary>
             
@@ -9816,6 +9834,9 @@
         <member name="T:Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod5vvvrr`6">
             <exclude/>
         </member>
+        <member name="T:Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod5vvvvv`6">
+            <exclude/>
+        </member>
         <member name="T:Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod5vvrrv`6">
             <exclude/>
         </member>
@@ -9953,6 +9974,9 @@
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.Internal.WrapperFunctionalityBase.Invoke5vvrrr``6(``0,``1,``2@,``3@,``4@,Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod5vvrrr{``0,``1,``2,``3,``4,``5})">
+            <exclude/>
+        </member>
+        <member name="M:Tekla.Structures.Internal.WrapperFunctionalityBase.Invoke5vvvvv``6(``0,``1,``2,``3,``4,Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod5vvvvv{``0,``1,``2,``3,``4,``5})">
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.Internal.WrapperFunctionalityBase.Invoke6vvvrrr``7(``0,``1,``2,``3@,``4@,``5@,Tekla.Structures.Internal.WrapperFunctionalityBase.TargetMethod6vvvrrr{``0,``1,``2,``3,``4,``5,``6})">
@@ -10373,16 +10397,19 @@
             <summary> The EPM Modeler configuration. </summary>
         </member>
         <member name="F:Tekla.Structures.ModuleManager.ProgramConfigurationEnum.CONFIGURATION_CARBON">
-            <summary> The subscription license Carbon. </summary>
+            <summary> The Carbon configuration. </summary>
         </member>
         <member name="F:Tekla.Structures.ModuleManager.ProgramConfigurationEnum.CONFIGURATION_GRAPHITE">
-            <summary> The subscription license Graphite. </summary>
+            <summary> The Graphite configuration. </summary>
         </member>
         <member name="F:Tekla.Structures.ModuleManager.ProgramConfigurationEnum.CONFIGURATION_DIAMOND">
-            <summary> The subscription license Diamond. </summary>
+            <summary> The Diamond configuration. </summary>
         </member>
         <member name="F:Tekla.Structures.ModuleManager.ProgramConfigurationEnum.CONFIGURATION_MEP">
-            <summary> The subscription license MEP. </summary>
+            <summary> The MEP configuration. </summary>
+        </member>
+        <member name="F:Tekla.Structures.ModuleManager.ProgramConfigurationEnum.CONFIGURATION_TRIAL">
+            <summary> The Trial Configuration. </summary>
         </member>
         <member name="F:Tekla.Structures.ModuleManager.events">
             <summary>
@@ -10407,6 +10434,9 @@
         <member name="F:Tekla.Structures.ModuleManager.rebarModeling">
             <summary> "RM" </summary>
         </member>
+        <member name="F:Tekla.Structures.ModuleManager.cipModeling">
+            <summary> "CP" </summary>
+        </member>
         <member name="F:Tekla.Structures.ModuleManager.taskManagement">
             <summary> "TM" </summary>
         </member>
@@ -10430,6 +10460,9 @@
         </member>
         <member name="P:Tekla.Structures.ModuleManager.RebarModeling">
             <summary> Indicates whether the rebar modeling is enabled. </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModuleManager.CIPModeling">
+            <summary> Indicates whether the CIP modeling is enabled. </summary>
         </member>
         <member name="P:Tekla.Structures.ModuleManager.AnalysisAndDesign">
             <summary> Indicates whether the Analysis and Design management is enabled. </summary>
@@ -11112,6 +11145,9 @@
         </member>
         <member name="F:Tekla.Structures.TeklaStructuresDatabaseTypeEnum.BUILDING">
             <summary>Building Hierarchy Site</summary>
+        </member>
+        <member name="F:Tekla.Structures.TeklaStructuresDatabaseTypeEnum.SPACE">
+            <summary>Building Hierarchy Space</summary>
         </member>
         <member name="T:Tekla.Structures.TeklaStructuresFiles">
             <summary>

@@ -753,6 +753,11 @@
             The no hole type.
             </summary>
         </member>
+        <member name="F:Tekla.Structures.Model.BoltGroup.BoltHoleTypeEnum.HOLE_TYPE_TAPPED">
+            <summary>
+            The tapped hole type.
+            </summary>
+        </member>
         <member name="T:Tekla.Structures.Model.BoltGroup.BoltPlainHoleTypeEnum">
             <summary>
             The plain hole type.
@@ -786,6 +791,21 @@
         <member name="F:Tekla.Structures.Model.BoltGroup.BoltRotateSlotsEnum.ROTATE_SLOTS_PARALLEL">
             <summary>
             The slots are rotated to be parallel.
+            </summary>
+        </member>
+        <member name="T:Tekla.Structures.Model.BoltGroup.ErrorStatus">
+            <summary>
+            Define possible statuses for geometry creation/modification commands.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.Model.BoltGroup.ErrorStatus.CommonSettingFromDiffPropertiesException">
+            <summary>
+            Exception thrown when the common setting cannot be computed from the individual settings.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.Model.BoltGroup.ErrorStatus.SlottedHoleOffsetsTooBigException">
+            <summary>
+            Exception thrown when the slotted hole offsets move hole too far from bolt origin.
             </summary>
         </member>
         <member name="P:Tekla.Structures.Model.BoltGroup.BoltSize">
@@ -846,6 +866,16 @@
         <member name="P:Tekla.Structures.Model.BoltGroup.SlottedHoleY">
             <summary>
             Gets or sets the Y allowance of the slotted hole.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.BoltGroup.SlotOffsetX">
+            <summary>
+            Gets or sets the slotted hole offset X.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.BoltGroup.SlotOffsetY">
+            <summary>
+            Gets or sets the slotted hole offset Y.
             </summary>
         </member>
         <member name="P:Tekla.Structures.Model.BoltGroup.BlindHoleDepth">
@@ -948,6 +978,11 @@
             The other parts to be bolted (read-only).
             </summary>
         </member>
+        <member name="P:Tekla.Structures.Model.BoltGroup.BoltHolesAttributes">
+            <summary>
+            The bolt holes attributes.
+            </summary>
+        </member>
         <member name="P:Tekla.Structures.Model.BoltGroup.FirstPosition">
             <summary>
             The first position point.
@@ -1025,6 +1060,11 @@
             </summary>
             <returns>A pour unit.</returns>
         </member>
+        <member name="M:Tekla.Structures.Model.BoltGroup.BoltGroupParametersCheck">
+            <summary>
+            Examines bolt group parameters are well defined.
+            </summary>
+        </member>
         <member name="M:Tekla.Structures.Model.BoltGroup.FromStruct(Tekla.Structures.ModelInternal.dotBoltGroup_t@)">
             <summary>
             Converts <see cref="T:Tekla.Structures.ModelInternal.dotBoltGroup_t"/> structure into <see cref="T:Tekla.Structures.Model.BoltGroup"/> instance.
@@ -1038,6 +1078,103 @@
             </summary>
             <param name="BoltGroup">The <see cref="T:Tekla.Structures.ModelInternal.dotBoltGroup_t"/> structure to convert from.</param>
             <param name="BoltPositions">The bolt positions.</param>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltGroup.ChangeRotation(Tekla.Structures.Model.BoltGroup.BoltRotateSlotsEnum)">
+            <summary>
+            Changes the bolt geometry based on the rotate slots type parameter.
+            </summary>
+            <param name="boltRotateSlots">The bolt rotate slots parameter.</param>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltGroup.AreDoublesEqual(System.Double,System.Double,System.Double)">
+            <summary>
+            Verifies if the first double parameter is equal to second double parameter considering an epsilon.
+            </summary>
+            <param name="firstDouble">The first double to be used in the comparison.</param>
+            <param name="secondDouble">The second double to be used in the comparison.</param>
+            <param name="Epsilon">The approximation used by equality.</param>
+            <returns>True, if the values are equal, false otherwise.</returns>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltGroup.HaveAllHolesTheSameLongXValue">
+            <summary>
+            Checks if all the individual holes have the same long x value.
+            </summary>
+            <returns>True if the same, false otherwise.</returns>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltGroup.IsRotatedSlottedHole">
+            <summary>
+            Checks if the individual holes are in the odd or even rotate slots case.
+            </summary>
+            <returns>True if rotated, false otherwise.</returns>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltGroup.HaveAllHolesTheSameLongYValue">
+            <summary>
+            Checks if all the individual holes have the same long y value.
+            </summary>
+            <returns>True if the same, false otherwise.</returns>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltGroup.HaveAllHolesTypeSetToSlottedHole">
+            <summary>
+            Checks if all the individual holes have the type set to slotted hole.
+            </summary>
+            <returns>True if all holes have the type set to slotted hole, false otherwise.</returns>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltGroup.AreAllSlotHoleOffsetsSetToZero">
+            <summary>
+            Checks if all the slot hole offsets are set to zero.
+            </summary>
+            <returns>True if all the slot hole offsets are set to zero, false otherwise.</returns>
+        </member>
+        <member name="T:Tekla.Structures.Model.BoltHoleAttributes">
+            <summary>
+            The bolt hole attributes.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.BoltHoleAttributes.HoleType">
+            <summary>
+            The special hole type: oversized, tapped, slotted, blind or no hole.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.BoltHoleAttributes.LongHoleX">
+            <summary>
+            The long hole X value.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.BoltHoleAttributes.LongHoleY">
+            <summary>
+            The long hole Y value.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.BoltHoleAttributes.SlotOffsetX">
+            <summary>
+            The slot offset X value.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.BoltHoleAttributes.SlotOffsetY">
+            <summary>
+            The slot offset Y value.
+            </summary>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltHoleAttributes.#ctor">
+            <summary>
+            Creates a new bolt hole attributes instance.
+            </summary>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltHoleAttributes.AreSlottedHoleOffsetsWellDefined">
+            <summary>
+            Examines whether the slotted bolt hole offset parameters are well defined.
+            </summary>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltHoleAttributes.ToStruct(Tekla.Structures.ModelInternal.dotBoltHoleAttributes_t@)">
+            <summary>
+            Sets the bolt hole attributes from the struct to the current ones.
+            </summary>
+            <param name="boltHoleAttributes">The bolt hole attributes.</param>
+        </member>
+        <member name="M:Tekla.Structures.Model.BoltHoleAttributes.FromStruct(Tekla.Structures.ModelInternal.dotBoltHoleAttributes_t@)">
+            <summary>
+            Sets the current bolt hole attributes from the given struct parameter.
+            </summary>
+            <param name="boltHoleAttributes">The bolt hole attributes.</param>
         </member>
         <member name="T:Tekla.Structures.Model.BoltXYList">
             <summary>
@@ -1637,11 +1774,6 @@
             Delete the object.
             </summary>
         </member>
-        <member name="F:Tekla.Structures.Model.BuildingSpaces.dotBuildingSpaceOperationsEnum.DOT_SPACE_DRAW_OBJECT">
-            <summary>
-            Render the object.
-            </summary>
-        </member>
         <member name="T:Tekla.Structures.Model.ClashChecker.ClashChekerEvent">
             <summary>
             The ClashChekerEvent class contains methods related to clash check events.
@@ -2169,6 +2301,9 @@
                        C.LoadAttributesFromFile("standard");
                        C.UpVector = new Vector(0,0,1000);
                        C.PositionType = PositionTypeEnum.COLLISION_PLANE;
+            
+                       // Use this value to have the same orientation as defined in the attribute file 
+                       C.AutoDirectionType = AutoDirectionTypeEnum.AUTODIR_FROM_ATTRIBUTE_FILE;
             
                        C.SetPrimaryObject(B1);
                        C.SetSecondaryObject(B2);
@@ -4461,8 +4596,11 @@
                        Model myModel = new Model();
                        WorkPlaneHandler myWorkPlaneHandler = myModel.GetWorkPlaneHandler();
                        Beam myBeam = new Beam();
-                       Point Point1 = new Point();
-                       Point Point2 = new Point();
+                       Point Point1 = new Point(1000, 1000, 1000);
+                       Point Point2 = new Point(2000, 3000, 1000);
+                       myBeam.Profile.ProfileString = "400X400";
+                       myBeam.Insert(); 
+                       myModel.CommitChanges(); 
             
                        TransformationPlane currentPlane = myWorkPlaneHandler.GetCurrentTransformationPlane();
                        TransformationPlane beamPlane = new TransformationPlane(myBeam.GetCoordinateSystem());
@@ -8435,6 +8573,26 @@
             The ChangeData class presents information about the detected change of the modelobject in the model. It is instantiated inside the connected method.
             </summary>
         </member>
+        <member name="T:Tekla.Structures.Model.ChangeData.ChangeSourceTypeEnum">
+            <summary>
+            The source types of changed event.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.Model.ChangeData.ChangeSourceTypeEnum.COMMIT">
+            <summary>
+            Normal commit
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.Model.ChangeData.ChangeSourceTypeEnum.UNDO_REDO">
+            <summary>
+            Undo or redo pressed
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.Model.ChangeData.ChangeSourceTypeEnum.ROLLBACK">
+            <summary>
+            Rollback of database
+            </summary>
+        </member>
         <member name="T:Tekla.Structures.Model.ChangeData.ChangeTypeEnum">
             <summary>
             The types of changed event.
@@ -8472,7 +8630,12 @@
         </member>
         <member name="P:Tekla.Structures.Model.ChangeData.Type">
             <summary>
-            Gets the changed object.
+            Gets the change type.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.ChangeData.Source">
+            <summary>
+            Gets the change source type.
             </summary>
         </member>
         <member name="T:Tekla.Structures.Model.Events">
@@ -8628,6 +8791,11 @@
             The delegate to use for change in project info.
             </summary>
         </member>
+        <member name="T:Tekla.Structures.Model.Events.ViewCameraChangedDelegate">
+            <summary>
+            The delegate to use for view camera changed event
+            </summary>
+        </member>
         <member name="E:Tekla.Structures.Model.Events.SelectionChange">
             <summary>
             The SelectionChange event is raised when the user changes the current selection inside Tekla Structures.
@@ -8730,6 +8898,11 @@
             <para>Note, this event is however not triggered when UNDO or REDO are performed.</para>
             </summary>
         </member>
+        <member name="E:Tekla.Structures.Model.Events.ViewCameraChanged">
+            <summary>
+            Occurs when view camera is changed.
+            </summary>
+        </member>
         <member name="M:Tekla.Structures.Model.Events.OnSelectionChange(System.String,System.Object[])">
             <exclude/>
         </member>
@@ -8737,6 +8910,9 @@
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.Model.Events.OnCommandStatusChange(System.String,System.Object[])">
+            <exclude/>
+        </member>
+        <member name="M:Tekla.Structures.Model.Events.OnViewCameraChangedEvent(System.String,System.Object[])">
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.Model.Events.OnTrackEvent(System.String,System.Object[])">
@@ -9054,6 +9230,11 @@
         <member name="F:Tekla.Structures.Model.Messages.SpiralBeamRotationAngleIs0Degrees">
             <summary>
             Spiral beam rotation angle is 0 degrees.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.Model.Messages.SpiralBeamInvalidGeometry">
+            <summary>
+            Spiral beam has invalid geometry.
             </summary>
         </member>
         <member name="T:Tekla.Structures.Model.NumberingSeries">
@@ -9615,6 +9796,17 @@
             <param name="betweenParts">True, if clash check should be performed between native parts.</param>
             <returns>True on success.</returns>
         </member>
+        <member name="M:Tekla.Structures.Model.ClashCheckHandler.RunClashCheckWithOptions(System.Boolean,System.Boolean,System.Boolean,System.Double,System.Boolean)">
+            <summary>
+            Starts the clash checking with options.
+            </summary>
+            <param name="betweenReferenceModels">True, if clash check should be performed between reference models.</param>
+            <param name="betweenReferenceModelsAndComponents">True, if clash cehck should be performed between reference models and components.</param>
+            <param name="objectsInsideReferenceModels">True, if clash check should be performed to objects inside reference models.</param>
+            <param name="minDistance">The minimum distance value.</param>
+            <param name="betweenParts">True, if clash check should be performed between native parts.</param>
+            <returns>True on success.</returns>
+        </member>
         <member name="M:Tekla.Structures.Model.ClashCheckHandler.StopClashCheck">
             <summary>
             Stops the clash checking.
@@ -9831,6 +10023,50 @@
                     var objList = model.FetchModelObjects(guidList, false);
                     
                     MessageBox.Show(objList.Count.ToString() + " objects found.");
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:Tekla.Structures.Model.Model.FetchModelObjects(System.Collections.Generic.List{Tekla.Structures.Identifier},System.Boolean)">
+            <summary>
+            Fetches a list of modelobjects based on given identifier list of objects, 
+            and optionally selects objects before returning them.
+            </summary>
+            <param name="Ids">The identifier list to look for in the model.</param>
+            <param name="SelectInstances">Optional parameter whether object is selected, default = true.</param>
+            <returns>The model objects with the given identifiers
+            skipping the objects which do not exists or object data loading failed for some reason.</returns>
+            <example>
+            Identifiers of selected model objects are stored to list and fetched using list:
+            <code>
+            using System;
+            using System.Collections.Generic;
+            using System.Windows.Forms;
+            using Tekla.Structures.Drawings;
+            using Tekla.Structures.Model;
+            
+            public class Example
+            {
+                public void Example1()
+                {
+                    // open document manager instance
+                    DrawingHandler DrawingHandler = new DrawingHandler();
+                    var drawingEnumerator = DrawingHandler.GetDrawings();
+                    while (drawingEnumerator.MoveNext())
+                    {
+                         Drawing drawing = dEnumerator.Current as Drawing;
+                         if (drawing != null)
+                         {
+                             // get model objects identifiers from the drawing
+                             var idList = DrawingHandler.GetModelObjectIdentifiers(drawing);
+                             
+                             // fetch model objects in the drawing
+                             Model model = new Model();
+                             var objList = model.FetchModelObjects(idList, false);
+                             MessageBox.Show(objList.Count.ToString() + " objects found.");
+                         }
+                    }
                 }
             }
             </code>
@@ -10452,6 +10688,9 @@
         <member name="F:Tekla.Structures.Model.ModelObject.ModelObjectEnum.SPACE">
             <summary>The building space object.</summary>
         </member>
+        <member name="F:Tekla.Structures.Model.ModelObject.ModelObjectEnum.BUILDING">
+            <summary>The building space object.</summary>
+        </member>
         <member name="T:Tekla.Structures.Model.ModelObject.PropertySourceEnum">
             <summary>
             Where to get the property.
@@ -11042,6 +11281,11 @@
             Selects all objects with any type of modification or are created after the stamp. 
             </summary>
         </member>
+        <member name="F:Tekla.Structures.Model.ModelObjectEnumerator.EnumeratorTypeEnum.BY_MODEL_OBJECT_TYPE">
+            <summary>
+            Selects all model objects with the specified type. 
+            </summary>
+        </member>
         <member name="T:Tekla.Structures.Model.ModelObjectEnumerator.EnumeratorSubTypeEnum">
             <summary>
             Enumerator type specifiers.
@@ -11311,8 +11555,9 @@
                        Model Model = new Model();
             
                        ModelObjectSelector Selector = Model.GetModelObjectSelector();
+                       ModelObjectEnumerator listObjects = Selector.GetAllObjects();
             
-                       foreach(ModelObject MO in Selector)
+                       foreach(ModelObject MO in listObjects)
                        {
                            Beam B = MO as Beam;
                            if(B != null)
@@ -12051,6 +12296,11 @@
             The active file path.
             </summary>
         </member>
+        <member name="F:Tekla.Structures.Model.ReferenceModel.title">
+            <summary>
+            The Title
+            </summary>
+        </member>
         <member name="F:Tekla.Structures.Model.ReferenceModel.position">
             <summary>
             The position.
@@ -12097,6 +12347,11 @@
         <member name="P:Tekla.Structures.Model.ReferenceModel.ActiveFilePath">
             <summary>
             Gets the path to the local copy of the current revision of the reference model.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.ReferenceModel.Title">
+            <summary>
+            The reference model name(title).
             </summary>
         </member>
         <member name="P:Tekla.Structures.Model.ReferenceModel.Position">
@@ -13099,7 +13354,7 @@
         </member>
         <member name="F:Tekla.Structures.Model.Operations.Operation.IFCExportFlags.IsPoursEnabled">
             <summary>
-            Pours export is enabled.
+            Pours export is enabled. True for pours, false for CIP cast-units and/or parts
             </summary>
         </member>
         <member name="F:Tekla.Structures.Model.Operations.Operation.IFCExportFlags.ExportRebarSetGroupAsIndividualBars">
@@ -13137,6 +13392,17 @@
             Boolean indicating whether the surfaces and surface treatments export is enabled.
             </summary>
         </member>
+        <member name="P:Tekla.Structures.Model.Operations.Operation.IFCExportFlags.UseIfcMapConversion">
+            <summary>
+            Boolean indicating whether to use IfcMapConversion with base points is enabled.
+            By default IFC4 export should use IfcMapConversion. Uninitialized null will be converted to true during export.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.Operations.Operation.IFCExportFlags.IsSpacesEnabled">
+            <summary>
+            Boolean indicating whether the export of spaces in building hierarchy is enabled.
+            </summary>
+        </member>
         <member name="M:Tekla.Structures.Model.Operations.Operation.InitFilterCache">
             <summary>
             Inits the filtering cache
@@ -13163,6 +13429,12 @@
             </remarks>
             </summary>
             <returns>True if the numbering information is up-to-date.</returns>
+        </member>
+        <member name="M:Tekla.Structures.Model.Operations.Operation.IsNumberingAllowed">
+            <summary>
+            Checks whether the numbering is allowed or not in the current configuration.
+            </summary>
+            <returns>True if the numbering is allowed.</returns>
         </member>
         <member name="M:Tekla.Structures.Model.Operations.Operation.GetSimilarNumberedObjects(Tekla.Structures.Model.ModelObject)">
             <summary>
@@ -13685,6 +13957,19 @@
             <param name="basePointGuid">Base point guid, if a base point used.</param>
             <returns>True, if input parameters are validated successfully.</returns>
         </member>
+        <member name="M:Tekla.Structures.Model.Operations.Operation.CreateDGNv8Export(System.String,System.String,Tekla.Structures.Model.Operations.Operation.ExportBasePoint,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Dgn export from all or selected objects.
+            </summary>
+            <param name="FileName"> The file name.</param>
+            <param name="Folder"> The folder.</param>
+            <param name="BasePoint">Defines which base point is used in export.</param>
+            <param name="BasePointGuid">Base point guid if BasePoint parameter is set to BASE_POINT.</param>
+            <param name="ObjectColoring">Defines which object coloring filter is to be used in export.</param>
+            <param name="ExportLayersAs">Defines which report field to use for layers export.</param>
+            <param name="OnlyFromSelectedObjects">Defines if only selected (value true) or all (value false) objects are exported.</param>
+            <returns>bool, defines the final run state.</returns>
+        </member>
         <member name="M:Tekla.Structures.Model.Operations.Operation.RunMacro(System.String)">
              <summary>
              Starts a macro with the given name. Throws an exception if the file is not found.
@@ -13752,6 +14037,14 @@
             </summary>
             <param name="Filename">The filename to be used.</param>
             <returns>True on success, false on failure.</returns>
+        </member>
+        <member name="M:Tekla.Structures.Model.Operations.Operation.ConvertPartToItem(Tekla.Structures.Model.Part@,Tekla.Structures.Model.Brep@)">
+            <summary>
+            
+            </summary>
+            <param name="originalPart">Original part</param>
+            <param name="newItem">Newly created item</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if the <paramref name="originalPart"/> is <c>null</c>.</exception>
         </member>
         <member name="M:Tekla.Structures.Model.Operations.Operation.MoveObject(Tekla.Structures.Model.ModelObject,Tekla.Structures.Geometry3d.Vector)">
              <summary>
@@ -14404,7 +14697,7 @@
             <summary>
             Highlight the list of objects from the user interface.
             Only the list of objects will be highlighted, the rest will be unhighlighted. But it will keep the status of the selected objects.
-            To unselect give an empty list as a parameter.
+            To unhighlight give an empty list as a parameter.
             </summary>
             <param name="ModelObjects">The list of model objects to highlight.</param>
             <returns>True on success.</returns>
@@ -15834,6 +16127,11 @@
             Status when rotation angle is 0 degrees.
             </summary>
         </member>
+        <member name="F:Tekla.Structures.Model.SpiralBeam.ErrorStatus.InvalidGeometry">
+            <summary>
+            Status when helix has invalid geometry.
+            </summary>
+        </member>
         <member name="T:Tekla.Structures.Model.PolymeshEnumerator">
             <summary>
             The PolymeshEnumerator class is used to enumerate the polymesh of a pour's merged faces.
@@ -16471,6 +16769,11 @@
             Gets or sets the value indicating if this base point is the current base point.
             </summary>
         </member>
+        <member name="P:Tekla.Structures.Model.BasePoint.IsLocked">
+            <summary>
+            Gets or sets the value indicating if this base point is locked.
+            </summary>
+        </member>
         <member name="P:Tekla.Structures.Model.BasePoint.IsScopedCurrentBasePoint">
             <summary>
              Gets or sets the value indicating whether this base point is the scoped current base point.
@@ -16576,12 +16879,21 @@
             <summary></summary>
             <returns></returns>
         </member>
+        <member name="M:Tekla.Structures.Model.BasePoint.FromStruct(Tekla.Structures.ModelInternal.dotBasePointData_t)">
+            <summary></summary>
+            <returns></returns>
+        </member>
         <member name="M:Tekla.Structures.Model.BasePoint.SetAsCurrentBasePoint(System.Boolean)">
             <summary>
             Sets this base point as current base point for temporary purposes, such as 
             getting report values etc.
             </summary>
             <param name="value">True if current, otherwise false.</param>
+        </member>
+        <member name="M:Tekla.Structures.Model.BasePoint.Initialize">
+            <summary>
+            Initialize.
+            </summary>
         </member>
         <member name="T:Tekla.Structures.Model.DisposableToken">
             <summary>
@@ -18191,11 +18503,11 @@
                          strip.RebarProperties.NumberingSeries.StartNumber = 1;
                          
                          // Override the rebar set spacings in the region of the property modifier
-                         strip.SpacingOverride = ReinforcementSpacing.Create(
-                                     ReinforcementSpacing.SpacingType.EXACT_FLEXIBLE_LAST,
-                                     new ReinforcementSpacing.Offset { Automatic = true, Type = ReinforcementSpacing.OffsetEnum.EXACT, Distance = 0.0 },
-                                     new ReinforcementSpacing.Offset { Automatic = true, Type = ReinforcementSpacing.OffsetEnum.EXACT, Distance = 0.0 },
-                                     100.0);
+                         strip.SpacingOverride = RebarSpacing.Create(
+                                RebarSpacing.SpacingType.EXACT_FLEXIBLE_LAST,
+                                new RebarSpacing.Offset(true, 0.0),
+                                new RebarSpacing.Offset(true, 0.0),
+                                100.0);
                          strip.Curve.AddContourPoint(new ContourPoint(new Point(200, 200, 0), null));
                          strip.Curve.AddContourPoint(new ContourPoint(new Point(200, 1000, 0), null));
                          strip.Insert();
@@ -18279,6 +18591,11 @@
         <member name="P:Tekla.Structures.Model.RebarPropertyModifier.SpacingOverride">
             <summary>
             Gets or sets the spacing override.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.RebarPropertyModifier.FatherPart">
+            <summary>
+            Gets or sets the father part for all bars touching the property modifier.
             </summary>
         </member>
         <member name="M:Tekla.Structures.Model.RebarPropertyModifier.GetAffectedBars">
@@ -18444,6 +18761,11 @@
             <summary>
             Gets or sets the bar orientation line. If this is non-null, then it is used to orient the bar planes such
             that the line is parallel to all the planes.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.RebarSet.FatherPart">
+            <summary>
+            Gets or sets the father part for the rebar set bars. If set, overrides the automatic bar parenting.
             </summary>
         </member>
         <member name="M:Tekla.Structures.Model.RebarSet.Insert">
@@ -18925,12 +19247,12 @@
             This structure is used to hold number and distance data.
             </summary>
         </member>
-        <member name="F:Tekla.Structures.Model.RebarSpacing.ExactSpacing.Element.Number">
+        <member name="F:Tekla.Structures.Model.RebarSpacing.ExactSpacing.Element.number">
             <summary>
             The number of bars.
             </summary>
         </member>
-        <member name="F:Tekla.Structures.Model.RebarSpacing.ExactSpacing.Element.Distance">
+        <member name="F:Tekla.Structures.Model.RebarSpacing.ExactSpacing.Element.distance">
             <summary>
             The distance between the bars.
             </summary>
@@ -18941,6 +19263,16 @@
             </summary>
             <param name="number">The number of spaces.</param>
             <param name="distance">The spacing distance.</param>
+        </member>
+        <member name="P:Tekla.Structures.Model.RebarSpacing.ExactSpacing.Element.Number">
+            <summary>
+            Gets or sets the number of spaces in the element.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.RebarSpacing.ExactSpacing.Element.Distance">
+            <summary>
+            Gets or sets the spacing distance in the element.
+            </summary>
         </member>
         <member name="M:Tekla.Structures.Model.RebarSpacing.ExactSpacing.Element.FromStruct(Tekla.Structures.ModelInternal.dotSpacingElement_t)">
             <summary>
@@ -20687,6 +21019,26 @@
             Length adjustments 
             </summary>
         </member>
+        <member name="T:Tekla.Structures.Model.Reinforcement.RebarGeometrySimplificationTypeEnum">
+            <summary>
+            The rebar geometry simplification type.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.Model.Reinforcement.RebarGeometrySimplificationTypeEnum.NONE">
+            <summary>
+            No simplification.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.Model.Reinforcement.RebarGeometrySimplificationTypeEnum.RATIONALIZED">
+            <summary>
+            Rationalized geometry - includes segmented arcs converted to true arcs by Rebar Shape Recognition.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.Model.Reinforcement.RebarGeometrySimplificationTypeEnum.FABRICATION">
+            <summary>
+            Fabrication geometry - includes arcs recognized as straight by Rebar Shape Recognition.
+            </summary>
+        </member>
         <member name="T:Tekla.Structures.Model.Reinforcement.RebarOffsetTypeEnum">
             <summary> 
             The different types of offsets.
@@ -20828,6 +21180,19 @@
             <param name="lengthAdjustments">A parameter to determine whether rounding and step tapering should be included in the rebar geometry or not.</param>
             <returns>A list of <see cref="T:Tekla.Structures.Model.RebarComplexGeometry"/>s.</returns>
         </member>
+        <member name="M:Tekla.Structures.Model.Reinforcement.GetRebarComplexGeometries(System.Boolean,System.Boolean,System.Boolean,Tekla.Structures.Model.Reinforcement.RebarGeometrySimplificationTypeEnum)">
+            <summary>
+            Retrieves a list of physical reinforcing bars (of type ReinforcingBar).
+            These objects contain physical curves in the 3D space of each reinforcing bar as shown in model view.
+            In case rebar polygon clashes with itself, physical points are moved to avoid clashing. ReinforcingBar
+            only differs from RebarGeometry by containing a Polycurve rather than a Polyline.
+            </summary>
+            <param name="withHooks">A parameter to determine whether the hook points should be included in the rebar geometry or not.</param>
+            <param name="withoutClashes">A parameter to determine whether self-clash avoidance should be included in the rebar geometry or not.</param>
+            <param name="lengthAdjustments">A parameter to determine whether rounding and step tapering should be included in the rebar geometry or not.</param>
+            <param name="simplified">A parameter to determine whether the "simplified" rebar shape recognition geometry should be returned.</param>
+            <returns>A list of <see cref="T:Tekla.Structures.Model.RebarComplexGeometry"/>s.</returns>
+        </member>
         <member name="M:Tekla.Structures.Model.Reinforcement.IsGeometryValid">
             <summary>
             Tells whether the geometry of a reinforcement object is valid or not.
@@ -20901,6 +21266,16 @@
             <param name="withHooks">Parameter to determine whether the hook points should be included or not.</param>
             <param name="withoutClashes">Parameter to determine whether the polygon points should be moved to avoid clashing or not.</param>
             <param name="lengthAdjustments">Parameter to determine whether the bar should have round and step tapering applied.</param>
+        </member>
+        <member name="M:Tekla.Structures.Model.Reinforcement.GetComplexGeometries(System.Boolean,System.Boolean,System.Boolean,Tekla.Structures.Model.Reinforcement.RebarGeometrySimplificationTypeEnum)">
+            <summary>
+            Gets the "complex" geometries of the bars.
+            </summary>
+            <param name="withHooks">A parameter to determine whether the hook points should be included in the rebar geometry or not.</param>
+            <param name="withoutClashes">A parameter to determine whether self-clash avoidance should be included in the rebar geometry or not.</param>
+            <param name="lengthAdjustments">A parameter to determine whether rounding and step tapering should be included in the rebar geometry or not.</param>
+            <param name="simplified">A parameter to determine whether the "simplified" rebar shape recognition geometry should be returned.</param>
+            <returns>A list of <see cref="T:Tekla.Structures.Model.RebarComplexGeometry"/> objects.</returns>
         </member>
         <member name="M:Tekla.Structures.Model.Reinforcement.ToStruct(Tekla.Structures.ModelInternal.dotReinforcement_t@)">
             <summary>
@@ -23752,6 +24127,12 @@
         <member name="F:Tekla.Structures.Model.UI.ViewVisibilitySettings.referenceObjectsVisible">
             <exclude/>
         </member>
+        <member name="F:Tekla.Structures.Model.UI.ViewVisibilitySettings.buildingVisible">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.Model.UI.ViewVisibilitySettings.buildingSpaceVisible">
+            <exclude/>
+        </member>
         <member name="F:Tekla.Structures.Model.UI.ViewVisibilitySettings.pointsVisibleInComponents">
             <exclude/>
         </member>
@@ -23867,6 +24248,16 @@
         <member name="P:Tekla.Structures.Model.UI.ViewVisibilitySettings.ReferenceObjectsVisible">
             <summary>
             Gets or sets the reference object visibility.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.UI.ViewVisibilitySettings.BuildingVisible">
+            <summary>
+            Gets or sets the building heirarchy visibility.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.Model.UI.ViewVisibilitySettings.BuildingSpaceVisible">
+            <summary>
+            Gets or sets the building space visibility.
             </summary>
         </member>
         <member name="P:Tekla.Structures.Model.UI.ViewVisibilitySettings.PointsVisibleInComponents">
@@ -25049,11 +25440,6 @@
             Tolerance.
             </summary>
         </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotBoltGroup_t.HoleType">
-            <summary>
-            HoleType.
-            </summary>
-        </member>
         <member name="F:Tekla.Structures.ModelInternal.dotBoltGroup_t.PlainHoleType">
             <summary>
             PlainHoleType.
@@ -25064,24 +25450,14 @@
             Blind hole depth.
             </summary>
         </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotBoltGroup_t.SlottedHoleX">
-            <summary>
-            Slotted Hole X.
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotBoltGroup_t.SlottedHoleY">
-            <summary>
-            Slotted Hole Y.
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotBoltGroup_t.RotateSlots">
-            <summary>
-            Rotate Slots.
-            </summary>
-        </member>
         <member name="F:Tekla.Structures.ModelInternal.dotBoltGroup_t.Position">
             <summary>
             Position.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotBoltGroup_t.aBoltHolesAttributes">
+            <summary>
+            The bolt holes attributes
             </summary>
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotBoltGroup_t.StartPointOffset">
@@ -25182,6 +25558,36 @@
         <member name="F:Tekla.Structures.ModelInternal.dotBoltGroup_t.ConnectAssemblies">
             <summary> 
             Defines connect as secondary part (false) or as sub-assembly (true). 
+            </summary>
+        </member>
+        <member name="T:Tekla.Structures.ModelInternal.dotBoltHoleAttributes_t">
+            <summary>
+            Struct for the bolt hole attributes.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotBoltHoleAttributes_t.HoleType">
+            <summary>
+            The hole type.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotBoltHoleAttributes_t.LongHoleX">
+            <summary>
+            Long hole X value.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotBoltHoleAttributes_t.LongHoleY">
+            <summary>
+            Long hole Y value.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotBoltHoleAttributes_t.SlotOffsetX">
+            <summary>
+            Slot offset x.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotBoltHoleAttributes_t.SlotOffsetY">
+            <summary>
+            Slot offset y.
             </summary>
         </member>
         <member name="T:Tekla.Structures.ModelInternal.dotBoolean_t">
@@ -25359,11 +25765,6 @@
             </summary>
             <returns>True if the object was successfully deleted.</returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.BuildingHierarchy.Building.Draw">
-            <summary>
-            Renders the building into view.
-            </summary>
-        </member>
         <member name="M:Tekla.Structures.ModelInternal.BuildingHierarchy.Building.GetSolid">
             <summary>
             Returns the solid of the pour object.
@@ -25426,11 +25827,6 @@
         <member name="F:Tekla.Structures.ModelInternal.BuildingHierarchy.dotBuildingObjectOperationsEnum.DOT_BUILDING_DELETE_OBJECT">
             <summary>
             Delete the object.
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.ModelInternal.BuildingHierarchy.dotBuildingObjectOperationsEnum.DOT_BUILDING_DRAW_OBJECT">
-            <summary>
-            Render the object.
             </summary>
         </member>
         <member name="T:Tekla.Structures.ModelInternal.BuildingHierarchy.Site">
@@ -25584,6 +25980,9 @@
             <summary>
             Serialization structure for building hierarchy building operation.
             </summary>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotBuildingHierarchyBuildingOperation_t.id">
+            <summary>Field for building id.</summary>
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotBuildingHierarchyBuildingOperation_t.aGuid">
             <summary>
@@ -25878,16 +26277,15 @@
             <summary>Gets or sets the space contour. The work plane coordinates are used.</summary>
             <remarks> The Space is a prism which bottom polygon is specified by <see cref="P:Tekla.Structures.ModelInternal.BuildingSpaces.Space.Contour"/>, shifted by <see cref="P:Tekla.Structures.ModelInternal.BuildingSpaces.Space.BottomOffset"/> and height specified as <see cref="P:Tekla.Structures.ModelInternal.BuildingSpaces.Space.Height"/>.</remarks>
         </member>
+        <member name="P:Tekla.Structures.ModelInternal.BuildingSpaces.Space.BrepShapeName">
+            <summary>
+            Gets or sets the geometry shape name, from shape catalog.
+            </summary>
+        </member>
         <member name="P:Tekla.Structures.ModelInternal.BuildingSpaces.Space.Parent">
             <summary>
             Gets or sets the parent storey of the space.
             </summary>
-        </member>
-        <member name="M:Tekla.Structures.ModelInternal.BuildingSpaces.Space.DrawAllSpaces">
-            <summary>
-            Draws all Building Spaces currently in model.
-            </summary>
-            <returns>Number of spaces drawn.</returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.BuildingSpaces.Space.Delete">
             <inheritdoc/>
@@ -25907,11 +26305,6 @@
             </summary>
             <returns>The solid of the space.</returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.BuildingSpaces.Space.Draw">
-            <summary>
-            Renders the space into view.
-            </summary>
-        </member>
         <member name="T:Tekla.Structures.ModelInternal.dotBuildingSpacesSpaceOperation_t">
             <summary>Serialization structures for <see cref="T:Tekla.Structures.ModelInternal.BuildingSpaces.Space"/></summary>
         </member>
@@ -25926,8 +26319,11 @@
         <member name="F:Tekla.Structures.ModelInternal.dotBuildingSpacesSpaceOperation_t.aName">
             <summary>Field for <see cref="P:Tekla.Structures.ModelInternal.BuildingSpaces.Space.Name"/>.</summary>
         </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotBuildingSpacesSpaceOperation_t.aNumber">
+        <member name="F:Tekla.Structures.ModelInternal.dotBuildingSpacesSpaceOperation_t.Number">
             <summary>Field for <see cref="P:Tekla.Structures.ModelInternal.BuildingSpaces.Space.Number"/>.</summary>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotBuildingSpacesSpaceOperation_t.aBrepShapeName">
+            <summary>Field for <see cref="P:Tekla.Structures.ModelInternal.BuildingSpaces.Space.Zone"/>.</summary>
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotBuildingSpacesSpaceOperation_t.aZone">
             <summary>Field for <see cref="P:Tekla.Structures.ModelInternal.BuildingSpaces.Space.Zone"/>.</summary>
@@ -27170,9 +27566,6 @@
         <member name="T:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e">
             <exclude/>
         </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_GetBestTemplateMatch">
-            <exclude/>
-        </member>
         <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_GetBestTemplateMatchesAll">
             <exclude/>
         </member>
@@ -27188,25 +27581,10 @@
         <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_GetAdvOptionValuesFromOtherModel">
             <exclude/>
         </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_GetAppliedSettingsNames">
-            <exclude/>
-        </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_GetAppliedSettingsLayout">
-            <exclude/>
-        </member>
         <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_WouldADrawingGetCreated">
             <exclude/>
         </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_SetActiveLibraries">
-            <exclude/>
-        </member>
         <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_SetCloningSettings">
-            <exclude/>
-        </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_StartDrawingCreation">
-            <exclude/>
-        </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_StartDrawingCreationWithParams">
             <exclude/>
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_StartDrawingCreationWith3Params">
@@ -27227,7 +27605,13 @@
         <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_IsDrawingCreationAllowedForObject">
             <exclude/>
         </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e.Fabrication_GetDrawingTypeForObject">
+            <exclude/>
+        </member>
         <member name="T:Tekla.Structures.ModelInternal.FabricationHandler">
+            <exclude/>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.FabricationHandler.IsAssemblyNumberingUpToDate(Tekla.Structures.Identifier)">
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.FabricationHandler.DbOperation(Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e,System.String)">
@@ -27242,7 +27626,7 @@
         <member name="M:Tekla.Structures.ModelInternal.FabricationHandler.DbOperation(Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e,System.Collections.Generic.IEnumerable{System.String},System.String@)">
             <exclude/>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.FabricationHandler.CreateDrawing(Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e,System.Collections.Generic.IEnumerable{System.String},System.Int32@,System.Int32@)">
+        <member name="M:Tekla.Structures.ModelInternal.FabricationHandler.CreateDrawing(Tekla.Structures.ModelInternal.dotFabricationCommandEnum_e,System.Collections.Generic.IEnumerable{System.String})">
             <exclude/>
         </member>
         <member name="T:Tekla.Structures.ModelInternal.dotFabricationHandler_t">
@@ -28849,6 +29233,9 @@
         <member name="F:Tekla.Structures.ModelInternal.dotCreateIFCFromModel_t.IsSurfaceTreatmentsAndSurfacesEnabled">
             <exclude />
         </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotCreateIFCFromModel_t.UseIfcMapConversion">
+            <exclude />
+        </member>
         <member name="F:Tekla.Structures.ModelInternal.dotCreateIFCFromModel_t.ClientID">
             <exclude/>
         </member>
@@ -29502,6 +29889,20 @@
             <param name="path">The full file name and path.</param>
             <returns>Entities count.</returns>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.ConvertTsGuidToIfcGuid(System.String)">
+            <summary>
+            Converts the given TS guid (long) to IFC guid (short).
+            </summary>
+            <param name="tsGuid">The TS guid.</param>
+            <returns>The IFC guid.</returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.GetReferenceModelObjectCustomAttributes(System.Int32)">
+            <summary>
+            Gets the reference model object custom attributes.
+            </summary>
+            <param name="refererenceModelObjectId">The reference model object id.</param>
+            <returns>The custom attributes.</returns>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.Operation.ExportIFCFromAll(System.String,System.String,Tekla.Structures.Model.Operations.Operation.IFCExportViewTypeEnum,System.Collections.Generic.List{System.String},Tekla.Structures.Model.Operations.Operation.ExportBasePoint,System.String,System.String,Tekla.Structures.Model.Operations.Operation.IFCExportFlags,System.Boolean,System.Boolean,System.String)">
             <summary>
             IFC export from all objects
@@ -30046,7 +30447,17 @@
             <param name="guids">The GUID list to look for in the model.</param>
             <param name="SelectInstances">Optional parameter whether object is selected, default = true.</param>
             <returns>The model objects with the given guids,
-            or empty list if any of the objects do not exists or object data loading failed for some reason.</returns>
+            skipping the objects which do not exists or object data loading failed for some reason.</returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.FetchModelObjects(System.Collections.Generic.List{System.Int32},System.Boolean)">
+            <summary>
+            Takes a id list of objects as input, checks if guid is native or external, and
+            instantiates and optionally selects objects before returning them.
+            </summary>
+            <param name="ids">The id list with integers to look for in the model.</param>
+            <param name="SelectInstances">Optional parameter whether object is selected, default = true.</param>
+            <returns>The valid model objects with the given ids and guids,
+            skipping the objects which do not exists or object data loading failed for some reason.</returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.Operation.dotTranslateLabel(System.String)">
             <summary>
@@ -30362,6 +30773,12 @@
             <param name="ModStamp">The mod stamp.</param>
             <returns>True if object has been modified after modification stamp.</returns>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.CheckObject1ModifiedAfterObject2(Tekla.Structures.Model.ModelObject,Tekla.Structures.Model.ModelObject)">
+            <summary>Check if object 1 has been modified after object 2.</summary>
+            <param name="object1">The object 1.</param>
+            <param name="object2">The object 2 to check against to.</param>
+            <returns>True if object1 has been modified after object2.</returns>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.Operation.dotGetBeamPositioningBox(Tekla.Structures.Model.Beam)">
             <summary>
             Get the (section) box according to which beam positioning is done in non-middle positioning.
@@ -30380,6 +30797,14 @@
             Gets list of allowed reference model extensions.
             </summary>
             <returns>The allowed extensions.</returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.GetReferenceModelObjectFaces(Tekla.Structures.Identifier,System.Int32)">
+            <summary>
+            Gets the faces of the given reference model object.
+            </summary>
+            <param name="referenceObjectIdentifier">The reference model object identifier.</param>
+            <param name="maxFaceCount">Maximum face count. Use zero, for unlimited. If used and maximum reached, returns empty container.</param>
+            <returns>The reference model object faces.</returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.Operation.GetReferenceModelObjectFaces(Tekla.Structures.Identifier)">
             <summary>
@@ -30618,6 +31043,22 @@
             </summary>
             <returns>The printing controller.</returns>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.ObjectsMatchToFilter(System.Collections.Generic.List{Tekla.Structures.Model.ModelObject},System.String)">
+            <summary>
+            Checks whether the objects are matching to the criteria in the given filter.
+            </summary>
+            <param name="modelObjects">The model objects to check.</param>
+            <param name="filterName">The filter file to check against.</param>
+            <returns>The objects matching to the given filter criteria.</returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.ObjectsMatchToFilter(System.Collections.Generic.List{Tekla.Structures.Model.ModelObject},Tekla.Structures.Filtering.FilterExpression)">
+            <summary>
+            Checks whether the objects are matching to the criteria in the given filter.
+            </summary>
+            <param name="modelObjects">The model objects to check.</param>
+            <param name="filterExpression">The filter expression to check against.</param>
+            <returns>The objects matching to the given filter criteria.</returns>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.Operation.GetAttribute(System.Int32,System.String)">
             <summary>
             Gets the attribute value of the given object.
@@ -30625,6 +31066,29 @@
             <param name="objectId">The object id.</param>
             <param name="attributeName">The attribute to be fetched.</param>
             <returns>The objects property.</returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.GetRebarShapeRecognitionData(Tekla.Structures.Identifier,System.Int32,Tekla.Structures.ModelInternal.RebarShapeRecognitionData@)">
+            <summary>
+            Gets the rebar shape recognition data required by certain Construsoft plugins.
+            </summary>
+            <param name="rebarId">The rebar ID.</param>
+            <param name="barIndex">For rebar groups, the index (0-based) of the bar required; otherwise 0.</param>
+            <param name="data">The rebar shape recognition data.</param>
+            <returns>True if successful; otherwise false.</returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.GetVirtualBarIdentifiersByGuid(System.String)">
+            <summary>
+            Gets the identifiers of the virtual bars associated with a GUID.
+            </summary>
+            <param name="guid">A virtual bar GUID, or a virtual bar group GUID, or a rebar set GUID.</param>
+            <returns>The virtual bar identifiers.</returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.Operation.AutomatedTesting_BroadcastMessage(System.String)">
+            <summary>
+            Broadcasts a test message to TS core for automated testing purposes.
+            </summary>
+            <param name="testMessage">The message to be broadcasted.</param>
+            <returns>True if successful, otherwise false.</returns>
         </member>
         <member name="T:Tekla.Structures.ModelInternal.Operation.Model2">
             <summary>
@@ -30831,6 +31295,139 @@
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotExternalReferenceModelSelection_t.SelectedObjectGuids">
             <exclude/>
+        </member>
+        <member name="T:Tekla.Structures.ModelInternal.dotRebarPluginData_t">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.RebarIdentifier">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.BarIndex">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.IsReversed">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.HasStartHook">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.HasEndHook">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.NumberOfLegs">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.NumberOfBendings">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.ArcInnerRadius">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.ArcOuterRadius">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.StartHookLengthA">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.EndHookLengthA">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.StartHookAngle">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.EndHookAngle">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.SpiralTotalLength">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarPluginData_t.ArcLength">
+            <exclude/>
+        </member>
+        <member name="T:Tekla.Structures.ModelInternal.RebarShapeRecognitionData">
+            <summary>
+            The rebar shape recognition data class.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.IsReversed">
+            <summary>
+            Indicates whether the bar is reversed.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.HasStartHook">
+            <summary>
+            Indicates whether the bar has a start hook.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.HasEndHook">
+            <summary>
+            Indicates whether the bar has an end hook.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.NumberOfLegs">
+            <summary>
+            The number of rebar legs.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.NumberOfBendings">
+            <summary>
+            The number of rebar bendings.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.ArcInnerRadius">
+            <summary>
+            The arc inner radius (rule operand, RI).
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.ArcOuterRadius">
+            <summary>
+            The arc outer radius (rule operand, RO).
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.StartHookLengthA">
+            <summary>
+            Start hook length A (rule operand, SHLA).
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.EndHookLengthA">
+            <summary>
+            End hook length A (rule operand, EHLA).
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.StartHookAngle">
+            <summary>
+            The start hook angle (rule operand, SHA).
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.EndHookAngle">
+            <summary>
+            The end hook angle (rule operand, EHA).
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.SpiralTotalLength">
+            <summary>
+            The spiral total length (rule operand, STL).
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.ArcLength">
+            <summary>
+            The arc length (rule operand, AL).
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.LegLengths">
+            <summary>
+            The rebar leg lengths.
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.BendingRadii">
+            <summary>
+            The bending radii (rule operands, R1, R2, etc).
+            </summary>
+        </member>
+        <member name="P:Tekla.Structures.ModelInternal.RebarShapeRecognitionData.BendingAngles">
+            <summary>
+            The bending angles (rule operands, A1, A2, etc).
+            </summary>
         </member>
         <member name="T:Tekla.Structures.ModelInternal.PrintingController">
             <summary>
@@ -31981,17 +32578,17 @@
         <member name="T:Tekla.Structures.ModelInternal.dotUIModelObjectHighlighter_t">
             <exclude/>
         </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotUIModelObjectHighlighter_t.Functionality">
+        <member name="P:Tekla.Structures.ModelInternal.dotUIModelObjectHighlighter_t.Functionality">
             <summary>
             FunctionalityEnum
             </summary>
         </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotUIModelObjectHighlighter_t.nObjects">
+        <member name="P:Tekla.Structures.ModelInternal.dotUIModelObjectHighlighter_t.NObjects">
             <summary>
             Number of objects
             </summary>
         </member>
-        <member name="F:Tekla.Structures.ModelInternal.dotUIModelObjectHighlighter_t.aObjects">
+        <member name="P:Tekla.Structures.ModelInternal.dotUIModelObjectHighlighter_t.AObjects">
             <summary>
             Identifiers of model objects
             </summary>
@@ -32246,6 +32843,11 @@
         <member name="F:Tekla.Structures.ModelInternal.dotReferenceModel_t.aActiveFilePath">
             <summary>
             The path to the local copy of the current revision of the reference model.
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotReferenceModel_t.aTitle">
+            <summary>
+            Name(title) of the Reference Model
             </summary>
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotReferenceModel_t.Scale">
@@ -33075,6 +33677,11 @@
             Value indicating if this base point is the current base point.
             </summary>
         </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotBasePointData_t.IsLocked">
+            <summary>
+            Value indicating if this base point is Locked.
+            </summary>
+        </member>
         <member name="F:Tekla.Structures.ModelInternal.dotBasePointData_t.aGuid">
             <summary>
             The guid.
@@ -33550,6 +34157,11 @@
             The orientation line start point.
             </summary>
         </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarSet_t.FatherPartId">
+            <summary>
+            The father part ID.
+            </summary>
+        </member>
         <member name="T:Tekla.Structures.ModelInternal.dotRebarSetAddition_t">
             <summary>
             Struct for the Rebar set addition.
@@ -33728,6 +34340,9 @@
             <exclude/>
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotRebarComplexGeometry_t.LengthAdjustments">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotRebarComplexGeometry_t.Simplified">
             <exclude/>
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotRebarComplexGeometry_t.ClientIdentifier">
@@ -34359,7 +34974,13 @@
         <member name="M:Tekla.Structures.ModelInternal.CDelegateSynchronized.ExportGetSnapshotFromDatabase(Tekla.Structures.ModelInternal.dotEnumerator_t@,System.Boolean)">
             <exclude/>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateSynchronized.FetchModelObject(Tekla.Structures.Identifier,System.String,System.Boolean)">
+            <exclude/>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateSynchronized.ExportFetchFromDatabase(System.Collections.Generic.List{System.String}@,System.Boolean)">
+            <exclude/>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateSynchronized.ExportFetchFromDatabaseWithIds(System.Collections.Generic.List{System.Int32}@,System.Boolean)">
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateSynchronized.ExportGetSolidSerialized(Tekla.Structures.ModelInternal.dotSolid_t@,System.Collections.Generic.List{System.Collections.Generic.List{System.Collections.Generic.List{Tekla.Structures.Internal.dotPoint_t}}}@,System.Collections.Generic.List{Tekla.Structures.Internal.dotPoint_t}@,System.Collections.Generic.List{System.Int32}@,System.Collections.Generic.List{System.Int32}@)">
@@ -34826,6 +35447,9 @@
         <member name="M:Tekla.Structures.ModelInternal.CDelegateSynchronized.dotExportDeleteConversionLink(Tekla.Structures.ModelInternal.dotConversionLink_t@)">
             <exclude/>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateSynchronized.dotExportCheckObject1ModifiedAfterObject2(Tekla.Structures.Internal.dotIdentifier_t@,Tekla.Structures.Internal.dotIdentifier_t@)">
+            <exclude/>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateSynchronized.dotExportGetReferenceModelObjectByExternalGuid(System.Int32,Tekla.Structures.Internal.dotIdentifier_t@)">
             <exclude/>
         </member>
@@ -34869,6 +35493,14 @@
             <param name="objectId"></param>
             <param name="attributeName"></param>
             <param name="clientId"></param>
+            <returns></returns>
+            <exclude/>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateSynchronized.AutomatedTesting_BroadcastMessage(System.String)">
+            <summary>
+            DO NOT USE! For internal usage only.
+            </summary>
+            <param name="testMessage"></param>
             <returns></returns>
             <exclude/>
         </member>
@@ -35630,6 +36262,24 @@
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetRebarComplexGeometries(Tekla.Structures.ModelInternal.dotRebarComplexGeometry_t@,System.Collections.Generic.List{System.Collections.Generic.List{Tekla.Structures.ModelInternal.dotPolycurvePoint_t}}@)">
             <exclude/>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetRebarPluginData(Tekla.Structures.ModelInternal.dotRebarPluginData_t@,System.Collections.Generic.IList{System.Double}@,System.Collections.Generic.IList{System.Double}@,System.Collections.Generic.IList{System.Double}@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="data"></param>
+            <param name="bendingRadii"></param>
+            <param name="bendingAngles"></param>
+            <param name="legLengths"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetVirtualBarIdentifiersByGuid(Tekla.Structures.Internal.dotIdentifier_t@,System.Collections.Generic.IList{System.Int32}@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="inputId"></param>
+            <param name="outputIds"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportSelectRebarMesh(Tekla.Structures.ModelInternal.dotRebarMesh_t@)">
             <summary>
             DO NOT USE! For internal usage only!
@@ -36227,9 +36877,6 @@
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportBuildingSpacesOperation(Tekla.Structures.ModelInternal.dotBuildingSpacesSpaceOperation_t@,System.Collections.Generic.List{Tekla.Structures.ModelInternal.dotContourPoint_t}@)">
             <inheritdoc/>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportBuildingSpacesDrawAllSpaces">
-            <inheritdoc/>
-        </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportDeleteObject(Tekla.Structures.Internal.dotIdentifier_t@)">
             <summary>
             DO NOT USE! For internal usage only!
@@ -36279,11 +36926,12 @@
             <param name="RunningClashCheck"></param>
             <returns></returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportRunClashCheckWithOptions(System.Int32,System.Int32,System.Double,System.Int32)">
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportRunClashCheckWithOptions(System.Int32,System.Int32,System.Int32,System.Double,System.Int32)">
             <summary>
             DO NOT USE! For internal usage only!
             </summary>
             <param name="betweenReferenceModels"></param>
+            <param name="betweenReferenceModelsAndComponents"></param>
             <param name="objectsInsideReferenceModels"></param>
             <param name="minDistance"></param>
             <param name="betweenParts"></param>
@@ -36330,7 +36978,14 @@
             <param name="eventContent"></param>
             <returns></returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetCommitData(Tekla.Structures.Internal.dotIdentifier_t@,System.Int32@,System.Int32@,System.Int32@)">
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetViewIdFromCameraChangedEvent(System.Int32@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="pViewId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetCommitData(Tekla.Structures.Internal.dotIdentifier_t@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
             <summary>
             DO NOT USE! For internal usage only!
             </summary>
@@ -36338,6 +36993,7 @@
             <param name="pObjectType"></param>
             <param name="pObjectSubType"></param>
             <param name="pCommitType"></param>
+            <param name="pCommitSourceType"></param>
             <returns></returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetDotType(Tekla.Structures.ModelInternal.dotModelObject_t@)">
@@ -36532,6 +37188,12 @@
             DO NOT USE! For internal usage only!
             </summary>
             <param name="pNumberingQuery"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetIsNumberingAllowed">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetSimilarNumberedObjects(Tekla.Structures.Internal.dotIdentifier_t@,Tekla.Structures.ModelInternal.dotClientId_t@)">
@@ -36819,6 +37481,22 @@
             <param name="aPath"></param>
             <returns></returns>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ConvertTsGuidToIfcGuid(System.String,Tekla.Structures.ModelInternal.dotClientId_t@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="aTsGuid"></param>
+            <param name="pClientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.GetReferenceModelObjectCustomAttributes(System.Int32,Tekla.Structures.ModelInternal.dotClientId_t@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="refererenceModelObjectId"></param>
+            <param name="pClientId"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.GetAllowedReferenceModelFileExtensions(Tekla.Structures.ModelInternal.dotClientId_t@)">
             <summary>
             DO NOT USE! For internal usage only!
@@ -36826,10 +37504,11 @@
             <param name="pClientId">Client id.</param>
             <returns></returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.GetReferenceModelObjectFaces(Tekla.Structures.Internal.dotIdentifier_t@,Tekla.Structures.ModelInternal.dotClientId_t@)">
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.GetReferenceModelObjectFaces(System.Int32,Tekla.Structures.Internal.dotIdentifier_t@,Tekla.Structures.ModelInternal.dotClientId_t@)">
             <summary>
             DO NOT USE! For internal usage only!
             </summary>
+            <param name="maxFaceCount">The max face count.</param>
             <param name="pReferenceObjectIdentifier">The reference object identifier.</param>
             <param name="pClientId">Client id.</param>
             <returns></returns>
@@ -36945,11 +37624,27 @@
             <param name="pSaveAsWebModel"></param>
             <returns></returns>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportConvertPartToItem(System.Int32,System.Int32@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="partId">Part ID of the original part</param>
+            <param name="newItemId">Newly created item ID</param>
+            <returns></returns>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportManipulateObject(Tekla.Structures.ModelInternal.dotManipulateObject_t@)">
             <summary>
             DO NOT USE! For internal usage only!
             </summary>
             <param name="pArgument"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportObjectsMatchToFilter(Tekla.Structures.ModelInternal.dotClientId_t@,System.String)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="pClientId"></param>
+            <param name="FileName"></param>
             <returns></returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportObjectMatchesToFilter(Tekla.Structures.Internal.dotIdentifier_t@,System.String)">
@@ -37039,6 +37734,14 @@
             </summary>
             <param name="pIdentifier"></param>
             <param name="pTime"></param>
+            <param name="pLocallyModified"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportGetObjectNumberedStatus(Tekla.Structures.Internal.dotIdentifier_t@,System.Boolean@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="pIdentifier"></param>
             <param name="pLocallyModified"></param>
             <returns></returns>
         </member>
@@ -37433,6 +38136,14 @@
             <param name="externalGuid">The external guid.</param>
             <returns>The <see cref="T:System.Int32"/>.</returns>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportCheckObject1ModifiedAfterObject2(Tekla.Structures.Internal.dotIdentifier_t@,Tekla.Structures.Internal.dotIdentifier_t@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="object1">The model object 1 id.</param>
+            <param name="object2">The model object 2 id.</param>
+            <returns>The <see cref="T:System.Int32"/>.</returns>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportSetAdvancedOption(Tekla.Structures.Internal.dotGetAdvancedOption_t@)">
             <exclude/>
             <param name="pArgument"></param>
@@ -37477,6 +38188,14 @@
             DO NOT USE! For internal usage only!
             </summary>
             <param name="Guids"></param>
+            <param name="SelectInstances"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.ExportFetchFromDatabaseWithIds(System.Collections.Generic.List{System.Int32}@,System.Boolean)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="Ids"></param>
             <param name="SelectInstances"></param>
             <returns></returns>
         </member>
@@ -37909,6 +38628,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.CDelegateWrapper.AutomatedTesting_BroadcastMessage(System.String)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Tekla.Structures.ModelInternal.CoTaskMem`1">
             <summary>
             This class is used to ensure that memory allocated using AllocCoTaskMeme
@@ -38329,14 +39054,15 @@
             <param name="Param">Name of the event</param>
             <returns>1</returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.EventHandler.OnModelObjectChangedEvent(System.String,System.Collections.Generic.List{Tekla.Structures.Model.ModelObject},System.Collections.Generic.List{Tekla.Structures.Model.ModelObject},System.Collections.Generic.List{Tekla.Structures.Model.ChangeData.ChangeTypeEnum})">
+        <member name="M:Tekla.Structures.ModelInternal.EventHandler.OnModelObjectChangedEvent(System.String,System.Collections.Generic.List{Tekla.Structures.Model.ModelObject},System.Collections.Generic.List{Tekla.Structures.Model.ModelObject},System.Collections.Generic.List{Tekla.Structures.Model.ChangeData.ChangeTypeEnum},System.Collections.Generic.List{Tekla.Structures.Model.ChangeData.ChangeSourceTypeEnum})">
             <summary>
             sends changed objects event is raised to listeners.
             </summary>
             <param name="Param">Name of the event</param>
-            <param name="ChangedObjects">Name of the event</param>
+            <param name="ChangedObjects">Changed of the event</param>
             <param name="NumberedObjects">Name of the event</param>
-            <param name="CommitTypes">Name of the event</param>
+            <param name="CommitTypes">Type of the event</param>
+            <param name="CommitSourceTypes">Source of the event</param>
             <returns>1</returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.EventHandler.TimerSelectionChangedTick(System.Object,System.EventArgs)">
@@ -38356,6 +39082,11 @@
             started from .NET API.
             </summary>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.EventHandler.GetViewIdForCameraChangedEvent(System.Int32@)">
+            <summary>
+            Gets the view id for camera changed event
+            </summary>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.EventHandler.GetPointInputChangedEvent(System.Collections.Generic.List{Tekla.Structures.Model.ContourPoint}@)">
             <summary>
             Gets the latest command status change.
@@ -38371,7 +39102,7 @@
             Gets the track event change.
             </summary>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.EventHandler.GetCommitData(Tekla.Structures.Model.ModelObject@,System.Int32@)">
+        <member name="M:Tekla.Structures.ModelInternal.EventHandler.GetCommitData(Tekla.Structures.Model.ModelObject@,System.Int32@,System.Int32@)">
             <summary>
             Gets the commit event data.
             </summary>
@@ -39055,6 +39786,24 @@
         </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetRebarComplexGeometries(Tekla.Structures.ModelInternal.dotRebarComplexGeometry_t@,System.Collections.Generic.List{System.Collections.Generic.List{Tekla.Structures.ModelInternal.dotPolycurvePoint_t}}@)">
             <exclude/>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetRebarPluginData(Tekla.Structures.ModelInternal.dotRebarPluginData_t@,System.Collections.Generic.IList{System.Double}@,System.Collections.Generic.IList{System.Double}@,System.Collections.Generic.IList{System.Double}@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="data"></param>
+            <param name="bendingRadii"></param>
+            <param name="bendingAngles"></param>
+            <param name="legLengths"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetVirtualBarIdentifiersByGuid(Tekla.Structures.Internal.dotIdentifier_t@,System.Collections.Generic.IList{System.Int32}@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="inputId"></param>
+            <param name="outputIds"></param>
+            <returns></returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportSelectRebarMesh(Tekla.Structures.ModelInternal.dotRebarMesh_t@)">
             <summary>
@@ -39752,10 +40501,6 @@
             <param name="contour">The contour.</param>
             <returns>Positive if success.</returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportBuildingSpacesDrawAllSpaces">
-            <summary>DO NOT USE! For internal usage only!</summary>
-            <returns>Number of spaces drawn.</returns>
-        </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportDeleteObject(Tekla.Structures.Internal.dotIdentifier_t@)">
             <summary>
             DO NOT USE! For internal usage only!
@@ -39786,6 +40531,11 @@
             </summary>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportFetchFromDatabase(System.Collections.Generic.List{System.String}@,System.Boolean)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportFetchFromDatabaseWithIds(System.Collections.Generic.List{System.Int32}@,System.Boolean)">
             <summary>
             DO NOT USE! For internal usage only!
             </summary>
@@ -39852,11 +40602,12 @@
             <param name="RunningClashCheck"></param>
             <returns></returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportRunClashCheckWithOptions(System.Int32,System.Int32,System.Double,System.Int32)">
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportRunClashCheckWithOptions(System.Int32,System.Int32,System.Int32,System.Double,System.Int32)">
             <summary>
             DO NOT USE! For internal usage only!
             </summary>
             <param name="betweenReferenceModels"></param>
+            <param name="betweenReferenceModelsAndComponents"></param>
             <param name="objectsInsideReferenceModels"></param>
             <param name="minDistance"></param>
             <param name="betweenParts"></param>
@@ -39903,7 +40654,14 @@
             <param name="eventContent"></param>
             <returns></returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetCommitData(Tekla.Structures.Internal.dotIdentifier_t@,System.Int32@,System.Int32@,System.Int32@)">
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetViewIdFromCameraChangedEvent(System.Int32@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="pViewId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetCommitData(Tekla.Structures.Internal.dotIdentifier_t@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
             <summary>
             DO NOT USE! For internal usage only!
             </summary>
@@ -39911,6 +40669,7 @@
             <param name="pObjectType"></param>
             <param name="pObjectSubType"></param>
             <param name="pCommitType"></param>
+            <param name="pCommitSourceType"></param>
             <returns></returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetDotType(Tekla.Structures.ModelInternal.dotModelObject_t@)">
@@ -40105,6 +40864,12 @@
             DO NOT USE! For internal usage only!
             </summary>
             <param name="pNumberingQuery"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetIsNumberingAllowed">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetSimilarNumberedObjects(Tekla.Structures.Internal.dotIdentifier_t@,Tekla.Structures.ModelInternal.dotClientId_t@)">
@@ -40388,6 +41153,22 @@
             <param name="aPath"></param>
             <returns></returns>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ConvertTsGuidToIfcGuid(System.String,Tekla.Structures.ModelInternal.dotClientId_t@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="aTsGuid"></param>
+            <param name="pClientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.GetReferenceModelObjectCustomAttributes(System.Int32,Tekla.Structures.ModelInternal.dotClientId_t@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="refererenceModelObjectId"></param>
+            <param name="pClientId"></param>
+            <returns></returns>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.GetAllowedReferenceModelFileExtensions(Tekla.Structures.ModelInternal.dotClientId_t@)">
             <summary>
             DO NOT USE! For internal usage only!
@@ -40395,10 +41176,11 @@
             <param name="pClientId"></param>
             <returns></returns>
         </member>
-        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.GetReferenceModelObjectFaces(Tekla.Structures.Internal.dotIdentifier_t@,Tekla.Structures.ModelInternal.dotClientId_t@)">
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.GetReferenceModelObjectFaces(System.Int32,Tekla.Structures.Internal.dotIdentifier_t@,Tekla.Structures.ModelInternal.dotClientId_t@)">
             <summary>
             DO NOT USE! For internal usage only!
             </summary>
+            <param name="maxFaceCount"></param>
             <param name="pReferenceObjectIdentifier"></param>
             <param name="pClientId"></param>
             <returns></returns>
@@ -40506,11 +41288,27 @@
             <param name="pSaveAsWebModel"></param>
             <returns></returns>
         </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportConvertPartToItem(System.Int32,System.Int32@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="partId">Part ID of the original part</param>
+            <param name="newItemId">Newly created item ID</param>
+            <returns></returns>
+        </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportManipulateObject(Tekla.Structures.ModelInternal.dotManipulateObject_t@)">
             <summary>
             DO NOT USE! For internal usage only!
             </summary>
             <param name="pArgument"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportObjectsMatchToFilter(Tekla.Structures.ModelInternal.dotClientId_t@,System.String)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="pClientId"></param>
+            <param name="FileName"></param>
             <returns></returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportObjectMatchesToFilter(Tekla.Structures.Internal.dotIdentifier_t@,System.String)">
@@ -40601,6 +41399,14 @@
             <param name="pIdentifier"></param>
             <param name="pTime"></param>
             <param name="pLocallyModified"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetObjectNumberedStatus(Tekla.Structures.Internal.dotIdentifier_t@,System.Boolean@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="pIdentifier"></param>
+            <param name="pLocallyNumbered"></param>
             <returns></returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetPhaseNumbers(Tekla.Structures.ModelInternal.dotPhaseNumbers_t@)">
@@ -40837,6 +41643,14 @@
             </summary>
             <param name="referenceModelId"></param>
             <param name="externalGuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportCheckObject1ModifiedAfterObject2(Tekla.Structures.Internal.dotIdentifier_t@,Tekla.Structures.Internal.dotIdentifier_t@)">
+            <summary>
+            DO NOT USE! For internal usage only!
+            </summary>
+            <param name="object1"></param>
+            <param name="object2"></param>
             <returns></returns>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportSetAdvancedOption(Tekla.Structures.Internal.dotGetAdvancedOption_t@)">
@@ -41127,6 +41941,9 @@
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.ModelInternal.ICDelegate.ExportGetObjectAttribute(System.Int32,System.String,Tekla.Structures.ModelInternal.dotClientId_t@)">
+            <exclude/>
+        </member>
+        <member name="M:Tekla.Structures.ModelInternal.ICDelegate.AutomatedTesting_BroadcastMessage(System.String)">
             <exclude/>
         </member>
         <member name="T:Tekla.Structures.ModelInternal.IEventHandler">
@@ -43766,6 +44583,12 @@
             <exclude/>
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotViewVisibilitySettings_t.ReferenceObjectsVisible">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotViewVisibilitySettings_t.BuildingVisible">
+            <exclude/>
+        </member>
+        <member name="F:Tekla.Structures.ModelInternal.dotViewVisibilitySettings_t.BuildingSpaceVisible">
             <exclude/>
         </member>
         <member name="F:Tekla.Structures.ModelInternal.dotViewVisibilitySettings_t.PointsVisibleInComponents">
