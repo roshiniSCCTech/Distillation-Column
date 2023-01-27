@@ -24,7 +24,7 @@ namespace DistillationColumn
         double startAngle;
         double endAngle;
         double elevation;
-        double width = 460;
+        double width = 470;
         double rungSpacing;
         double obstructionDist;
         double ladderBase = 0;

@@ -174,17 +174,12 @@ namespace DistillationColumn
 
 
             for (int i = 0; i < arcLengthList.Count; i++)
-            {
-                    //if only one distance available
-
+            {                  
                 if (i > 0)
                 {
                     point2 = _tModel.ShiftAlongCircumferenceRad(point2, arcLengthList[i - 1] + 500, 2);
                 }
-            
-
-
-           
+                      
                 handrail.SetAttribute("Radius", gratingOuterRadius);
                 handrail.SetAttribute("Arc_Length", arcLengthList[i]);
                 handrail.SetAttribute("P1", 1);
@@ -200,12 +195,12 @@ namespace DistillationColumn
                 if ((startAngle==extensionStartAngle && startAngle !=platformStartAngle) && i==0)
                 {
                     handrail.SetAttribute("startBend", 0);
-                    arcLengthList[i] = arcLengthList[i] + 155;
+                    arcLengthList[i] = arcLengthList[i] + 150;
                     handrail.SetAttribute("Arc_Length", arcLengthList[i]);
                     handrail.SetAttribute("firstPost", 0);
                     handrail.Position.PlaneOffset = 0.0;
                     point2 = _tModel.ShiftHorizontallyRad(point1, gratingOuterRadius, 1, startAngle * (Math.PI / 180));
-                    point2 = _tModel.ShiftAlongCircumferenceRad(point2, 94, 2);
+                    point2 = _tModel.ShiftAlongCircumferenceRad(point2, 100, 2);
                     ContourPoint tPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(point1, (radius+25+10+50)+distanceFromStack+platformLength, 1, startAngle*Math.PI/180), null);
                 
                     tPoint = _tModel.ShiftVertically(tPoint, 1075);
@@ -222,7 +217,7 @@ namespace DistillationColumn
                 else if ((endAngle == extensionEndAngle && endAngle!=platformEndAngle) && i == arcLengthList.Count-1)
                 {
                     handrail.SetAttribute("endBend", 0);
-                    arcLengthList[i] = arcLengthList[i] + 160;
+                    arcLengthList[i] = arcLengthList[i] + 150;
                     handrail.SetAttribute("Arc_Length", arcLengthList[i]);
                     handrail.SetAttribute("thirdPost", 0);
                     ContourPoint tPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(point1, (radius+25+10+50) + distanceFromStack + platformLength, 1, endAngle*Math.PI/180),null);
@@ -244,19 +239,10 @@ namespace DistillationColumn
                 {
                     CreateWeldAlongCircumference(point2, arcLengthList[i], false, false);
                 }
-                handrail.SetInputPositions(point1, point2);
-            
-
-
-
+                handrail.SetInputPositions(point1, point2);           
                 handrail.Insert();
                 handrail.SetAttribute("P1", 0);
                 handrail.Modify();
-
-               
-
-
-
 
             }
             _tModel.Model.CommitChanges();
@@ -271,11 +257,11 @@ namespace DistillationColumn
 
             double totalArcLength;
             double totalAngle;
-
-            //when ladder is in between extensions start angle and end angle
+            double tempEndAngle = endAngle;
+            //when ladder is in between start angle and end angle
             if ((startAngle) < ladderOrientation && (endAngle) > ladderOrientation)
             {
-              
+                theta = 180 / Math.PI * (Math.Atan((ladderWidth) / (gratingOuterRadius * 2)));
                 endAngle = ladderOrientation - theta;
                 totalAngle = endAngle - startAngle;
                 totalArcLength = Math.Abs(2 * Math.PI * gratingOuterRadius * (totalAngle / 360));
@@ -284,9 +270,8 @@ namespace DistillationColumn
                 createHandrail1();
                 arcLengthList.Clear();
                 startAngle = ladderOrientation + theta;
-                endAngle = extensionEndAngle;
+                endAngle = tempEndAngle;
             }
-
             totalAngle = endAngle - startAngle;
             totalArcLength = Math.Abs(2 * Math.PI * gratingOuterRadius * (totalAngle / 360));
             calculateArcLengthOfCircularHandrail(totalArcLength);
@@ -295,6 +280,7 @@ namespace DistillationColumn
             arcLengthList.Clear();
 
         }
+
         void calculateArcLengthOfCircularHandrail(double totalArcLength)
         {
           double tempArcLength = 0.0;
@@ -335,8 +321,8 @@ namespace DistillationColumn
 
                     else if (arcLengthList[i] > 2500)
                     {
-                        arcLengthList.Add((arcLengthList[i] - 1100) / 2);
-                        arcLengthList.Add((arcLengthList[i] - 1100) / 2);
+                        arcLengthList.Add((arcLengthList[i] - 1000) / 2);
+                        arcLengthList.Add((arcLengthList[i] - 1000) / 2);
                         arcLengthList.RemoveAt(i);
                     }
 
