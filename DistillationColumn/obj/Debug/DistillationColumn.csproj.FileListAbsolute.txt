@@ -1,25 +1,3 @@
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.AssemblyReference.cache
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.Form1.resources
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.Properties.Resources.resources
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.GenerateResource.cache
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.CoreCompileInputs.cache
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\DistillationColumn.exe.config
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\DistillationColumn.exe
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\DistillationColumn.pdb
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\HelperLibrary.dll
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.Datatype.dll
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.dll
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.Model.dll
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\HelperLibrary.pdb
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.xml
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.Datatype.xml
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.Model.xml
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.CopyComplete
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.exe
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.pdb
-C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.SuggestedBindingRedirects.cache
 C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\DistillationColumn\bin\Debug\DistillationColumn.exe.config
 C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\DistillationColumn\bin\Debug\DistillationColumn.exe
 C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\DistillationColumn\bin\Debug\DistillationColumn.pdb
@@ -85,3 +63,25 @@ D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationCol
 D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.csproj.CopyComplete
 D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.exe
 D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationColumn.pdb
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\DistillationColumn.exe.config
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\DistillationColumn.exe
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\DistillationColumn.pdb
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\HelperLibrary.dll
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.Datatype.dll
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.dll
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.Model.dll
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\HelperLibrary.pdb
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.xml
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.Datatype.xml
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\bin\Debug\Tekla.Structures.Model.xml
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.AssemblyReference.cache
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.SuggestedBindingRedirects.cache
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.Form1.resources
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.Properties.Resources.resources
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.GenerateResource.cache
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.CoreCompileInputs.cache
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.csproj.CopyComplete
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.exe
+C:\Users\Roshini S\source\repos\DistillationColumn\DistillationColumn\obj\Debug\DistillationColumn.pdb
