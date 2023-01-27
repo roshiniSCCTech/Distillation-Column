@@ -79,7 +79,7 @@ namespace DistillationColumn
                 TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, width / 2, 1);
                 double number = width / plateWidth;
 
-                for (int i = 0; i <= number; i++)
+                for (int i = 0; i < number; i++)
                 {
                     if ((i + 1)* plateWidth <= width)
                     { 
