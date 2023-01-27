@@ -200,7 +200,7 @@ namespace DistillationColumn
                     handrail.SetAttribute("firstPost", 0);
                     handrail.Position.PlaneOffset = 0.0;
                     point2 = _tModel.ShiftHorizontallyRad(point1, gratingOuterRadius, 1, startAngle * (Math.PI / 180));
-                    point2 = _tModel.ShiftAlongCircumferenceRad(point2, 100, 2);
+                    point2 = _tModel.ShiftAlongCircumferenceRad(point2, 90, 2);
                     ContourPoint tPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(point1, (radius+25+10+50)+distanceFromStack+platformLength, 1, startAngle*Math.PI/180), null);
                 
                     tPoint = _tModel.ShiftVertically(tPoint, 1075);
@@ -217,7 +217,7 @@ namespace DistillationColumn
                 else if ((endAngle == extensionEndAngle && endAngle!=platformEndAngle) && i == arcLengthList.Count-1)
                 {
                     handrail.SetAttribute("endBend", 0);
-                    arcLengthList[i] = arcLengthList[i] + 150;
+                    arcLengthList[i] = arcLengthList[i] + 160;
                     handrail.SetAttribute("Arc_Length", arcLengthList[i]);
                     handrail.SetAttribute("thirdPost", 0);
                     ContourPoint tPoint = new ContourPoint(_tModel.ShiftHorizontallyRad(point1, (radius+25+10+50) + distanceFromStack + platformLength, 1, endAngle*Math.PI/180),null);
