@@ -87,7 +87,7 @@ namespace DistillationColumn
                     CPart.SetAttribute("P3", number_of_plates);
                     CPart.SetAttribute("P10", width);
                     CPart.SetAttribute("P1", radius);
-                    CPart.Modify();
+                    //CPart.Modify();
 
                     _tModel.Model.CommitChanges();
                 }

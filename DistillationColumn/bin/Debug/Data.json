@@ -214,18 +214,18 @@
   "Ladder": [
     {
       "Elevation": 5000,
-      "Orientation_Angle": 0,
+      "Orientation_Angle": 60,
       "Platform_Width": 990,
       "Platform_Length": 1200,
       "Platform_Start_Angle": 0,
-      "Platfrom_End_Angle": 120,
+      "Platfrom_End_Angle": 170,
       "Distance_From_Stack": 200,
       "Gap_Between_Grating_Plate": 6,
       "Grating_Thickness": 25,
       "Rungs_spacing": 500,
       "Extended_Length": 1000,
-      "Extended_Start_Angle": 0,
-      "Extended_End_Angle": 90,
+      "Extended_Start_Angle": 140,
+      "Extended_End_Angle": 170,
       "Obstruction_Distance": 200
     },
     {
@@ -246,7 +246,7 @@
     },
     {
       "Elevation": 16000,
-      "Orientation_Angle": 360,
+      "Orientation_Angle": 90,
       "Platform_Width": 990,
       "Platform_Length": 1200,
       "Platform_Start_Angle": 20,
@@ -256,7 +256,7 @@
       "Grating_Thickness": 25,
       "Rungs_spacing": 400,
       "Extended_Length": 500,
-      "Extended_Start_Angle": 100,
+      "Extended_Start_Angle": 150,
       "Extended_End_Angle": 270,
       "Obstruction_Distance": 200
     }

@@ -9,6 +9,7 @@ using Tekla.Structures.Catalogs;
 
 namespace DistillationColumn
 {
+
     internal class ImportCustomComponent
     {
         Globals _global;
@@ -23,10 +24,10 @@ namespace DistillationColumn
 
         void ImportComponent()
         {
-            CatalogHandler c=new CatalogHandler();
-            bool d=c.ImportCustomComponentItems(@"D:\\custom_components\\");
-           // if (new CatalogHandler().ImportCustomComponentItems("D:\\custom_components"))
-                //Console.WriteLine("Custom components imported successfully to catalog.");
+            CatalogHandler component=new CatalogHandler();
+            var currentDirectory = System.IO.Directory.GetCurrentDirectory();          
+            component.ImportCustomComponentItems(currentDirectory+"\\CustomComponents");
+          
         }
     }
 
