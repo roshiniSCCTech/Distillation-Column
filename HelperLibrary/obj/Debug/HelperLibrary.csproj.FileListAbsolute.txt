@@ -50,6 +50,7 @@ C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\obj\Debug\Helpe
 C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
 C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\obj\Debug\HelperLibrary.dll
 C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\obj\Debug\HelperLibrary.pdb
+D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.dll.config
 D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.dll
 D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\HelperLibrary.pdb
 D:\Tekla Basics\Distillation-Column\HelperLibrary\bin\Debug\Tekla.Structures.Catalogs.dll

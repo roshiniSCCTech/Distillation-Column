@@ -24,7 +24,7 @@ namespace DistillationColumn
         void ImportComponent()
         {
             CatalogHandler c=new CatalogHandler();
-            c.ImportCustomComponentItems(@"D:\\custom_components\\");
+            bool d=c.ImportCustomComponentItems(@"D:\\custom_components\\");
            // if (new CatalogHandler().ImportCustomComponentItems("D:\\custom_components"))
                 //Console.WriteLine("Custom components imported successfully to catalog.");
         }

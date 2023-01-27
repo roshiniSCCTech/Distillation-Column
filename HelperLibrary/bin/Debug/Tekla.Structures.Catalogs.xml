@@ -3485,21 +3485,6 @@
             Gets or sets the crank extra offset.
             </summary>
         </member>
-        <member name="P:Tekla.Structures.Catalogs.RebarItem.ExtraPointShortening">
-            <summary>
-            Gets or sets the extra point shortening.
-            </summary>
-        </member>
-        <member name="P:Tekla.Structures.Catalogs.RebarItem.CurveTolerance">
-            <summary>
-            Gets or sets the curve tolerance.
-            </summary>
-        </member>
-        <member name="P:Tekla.Structures.Catalogs.RebarItem.MaxRadiusRequiringBending">
-            <summary>
-            Gets or sets the max radius requiring bending.
-            </summary>
-        </member>
         <member name="M:Tekla.Structures.Catalogs.RebarItem.Select(System.String,System.String,System.Double)">
             <summary>
             Selects the rebar item in the rebar database.
@@ -3616,12 +3601,6 @@
             </example>
             <param name="filename">The export file name of the item.</param>
             <returns>True on success.</returns>
-        </member>
-        <member name="M:Tekla.Structures.Catalogs.RebarItem.FromStruct(Tekla.Structures.Catalogs.RebarItem)">
-            <summary>
-            Assigns the properties of the specified rebar item to this one.
-            </summary>
-            <param name="rebarItem">The rebar item.</param>
         </member>
         <member name="T:Tekla.Structures.Catalogs.RebarItemEnumerator">
             <summary>
@@ -6395,21 +6374,6 @@
             The crank extra offset list.
             </summary>
         </member>
-        <member name="F:Tekla.Structures.CatalogInternal.RebarItemEnumerator_t.ExtraPointShortening">
-            <summary>
-            The extra point shortening list.
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.CatalogInternal.RebarItemEnumerator_t.CurveTolerance">
-            <summary>
-            The curve tolerance list.
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.CatalogInternal.RebarItemEnumerator_t.MaxRadiusRequiringBending">
-            <summary>
-            The max radius requiring bending list.
-            </summary>
-        </member>
         <member name="F:Tekla.Structures.CatalogInternal.RebarItemEnumerator_t.HeaderItems">
             <summary>
             The header items.
@@ -6941,10 +6905,10 @@
         <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.ModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,Tekla.Structures.CatalogInternal.dotcatShape_t@)">
             <exclude/>
         </member>
-        <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.CleanAndModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t@,System.Boolean@)">
+        <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.CleanAndModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,System.Boolean@)">
             <exclude/>
         </member>
-        <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.CleanAndModifyShapeByName(System.String,Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t@,System.Boolean@)">
+        <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.CleanAndModifyShapeByName(System.String,System.Boolean@)">
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.RenameShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,System.String)">
@@ -7254,10 +7218,10 @@
         <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.dotcatModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,Tekla.Structures.CatalogInternal.dotcatShape_t@)">
             <exclude/>
         </member>
-        <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.dotcatCleanAndModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t@,System.Boolean@)">
+        <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.dotcatCleanAndModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,System.Boolean@)">
             <exclude/>
         </member>
-        <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.dotcatCleanAndModifyShapeByName(System.String,Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t@,System.Boolean@)">
+        <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.dotcatCleanAndModifyShapeByName(System.String,System.Boolean@)">
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.CatalogInternal.CDelegateSynchronized.dotcatRenameShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,System.String)">
@@ -7612,10 +7576,10 @@
         <member name="M:Tekla.Structures.CatalogInternal.CDelegateWrapper.ModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,Tekla.Structures.CatalogInternal.dotcatShape_t@)">
             <exclude/>
         </member>
-        <member name="M:Tekla.Structures.CatalogInternal.CDelegateWrapper.CleanAndModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t@,System.Boolean@)">
+        <member name="M:Tekla.Structures.CatalogInternal.CDelegateWrapper.CleanAndModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,System.Boolean@)">
             <exclude/>
         </member>
-        <member name="M:Tekla.Structures.CatalogInternal.CDelegateWrapper.CleanAndModifyShapeByName(System.String,Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t@,System.Boolean@)">
+        <member name="M:Tekla.Structures.CatalogInternal.CDelegateWrapper.CleanAndModifyShapeByName(System.String,System.Boolean@)">
             <exclude/>
         </member>
         <member name="M:Tekla.Structures.CatalogInternal.CDelegateWrapper.RenameShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,System.String)">
@@ -8082,22 +8046,20 @@
             <param name="result">result from modify</param>
             <returns>true (1) on success, false(0) otherwise</returns>
         </member>
-        <member name="M:Tekla.Structures.CatalogInternal.ICDelegate.CleanAndModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t@,System.Boolean@)">
+        <member name="M:Tekla.Structures.CatalogInternal.ICDelegate.CleanAndModifyShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,System.Boolean@)">
             <summary>
             DO NOT USE! For internal usage only! Clean and modify a shape.
             </summary>
             <param name="pInput">input shape info</param>
-            <param name="cleaningParams">cleaning parameters</param>
-            <param name="pIsSolid">output value for solidity of shape, true if it is a solid</param>
+            <param name="pIsSolid">output value for solidity of shape, true if it is a solid</param>/// 
             <returns>true (1) on success, false(0) otherwise</returns>
         </member>
-        <member name="M:Tekla.Structures.CatalogInternal.ICDelegate.CleanAndModifyShapeByName(System.String,Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t@,System.Boolean@)">
+        <member name="M:Tekla.Structures.CatalogInternal.ICDelegate.CleanAndModifyShapeByName(System.String,System.Boolean@)">
             <summary>
             DO NOT USE! For internal usage only! Clean and modify a shape, do the selection by shape name.
             </summary>
             <param name="name">The name, as in the Shape Catalog, of the shape to be cleaned</param>
-            <param name="cleaningParams">cleaning parameters</param>
-            <param name="isSolid">output value for solidity of shape, true if it is a solid</param>
+            <param name="isSolid">output value for solidity of shape, true if it is a solid</param>/// 
             <returns>true (1) on success, false(0) otherwise</returns>
         </member>
         <member name="M:Tekla.Structures.CatalogInternal.ICDelegate.RenameShape(Tekla.Structures.CatalogInternal.dotcatShape_t@,System.String)">
@@ -8700,12 +8662,11 @@
             false otherwise
             </returns>
         </member>
-        <member name="M:Tekla.Structures.CatalogInternal.ShapeHandler.CleanAndModifyByName(System.String,Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t@,System.Boolean@)">
+        <member name="M:Tekla.Structures.CatalogInternal.ShapeHandler.CleanAndModifyByName(System.String,System.Boolean@)">
             <summary>
             Selects a shape by its name, then cleans and stores the shape into the shape catalog
             </summary>
             <param name="name">An input parameter that defines the name of the shape to clean</param>
-            <param name="cleaningParams">A reference to the shape cleaning parameters</param>
             <param name="isSolid">A reference that will get set to true if the result is a solid</param>
             <returns>True if cleaning and storing to catalog was successful</returns>
         </member>
@@ -9070,30 +9031,6 @@
             Defines BrepType of shapes.
             </summary>
         </member>
-        <member name="T:Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t">
-            <summary>
-            The shape cleaning parameters to control the result of the cleaning. It is the "twin" of dotcatShapeCleanParams_t in
-            TeklaStructures.sln. If you add fields here, make the same changes there.
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t.EdgeVisibilityThresholdAngleInDegrees">
-            <summary>
-            Defines an angle in degrees that is used to decide whether an edge in the polymesh of the shape is
-            considered to be invisible or visible. See the following two booleans for more related info.
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t.ChangeEdgesToInvisible">
-            <summary>
-            Set this to true if you want VISIBLE edges, that have a neighbor face normal vector angle difference less than
-            EdgeVisibilityThresholdAngle to be set as INVISIBLE in the cleaned shape, false otherwise.
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.CatalogInternal.dotcatShapeCleanParams_t.ChangeEdgesToVisible">
-            <summary>
-            Set this to true if you want INVISIBLE edges, that have a neighbor face normal vector angle difference greater than
-            EdgeVisibilityThresholdAngle to be set as VISIBLE in the cleaned shape, false otherwise.
-            </summary>
-        </member>
         <member name="T:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum">
             <summary>
             Represents data type or measurement unit of the specific metadata
@@ -9105,44 +9042,34 @@
             Default value is text
             </summary>
         </member>
-        <member name="F:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum.DateTime">
+        <member name="F:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum.Number">
             <summary>
-            Date
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum.Integer">
-            <summary>
-            Integer
-            </summary>
-        </member>
-        <member name="F:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum.Double">
-            <summary>
-            Double, here precision controlled by TS-> Menu-> Settings-> Options-> Units and decimals -> Modeling -> Factor
-            "XS_UNITDECIMALS_INPUT_FACTOR"
+            Number
             </summary>
         </member>
         <member name="F:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum.Length">
             <summary>
-            Unit of length, here length refers to TS-> Menu-> Settings-> Options-> Units and decimals -> Catalogs -> Dimension.
-            "XS_UNIT_INPUT_DIMENSION", "XS_UNITDECIMALS_INPUT_DIMENSION"
+            Unit of length
             </summary>
         </member>
         <member name="F:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum.Area">
             <summary>
-            Unit of area, here area refers to TS-> Menu-> Settings-> Options-> Units and decimals -> Catalogs -> Area.
-            "XS_UNIT_INPUT_AREA", "XS_UNITDECIMALS_INPUT_AREA"
+            Unit of area
             </summary>
         </member>
         <member name="F:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum.Volume">
             <summary>
-            Unit of volume, here volume refers to TS-> Menu-> Settings-> Options-> Units and decimals -> Catalogs -> Volume.
-            "XS_UNIT_INPUT_VOLUME", "XS_UNITDECIMALS_INPUT_VOLUME"
+            Unit of volume
             </summary>
         </member>
         <member name="F:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum.Weight">
             <summary>
-            Unit of weight, here weight refers to TS-> Menu-> Settings-> Options-> Units and decimals -> Catalogs -> Weight.
-            "XS_UNIT_INPUT_WEIGHT", "XS_UNITDECIMALS_INPUT_WEIGHT"
+            Unit of weight
+            </summary>
+        </member>
+        <member name="F:Tekla.Structures.CatalogInternal.ShapeMetadataTypeEnum.DateTime">
+            <summary>
+            Date
             </summary>
         </member>
         <member name="T:Tekla.Structures.CatalogInternal.ShapeMetadata">
