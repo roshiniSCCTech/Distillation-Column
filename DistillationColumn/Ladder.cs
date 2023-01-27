@@ -424,7 +424,9 @@ namespace DistillationColumn
             ladderLeftTopPoint = _tModel.ShiftHorizontallyRad(ladderLeftTopPoint, distance, 3, orientationAngle);
             TSM.ContourPoint ladderLeftBottomPoint = _tModel.ShiftVertically(leftrungmidpoint, -60);
             ladderLeftBottomPoint = _tModel.ShiftHorizontallyRad(ladderLeftBottomPoint, 50, 3);
-            ladderLeftBottomPoint = _tModel.ShiftHorizontallyRad(ladderLeftBottomPoint, distance, 3, orientationAngle);
+            ladderLeftBottomPoint = _tModel.ShiftHorizontallyRad(ladderLeftBottomPoint, distance, 1, orientationAngle);
+
+
             TSM.ContourPoint leftbackTopPoint = _tModel.ShiftHorizontallyRad(ladderLeftTopPoint, 75 + 30, 3, orientationAngle);
             TSM.ContourPoint leftbackBottomPoint = _tModel.ShiftHorizontallyRad(ladderLeftBottomPoint, 75 + 30, 3, orientationAngle);
 
