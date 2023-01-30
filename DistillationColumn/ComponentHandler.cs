@@ -18,7 +18,7 @@ namespace DistillationColumn
             _global = global;
             _tModel = teklaModel;
 
-            new ImportCustomComponent(_global, _tModel);
+            //new ImportCustomComponent(_global, _tModel);
 
             new Stack(_global, _tModel);
 
