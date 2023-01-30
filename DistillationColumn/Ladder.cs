@@ -79,7 +79,7 @@ namespace DistillationColumn
             List<JToken> ladderBaseList = _global.JData["chair"].ToList();
             foreach (JToken ladder in ladderBaseList)
             {
-                ladderBase = (float)ladder["height"];
+                ladderBase = (float)ladder["height"]+ (float)ladder["top_ring_thickness"] + (float)ladder["bottom_ring_thickness"];
             }
         }
 
@@ -105,6 +105,10 @@ namespace DistillationColumn
                             count++;
                     }
                 }
+                if (count1 == _ladderList.Count - 1)
+                {
+                    Height = elevation - ladderBase + 500;
+                }
 
                 TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
                 TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, ladderBase);
@@ -122,9 +126,11 @@ namespace DistillationColumn
                 TSM.ContourPoint point11 = _tModel.ShiftVertically(point1, Height);
                 double radius1 = _tModel.GetRadiusAtElevation(point11.Z, _global.StackSegList, true);
                 point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
-                if (elevation + Height > 68000)
+                int lastStackCount = _global.StackSegList.Count - 1;
+                double stackElevation = _global.StackSegList[lastStackCount][4] + _global.StackSegList[lastStackCount][3];
+                if (elevation + Height >= stackElevation)
                 {
-                    radius1 = 600;
+                    radius1 = (_global.StackSegList[lastStackCount][1]) / 2;                    
                     point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
                 }
 

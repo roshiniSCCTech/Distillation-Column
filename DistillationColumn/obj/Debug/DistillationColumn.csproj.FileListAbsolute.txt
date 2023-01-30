@@ -113,3 +113,6 @@ D:\Tekla Basics\Distillation-Column\DistillationColumn\obj\Debug\DistillationCol
 D:\Tekla Project\Distillation-Column\DistillationColumn\bin\Debug\Tekla.Structures.Catalogs.dll
 D:\Tekla Project\Distillation-Column\DistillationColumn\bin\Debug\HelperLibrary.dll.config
 D:\Tekla Project\Distillation-Column\DistillationColumn\bin\Debug\Tekla.Structures.Catalogs.xml
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\DistillationColumn\bin\Debug\Tekla.Structures.Catalogs.dll
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\DistillationColumn\bin\Debug\HelperLibrary.dll.config
+C:\Users\Supriya Chaugule\Desktop\Tekla projects\Distillation-Column\DistillationColumn\bin\Debug\Tekla.Structures.Catalogs.xml
