@@ -326,7 +326,7 @@ namespace DistillationColumn
                         arcLengthList.RemoveAt(i);
                     }
 
-                    //To create only single handrail minimum 1200 distance is required 
+                    //To create only single handrail minimum 1100 distance is required 
                     else if (arcLengthList[0] < 1100)
                     {
                         arcLengthList.Clear();
