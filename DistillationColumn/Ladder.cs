@@ -196,7 +196,7 @@ namespace DistillationColumn
                 if (Height > 3000)
                 {
                     Detail D = new Detail();
-                    D.Name = "ladderHoop1";
+                    D.Name = "LadderHoop";
                     D.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
                     D.LoadAttributesFromFile("standard");
                     D.UpVector = new Vector(0, 0, 0);
