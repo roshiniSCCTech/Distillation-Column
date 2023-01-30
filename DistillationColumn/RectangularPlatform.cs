@@ -9,7 +9,6 @@ using T3D = Tekla.Structures.Geometry3d;
 using Tekla.Structures.Model;
 using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
-//using Render;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.IO.Ports;
 using Tekla.Structures.Geometry3d;
@@ -113,7 +112,7 @@ namespace DistillationColumn
         public void CreateHandRailParallelToXAxis()
         {
 
-            ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation);
+            ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation-100);
             for (int j = 0; j < 2; j++)
             {
                 CalculateDistanceBetweenPost(width);
@@ -121,19 +120,20 @@ namespace DistillationColumn
                 ContourPoint sPoint = new ContourPoint();
                 ContourPoint ePoint = new ContourPoint();
 
-
+               
                 if (j == 0)
                 {
+                    
                     sPoint = new ContourPoint(new T3D.Point((origin.X + (width / 2)), origin.Y, origin.Z), null);
-                    sPoint = new ContourPoint(new T3D.Point((sPoint.X - 250 - (_distanceLengthList[0] / 2) - 50), sPoint.Y, sPoint.Z), null);
+                    sPoint = new ContourPoint(new T3D.Point((sPoint.X - 250 - (_distanceLengthList[0] / 2) ), sPoint.Y, sPoint.Z), null);
                     ePoint = new ContourPoint(new T3D.Point(sPoint.X, sPoint.Y + (height / 2), sPoint.Z), null);
                 }
 
                 else
                 {
-
+                    
                     sPoint = new ContourPoint(new T3D.Point((origin.X - (width / 2)), origin.Y, origin.Z), null);
-                    sPoint = new ContourPoint(new T3D.Point((sPoint.X + 250 + (_distanceLengthList[0] / 2) + 50), sPoint.Y, sPoint.Z), null);
+                    sPoint = new ContourPoint(new T3D.Point((sPoint.X + 250 + (_distanceLengthList[0] / 2)), sPoint.Y, sPoint.Z), null);
                     ePoint = new ContourPoint(new T3D.Point(sPoint.X, sPoint.Y - (height / 2), sPoint.Z), null);
 
 
@@ -153,10 +153,10 @@ namespace DistillationColumn
 
 
                     CPart.SetInputPositions(sPoint, ePoint);
+                    CPart.SetAttribute("width", (height / 2) + 60);
 
-                    CPart.SetAttribute("width", height / 2);
                     CPart.SetAttribute("distance", _distanceLengthList[i]);
-                    CPart.SetAttribute("P2", 0);
+                  
 
                     bool b = CPart.Insert();
 
@@ -164,17 +164,20 @@ namespace DistillationColumn
                     {
                         if (j == 0)
                         {
-                            sPoint = new ContourPoint(new T3D.Point((sPoint.X - (250 + _distanceLengthList[i] / 2) - (250 + _distanceLengthList[i + 1] / 2) - 100), sPoint.Y, sPoint.Z), null);
+                            sPoint = new ContourPoint(new T3D.Point((sPoint.X - (250 + _distanceLengthList[i] / 2) - (250 + _distanceLengthList[i + 1] / 2)), sPoint.Y, sPoint.Z), null);
                             ePoint = new ContourPoint(new T3D.Point(sPoint.X, sPoint.Y + (height / 2), sPoint.Z), null);
                         }
                         else
                         {
-                            sPoint = new ContourPoint(new T3D.Point((sPoint.X + (250 + _distanceLengthList[i] / 2) + (250 + _distanceLengthList[i + 1] / 2) + 100), sPoint.Y, sPoint.Z), null);
+                            sPoint = new ContourPoint(new T3D.Point((sPoint.X + (250 + _distanceLengthList[i] / 2) + (250 + _distanceLengthList[i + 1] / 2)), sPoint.Y, sPoint.Z), null);
                             ePoint = new ContourPoint(new T3D.Point(sPoint.X, sPoint.Y - (height / 2), sPoint.Z), null);
 
                         }
                     }
-
+                    CPart.SetAttribute("P2", 0);
+                    CPart.Modify();
+                    
+                    
 
                 }
                 _distanceLengthList.Clear();
@@ -184,7 +187,7 @@ namespace DistillationColumn
         public void CreateHandRailParallelToYAxis()
         {
 
-            ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation);
+            ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation-100);
             for (int j = 0; j < 2; j++)
             {
                 CalculateDistanceBetweenPost(height);
@@ -194,7 +197,7 @@ namespace DistillationColumn
 
                 if (j == 0)
                 {
-                    sPoint = new ContourPoint(new T3D.Point((origin.X), origin.Y + (height / 2)-50, origin.Z), null);
+                    sPoint = new ContourPoint(new T3D.Point((origin.X), origin.Y + (height / 2), origin.Z), null);
                     sPoint = new ContourPoint(new T3D.Point((sPoint.X), sPoint.Y - 250 - (_distanceLengthList[0] / 2), sPoint.Z), null);
                     ePoint = new ContourPoint(new T3D.Point(sPoint.X + (width / 2), sPoint.Y, sPoint.Z), null);
                 }
@@ -202,7 +205,7 @@ namespace DistillationColumn
                 else
                 {
 
-                    sPoint = new ContourPoint(new T3D.Point((origin.X), origin.Y - (height / 2)+50, origin.Z), null);
+                    sPoint = new ContourPoint(new T3D.Point((origin.X), origin.Y - (height / 2), origin.Z), null);
                     sPoint = new ContourPoint(new T3D.Point((sPoint.X), sPoint.Y + 250 + (_distanceLengthList[0] / 2), sPoint.Z), null);
                     ePoint = new ContourPoint(new T3D.Point(sPoint.X - (width / 2), sPoint.Y, sPoint.Z), null);
 
@@ -222,12 +225,11 @@ namespace DistillationColumn
                     CPart.Position.Rotation = Position.RotationEnum.TOP;
 
 
-                  
-                    CPart.SetInputPositions(sPoint, ePoint);
 
-                    CPart.SetAttribute("width", width / 2);
+                    CPart.SetAttribute("width", (width / 2) + 60);
+
                     CPart.SetAttribute("distance", _distanceLengthList[i]);
-                    CPart.SetAttribute("P2", 0);
+                    CPart.SetInputPositions(sPoint, ePoint);
 
                     bool b = CPart.Insert();
 
@@ -235,18 +237,20 @@ namespace DistillationColumn
                     {
                         if (j == 0)
                         {
-                            sPoint = new ContourPoint(new T3D.Point(sPoint.X, sPoint.Y - (250 + _distanceLengthList[i] / 2) - (250 + _distanceLengthList[i + 1] / 2) - 100, sPoint.Z), null);
-                            ePoint = new ContourPoint(new T3D.Point(sPoint.X + (height / 2), sPoint.Y, sPoint.Z), null);
+                            sPoint = new ContourPoint(new T3D.Point(sPoint.X, sPoint.Y - (250 + _distanceLengthList[i] / 2) - (250 + _distanceLengthList[i + 1] / 2), sPoint.Z), null);
+                            ePoint = new ContourPoint(new T3D.Point(sPoint.X + (height / 2) , sPoint.Y, sPoint.Z), null);
                         }
                         else
                         {
-                            sPoint = new ContourPoint(new T3D.Point(sPoint.X, sPoint.Y + (250 + _distanceLengthList[i] / 2) + (250 + _distanceLengthList[i + 1] / 2) + 100, sPoint.Z), null);
+                            sPoint = new ContourPoint(new T3D.Point(sPoint.X, sPoint.Y + (250 + _distanceLengthList[i] / 2) + (250 + _distanceLengthList[i + 1] / 2), sPoint.Z), null);
                             ePoint = new ContourPoint(new T3D.Point(sPoint.X - (height / 2), sPoint.Y, sPoint.Z), null);
 
                         }
 
 
                     }
+                    CPart.SetAttribute("P2", 0);
+                    CPart.Modify();
 
                 }
                 _distanceLengthList.Clear();
@@ -262,8 +266,8 @@ namespace DistillationColumn
             double tempArcLength = 0.0;
             while (totalDistance > 0)
             {
-                tempArcLength = totalDistance - 2600;
-                if (tempArcLength < 600)
+                tempArcLength = totalDistance - 2500;
+                if (tempArcLength < 500)
                 {
                     _distanceLengthList.Add(totalDistance);
                     break;
@@ -271,7 +275,7 @@ namespace DistillationColumn
                 else
                 {
                     _distanceLengthList.Add(2000);
-                    totalDistance = totalDistance - 2600;
+                    totalDistance = totalDistance - 2500;
                 }
             }
 
@@ -289,21 +293,21 @@ namespace DistillationColumn
                 //if only one distance available
                 if (_distanceLengthList.Count == 1)
                 {
-                    if (_distanceLengthList[i] >= 1200 && _distanceLengthList[i] <= 2600)
+                    if (_distanceLengthList[i] >= 1100 && _distanceLengthList[i] <= 2500)
                     {
-                        _distanceLengthList.Add(_distanceLengthList[i] - 600);
+                        _distanceLengthList.Add(_distanceLengthList[i] - 500);
                         _distanceLengthList.RemoveAt(i);
                     }
 
-                    if (_distanceLengthList[i] > 2500)
+                    else if (_distanceLengthList[i] > 2500)
                     {
-                        _distanceLengthList.Add((_distanceLengthList[i] - 1200) / 2);
-                        _distanceLengthList.Add((_distanceLengthList[i] - 1200) / 2);
+                        _distanceLengthList.Add((_distanceLengthList[i] - 1000) / 2);
+                        _distanceLengthList.Add((_distanceLengthList[i] - 1000) / 2);
                         _distanceLengthList.RemoveAt(i);
                     }
 
-                    //To create only single handrail minimum 1200 distance is required 
-                    if (_distanceLengthList[0] < 1200)
+                    //To create only single handrail minimum 1100 distance is required 
+                    else if (_distanceLengthList[0] < 1100)
                     {
                         break;
                     }
@@ -312,29 +316,29 @@ namespace DistillationColumn
                 //check the distance of last handrail and according to that either modify second last or keep as it is
                 if (i + 1 == _distanceLengthList.Count - 1)
                 {
-                    if (_distanceLengthList[i + 1] >= 1200 && _distanceLengthList[i + 1] <= 2600)
+                    if (_distanceLengthList[i + 1] >= 1100 && _distanceLengthList[i + 1] <= 2500)
                     {
-                        _distanceLengthList.Add(_distanceLengthList[i + 1] - 600);
+                        _distanceLengthList.Add(_distanceLengthList[i + 1] - 500);
                         _distanceLengthList.RemoveAt(i + 1);
                     }
 
 
-                    else if (_distanceLengthList[i + 1] > 2600)
+                    else if (_distanceLengthList[i + 1] > 2500)
                     {
                         double sum = (_distanceLengthList[i + 1]) / 2;
                         _distanceLengthList.RemoveAt(i + 1);
-                        _distanceLengthList.Add(sum-600);
-                        _distanceLengthList.Add(sum-600);
+                        _distanceLengthList.Add(sum-500);
+                        _distanceLengthList.Add(sum-500);
 
                     }
 
-                    else if (_distanceLengthList[i + 1] >=600 && _distanceLengthList[i + 1] < 1200)
+                    else if (_distanceLengthList[i + 1] >=500 && _distanceLengthList[i + 1] < 1100)
                     {
                         double sum = (_distanceLengthList[i + 1] + _distanceLengthList[i]) / 2;
                         _distanceLengthList.RemoveAt(i);
                         _distanceLengthList.RemoveAt(i);
                         _distanceLengthList.Add(sum);
-                        _distanceLengthList.Add(sum - 600);
+                        _distanceLengthList.Add(sum - 500);
                     }
 
                 }
