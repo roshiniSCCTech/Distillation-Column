@@ -79,7 +79,7 @@ namespace DistillationColumn
             List<JToken> ladderBaseList = _global.JData["chair"].ToList();
             foreach (JToken ladder in ladderBaseList)
             {
-                ladderBase = (float)ladder["height"]+ (float)ladder["top_ring_thickness"] + (float)ladder["bottom_ring_thickness"];
+                ladderBase = (float)ladder["height"] + (float)ladder["top_ring_thickness"] + (float)ladder["bottom_ring_thickness"];
             }
         }
 
@@ -99,19 +99,26 @@ namespace DistillationColumn
                 double count = 0;
                 foreach (var seg in _global.StackSegList)
                 {
-                    if (seg[4] < ladder[1] && (seg[4] + seg[3]) > elevation - Height)
+                    if (((seg[4] + seg[3]) > (elevation - Height)) && (ladder[1] <= seg[4]))
                     {
                         if (seg[0] != seg[1])
                             count++;
                     }
+                    //if ((seg[4] + seg[3]) > (elevation + Height))
+
+
                 }
-                if (count1 == _ladderList.Count-1 )
+
+                if (count1 == _ladderList.Count - 1)
                 {
                     Height = elevation - ladderBase + 500;
                 }
 
                 TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
                 TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, ladderBase);
+                //int no = _tModel.GetSegmentAtElevation(ladderBase, _global.StackSegList);
+                //int no1 = _tModel.GetSegmentAtElevation(ladderBase + Height, _global.StackSegList);
+                //for ()
 
                 if (count != 0)
                 {
@@ -130,7 +137,7 @@ namespace DistillationColumn
                 double stackElevation = _global.StackSegList[lastStackCount][4] + _global.StackSegList[lastStackCount][3];
                 if (elevation >= stackElevation)
                 {
-                    radius1 = (_global.StackSegList[lastStackCount][1]) / 2;                    
+                    radius1 = (_global.StackSegList[lastStackCount][1]) / 2;
                     point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
                 }
 
