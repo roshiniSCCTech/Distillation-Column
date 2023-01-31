@@ -11,29 +11,42 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using Tekla.Structures.Geometry3d;
 using Tekla.Structures;
 using static Tekla.Structures.ModelInternal.Operation;
+using System.Diagnostics.PerformanceData;
 
 namespace DistillationColumn
 {
     internal class StiffnerRings
     {
-        public double _startHeight=45000;
-        public double _endHeight=50000;
-        public int _stiffnerRingCount=10;
+        public double _startHeight = 45000;
+        public double _endHeight = 50000;
+        public int _stiffnerRingCount = 10;
         List<ContourPoint> _pointList;
         Globals _global;
         TeklaModelling _tModel;
 
-        public StiffnerRings(Globals global, TeklaModelling tModel) 
+        public StiffnerRings(Globals global, TeklaModelling tModel)
         {
             _global = global;
             _tModel = tModel;
-            _pointList= new List<ContourPoint>();
+            _pointList = new List<ContourPoint>();
+            SetRingData();
             CreateStiffnerRings();
         }
 
-        public void CreateStiffnerRings() 
+        void SetRingData()
         {
-            double spacing=(_endHeight-_startHeight)/_stiffnerRingCount;
+            List<JToken> _ringDatalist = _global.JData["stiffner_ring"].ToList();
+            foreach (JToken ringData in _ringDatalist)
+            {
+                _startHeight = (double)ringData["start_height"];
+                _endHeight = (double)ringData["end_height"];
+                _stiffnerRingCount = (int)ringData["stiffner_ring_count"];
+            }
+        }
+
+        public void CreateStiffnerRings()
+        {
+            double spacing = (_endHeight - _startHeight) / _stiffnerRingCount;
             ContourPoint origin = _tModel.ShiftVertically(_global.Origin, _startHeight);
             double elevation = _startHeight;
 
@@ -53,7 +66,7 @@ namespace DistillationColumn
                 _global.Position.Plane = Tekla.Structures.Model.Position.PlaneEnum.RIGHT;
                 _global.Position.Rotation = Tekla.Structures.Model.Position.RotationEnum.BELOW;
                 _global.Position.Depth = Tekla.Structures.Model.Position.DepthEnum.BEHIND;
-                _tModel.CreatePolyBeam(_pointList,"L100*100*10", Globals.MaterialStr, _global.ClassStr, _global.Position, "stiffnerRing"+i);
+                _tModel.CreatePolyBeam(_pointList, "L100*100*10", Globals.MaterialStr, _global.ClassStr, _global.Position, "stiffnerRing" + i);
                 _pointList.Clear();
 
                 _pointList.Add(ePoint);
@@ -63,7 +76,7 @@ namespace DistillationColumn
                 _pointList.Clear();
 
                 elevation = elevation + spacing;
-                origin= _tModel.ShiftVertically(_global.Origin, elevation);
+                origin = _tModel.ShiftVertically(_global.Origin, elevation);
 
 
 

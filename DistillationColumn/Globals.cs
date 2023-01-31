@@ -25,14 +25,15 @@ namespace DistillationColumn
         public readonly List<List<double>> StackSegList;
         public JObject JData;
         public List<Part> platformParts = new List<Part>();
-
+        public List<double> _originPoints = new List<double>();
         // list of stack segment parts
         public readonly List<TSM.Beam> SegmentPartList;
 
 
         public Globals()
         {
-            Origin = new TSM.ContourPoint(new T3D.Point(3000, 2000, 5000), null);
+            //double x=
+            //Origin = new TSM.ContourPoint(new T3D.Point(0, 0, 0), null);
             ProfileStr = "";
             ClassStr = "";
             NameStr = "";
@@ -40,9 +41,10 @@ namespace DistillationColumn
             StackSegList = new List<List<double>>();
             SegmentPartList = new List<TSM.Beam>();
 
-            string jDataString = File.ReadAllText("Data.json");
+            string jDataString = File.ReadAllText("json_test.json");
             JData = JObject.Parse(jDataString);
-
+            SetOriginData();
+            Origin = new TSM.ContourPoint(new T3D.Point(_originPoints[0], _originPoints[1], _originPoints[2]), null);
             SetStackData();
             CalculateElevation();
         }
@@ -70,6 +72,20 @@ namespace DistillationColumn
             {
                 segment.Add(elevation);
                 elevation += segment[3];
+            }
+        }
+
+        void SetOriginData()
+        {
+            List<JToken> orignData = JData["origin"].ToList();
+            foreach (JToken _originCordinates in orignData)
+            {
+                double x = (double)_originCordinates["x"];
+                double y = (double)_originCordinates["y"];
+                double z = (double)_originCordinates["z"];
+                _originPoints.Add(x);
+                _originPoints.Add(y);
+                _originPoints.Add(z);
             }
         }
     }
