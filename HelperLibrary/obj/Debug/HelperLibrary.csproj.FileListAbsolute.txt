@@ -66,3 +66,6 @@ D:\Tekla Basics\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj
 D:\Tekla Basics\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.csproj.CopyComplete
 D:\Tekla Basics\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.dll
 D:\Tekla Basics\Distillation-Column\HelperLibrary\obj\Debug\HelperLibrary.pdb
+C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\bin\Debug\HelperLibrary.dll.config
+C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\bin\Debug\Tekla.Structures.Catalogs.dll
+C:\Users\Roshini S\source\repos\DistillationColumn\HelperLibrary\bin\Debug\Tekla.Structures.Catalogs.xml
