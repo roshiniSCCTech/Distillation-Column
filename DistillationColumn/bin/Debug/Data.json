@@ -214,23 +214,23 @@
   "Ladder": [
     {
       "Elevation": 5000,
-      "Orientation_Angle": 68,
+      "Orientation_Angle": 60,
       "Platform_Width": 990,
       "Platform_Length": 1200,
       "Platform_Start_Angle": 0,
-      "Platfrom_End_Angle": 120,
+      "Platfrom_End_Angle": 170,
       "Distance_From_Stack": 200,
       "Gap_Between_Grating_Plate": 6,
       "Grating_Thickness": 25,
       "Rungs_spacing": 500,
       "Extended_Length": 1000,
-      "Extended_Start_Angle": 0,
-      "Extended_End_Angle": 90,
+      "Extended_Start_Angle": 140,
+      "Extended_End_Angle": 170,
       "Obstruction_Distance": 200
     },
     {
       "Elevation": 11000,
-      "Orientation_Angle": 90,
+      "Orientation_Angle": 200,
       "Platform_Width": 990,
       "Platform_Length": 1200,
       "Platform_Start_Angle": 90,
@@ -240,13 +240,13 @@
       "Grating_Thickness": 25,
       "Rungs_spacing": 300,
       "Extended_Length": 500,
-      "Extended_Start_Angle": 200,
+      "Extended_Start_Angle": 150,
       "Extended_End_Angle": 270,
       "Obstruction_Distance": 200
     },
     {
       "Elevation": 16000,
-      "Orientation_Angle": 360,
+      "Orientation_Angle": 90,
       "Platform_Width": 990,
       "Platform_Length": 1200,
       "Platform_Start_Angle": 20,
@@ -256,7 +256,7 @@
       "Grating_Thickness": 25,
       "Rungs_spacing": 400,
       "Extended_Length": 500,
-      "Extended_Start_Angle": 100,
+      "Extended_Start_Angle": 150,
       "Extended_End_Angle": 270,
       "Obstruction_Distance": 200
     }
@@ -317,8 +317,8 @@
     [
       {
         "elevation": 69000,
-        "height": 5000,
-        "width": 4000,
+        "height": 19000,
+        "width": 21000,
         "plateWidth": 400,
         "Orientation_Angle": 200,
         "Rungs_spacing": 400,
@@ -330,10 +330,15 @@
     "chair":
     [
       {
-        "radius": 1750,
         "width": 1000,
         "number_of_plates": 4,
-        "height": 500
+        "height": 1000,
+        "top_ring_thickness": 50,
+        "bottom_ring_thickness": 50,
+        "stiffner_plate_thickness": 20,
+        "inside_distance": 200,
+        "distance_between_stiffner_plates": 200
+
       }
     ],
     "Flange":

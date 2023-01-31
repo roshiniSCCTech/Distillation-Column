@@ -43,6 +43,9 @@
     <Reference Include="Tekla.Structures, Version=2022.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
       <HintPath>..\packages\Tekla.Structures.2022.0.10715\lib\net40\Tekla.Structures.dll</HintPath>
     </Reference>
+    <Reference Include="Tekla.Structures.Catalogs, Version=2022.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tekla.Structures.Catalogs.2022.0.10715\lib\net40\Tekla.Structures.Catalogs.dll</HintPath>
+    </Reference>
     <Reference Include="Tekla.Structures.Datatype, Version=2022.0.0.0, Culture=neutral, PublicKeyToken=2f04dbe497b71114, processorArchitecture=MSIL">
       <HintPath>..\packages\Tekla.Structures.Datatype.2022.0.10715\lib\net40\Tekla.Structures.Datatype.dll</HintPath>
     </Reference>
@@ -56,6 +59,7 @@
     <Compile Include="TeklaModelling.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

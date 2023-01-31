@@ -62,7 +62,7 @@ namespace DistillationColumn
                 obstructionDist = (float)ladder["Obstruction_Distance"];
                 startAngle = (float)ladder["Platform_Start_Angle"];
                 endAngle = (float)ladder["Platfrom_End_Angle"];
-                _ladderList.Add(new List<double> { orientationAngle, elevation, rungSpacing, obstructionDist,startAngle,endAngle});
+                _ladderList.Add(new List<double> { orientationAngle, elevation, rungSpacing, obstructionDist, startAngle, endAngle });
             }
             List<JToken> ladderList1 = _global.JData["RectangularPlatform"].ToList();
             foreach (JToken ladder in ladderList1)
@@ -79,7 +79,7 @@ namespace DistillationColumn
             List<JToken> ladderBaseList = _global.JData["chair"].ToList();
             foreach (JToken ladder in ladderBaseList)
             {
-                ladderBase = (float)ladder["height"];
+                ladderBase = (float)ladder["height"]+ (float)ladder["top_ring_thickness"] + (float)ladder["bottom_ring_thickness"];
             }
         }
 
@@ -88,7 +88,7 @@ namespace DistillationColumn
             int count1 = 0;
             foreach (List<double> ladder in _ladderList)
             {
-                
+
                 elevation = ladder[1];
                 orientationAngle = ladder[0] * Math.PI / 180;
                 startAngle = ladder[4] * Math.PI / 180;
@@ -97,36 +97,42 @@ namespace DistillationColumn
 
                 radius = _tModel.GetRadiusAtElevation(ladderBase, _global.StackSegList, true);
                 double count = 0;
-                foreach(var seg in _global.StackSegList)
+                foreach (var seg in _global.StackSegList)
                 {
-                    if(seg[4] < ladder[1] && (seg[4]+ seg[3]) > elevation - Height)
+                    if (seg[4] < ladder[1] && (seg[4] + seg[3]) > elevation - Height)
                     {
                         if (seg[0] != seg[1])
                             count++;
                     }
                 }
+                if (count1 == _ladderList.Count - 1)
+                {
+                    Height = elevation - ladderBase + 500;
+                }
 
                 TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
                 TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, ladderBase);
-                
+
                 if (count != 0)
                 {
                     point2 = _tModel.ShiftHorizontallyRad(point1, radius + Math.Max(400, ladder[3]), 1, orientationAngle);
                 }
                 else
                 {
-                    point2 =  _tModel.ShiftHorizontallyRad(point1, radius+ Math.Max(200, ladder[3]), 1, orientationAngle);
+                    point2 = _tModel.ShiftHorizontallyRad(point1, radius + Math.Max(200, ladder[3]), 1, orientationAngle);
                 }
 
 
                 TSM.ContourPoint point11 = _tModel.ShiftVertically(point1, Height);
                 double radius1 = _tModel.GetRadiusAtElevation(point11.Z, _global.StackSegList, true);
                 point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
-                if (elevation + Height > 68000)
+                int lastStackCount = _global.StackSegList.Count - 1;
+                double stackElevation = _global.StackSegList[lastStackCount][4] + _global.StackSegList[lastStackCount][3];
+                if (elevation + Height >= stackElevation)
                 {
-                    radius1 = 600;
+                    radius1 = (_global.StackSegList[lastStackCount][1]) / 2;                    
                     point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
-                }               
+                }
 
                 CustomPart Ladder = new CustomPart();
                 Ladder.Name = "Ladder1";
@@ -138,7 +144,7 @@ namespace DistillationColumn
                 Ladder.SetAttribute("P3", ladder[2]);  // Ladder Dist btwn Rungs
 
 
-               
+
                 Ladder.Position.Depth = Position.DepthEnum.MIDDLE;
                 if (count == 0)
                 {
@@ -151,7 +157,7 @@ namespace DistillationColumn
                     if (angle > 45 && angle <= 90)
                     {
                         Ladder.Position.Rotation = Position.RotationEnum.TOP;
-                        Ladder.Position.RotationOffset = angle-90;
+                        Ladder.Position.RotationOffset = angle - 90;
                     }
                     if (angle > 90 && angle <= 135)
                     {
@@ -161,7 +167,7 @@ namespace DistillationColumn
                     if (angle > 135 && angle <= 180)
                     {
                         Ladder.Position.Rotation = Position.RotationEnum.BACK;
-                        Ladder.Position.RotationOffset = angle-180;
+                        Ladder.Position.RotationOffset = angle - 180;
                     }
                     if (angle > 180 && angle <= 225)
                     {
@@ -171,17 +177,17 @@ namespace DistillationColumn
                     if (angle > 225 && angle <= 270)
                     {
                         Ladder.Position.Rotation = Position.RotationEnum.BELOW;
-                        Ladder.Position.RotationOffset = angle-270;
+                        Ladder.Position.RotationOffset = angle - 270;
                     }
                     if (angle > 270 && angle < 315)
                     {
                         Ladder.Position.Rotation = Position.RotationEnum.BELOW;
-                        Ladder.Position.RotationOffset = 315-angle ;
+                        Ladder.Position.RotationOffset = 315 - angle;
                     }
                     if (angle >= 315 && angle <= 360)
                     {
                         Ladder.Position.Rotation = Position.RotationEnum.FRONT;
-                        Ladder.Position.RotationOffset = angle -360;
+                        Ladder.Position.RotationOffset = angle - 360;
                     }
                 }
                 else
@@ -196,7 +202,7 @@ namespace DistillationColumn
                 if (Height > 3000)
                 {
                     Detail D = new Detail();
-                    D.Name = "ladderHoop1";
+                    D.Name = "LadderHoop";
                     D.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
                     D.LoadAttributesFromFile("standard");
                     D.UpVector = new Vector(0, 0, 0);
@@ -206,7 +212,7 @@ namespace DistillationColumn
 
                     D.SetPrimaryObject(Ladder);
                     D.SetReferencePoint(point21);
-                    if(orientationAngle == startAngle)
+                    if (orientationAngle == startAngle)
                     {
                         D.SetAttribute("P1", 0);           //Ladder top hoop open at both sides
                         D.SetAttribute("P2", 1);           //Ladder top hoop open at right side
@@ -232,7 +238,7 @@ namespace DistillationColumn
                     D.Insert();
 
                 }
-                
+
                 _tModel.Model.CommitChanges();
                 double RungDistance = 0;
                 if (count1 == _ladderList.Count - 1)
@@ -257,7 +263,6 @@ namespace DistillationColumn
                         {
                             RungDistance = 450 + (((Height / rungSpacing) - 2) * rungSpacing);
                         }
-                        // CreateSupportPlate(point2, point21, RungDistance);
                         CreatePlate(point2, point21, RungDistance);
 
 
@@ -267,21 +272,21 @@ namespace DistillationColumn
                 count1++;
             }
 
-            
-            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - 69000)),null);
+
+            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - 69000)), null);
             createSquareCut(point21);
 
         }
 
         public void createSquareCut(TSM.ContourPoint point11)
         {
-            TSM.ContourPoint point1 = _tModel.ShiftHorizontallyRad(point11, 900,1);
+            TSM.ContourPoint point1 = _tModel.ShiftHorizontallyRad(point11, 900, 1);
             TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point11, 150, 3);
-            TSM.ContourPoint bottomLeft = new ContourPoint( _tModel.ShiftHorizontallyRad(point1, 600, 4),null);
+            TSM.ContourPoint bottomLeft = new ContourPoint(_tModel.ShiftHorizontallyRad(point1, 600, 4), null);
             TSM.ContourPoint topLeft = new ContourPoint(_tModel.ShiftHorizontallyRad(point2, 600, 4), null);
-            TSM.ContourPoint bottomRight = new ContourPoint (_tModel.ShiftHorizontallyRad(point1, 600, 2),null);
+            TSM.ContourPoint bottomRight = new ContourPoint(_tModel.ShiftHorizontallyRad(point1, 600, 2), null);
             TSM.ContourPoint topRight = new ContourPoint(_tModel.ShiftHorizontallyRad(point2, 600, 2), null);
-           
+
             _box.Add(bottomLeft);
             _box.Add(bottomRight);
             _box.Add(topRight);
