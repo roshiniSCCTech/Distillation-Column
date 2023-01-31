@@ -27,6 +27,7 @@ namespace DistillationColumn
             //new Flange(_global, _tModel);
             //new StiffnerRings(_global, _tModel);
             new CircularGrating(_global, _tModel);
+            new Platform(_global, _tModel);
             //new Handrail(_global, _tModel);
 
             //new CircularAccessDoor(_global, _tModel);
