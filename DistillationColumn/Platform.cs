@@ -49,7 +49,56 @@ namespace DistillationColumn
             _platformList = new List<List<double>>();
 
             SetAccessDoorData();
-            Build();
+
+            foreach (List<double> platform in _platformList)
+            {
+                elevation = platform[0];
+                orientationAngle = platform[1] * Math.PI / 180;
+                plateWidth = platform[2];
+                platformLength = platform[3];
+                platformStartAngle = platform[4] * Math.PI / 180;
+                platformEndAngle = platform[5] * Math.PI / 180;
+                distanceFromStack = platform[6];
+                gapBetweenGratingPlate = platform[7];
+                gratingThickness = platform[8];
+                extensionLength = platform[9];
+                extensionStartAngle = platform[10] * Math.PI / 180;
+                extensionEndAngle = platform[11] * Math.PI / 180;
+
+                radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true) + distanceFromStack;
+                theta = Math.Asin((ladderWidth / 2) / radius);
+                origin = _tModel.ShiftVertically(_global.Origin, elevation + 100);
+                innerPlateWidth = (radius + 25) / (radius + platformLength - 25) * plateWidth;
+
+                if (platformStartAngle < 0)
+                {
+                    platformStartAngle += Math.PI * 2;
+                    platformEndAngle += Math.PI * 2;
+                    extensionStartAngle += Math.PI * 2;
+                    extensionEndAngle += Math.PI * 2;
+                    orientationAngle += Math.PI * 2;
+                }
+
+                TSM.ContourPoint startPt;
+                TSM.ContourPoint endPt;
+
+                // platform module before ladder
+                startPt = _tModel.ShiftHorizontallyRad(origin, radius, 1, platformStartAngle);
+                endPt = _tModel.ShiftHorizontallyRad(origin, radius, 1, orientationAngle - theta);
+                if (platformStartAngle < orientationAngle - theta)
+                {
+                    CreatePlatformModule(startPt, endPt, false, true);
+                }
+
+
+                // platform module after ladder
+                startPt = _tModel.ShiftHorizontallyRad(origin, radius, 1, orientationAngle + theta);
+                endPt = _tModel.ShiftHorizontallyRad(origin, radius, 1, platformEndAngle);
+                if (platformEndAngle > orientationAngle + theta)
+                {
+                    CreatePlatformModule(startPt, endPt, true, false);
+                }
+            }
         }
 
         void SetAccessDoorData()
@@ -77,66 +126,11 @@ namespace DistillationColumn
 
         }
 
-        void Build()
-        {
-            foreach (List<double> platform in _platformList)
-            {
-                elevation = platform[0];
-                orientationAngle = platform[1] * Math.PI / 180;
-                plateWidth = platform[2];
-                platformLength = platform[3];
-                platformStartAngle = platform[4] * Math.PI / 180;
-                platformEndAngle = platform[5] * Math.PI / 180;
-                distanceFromStack = platform[6];
-                gapBetweenGratingPlate = platform[7];
-                gratingThickness = platform[8];
-                extensionLength = platform[9];
-                extensionStartAngle = platform[10] * Math.PI / 180;
-                extensionEndAngle = platform[11] * Math.PI / 180;
-
-                radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true) + distanceFromStack;
-                theta = Math.Asin((ladderWidth / 2) / radius);
-                origin = _tModel.ShiftVertically(_global.Origin, elevation + 100);
-                innerPlateWidth = (radius + 25) / (radius + platformLength - 25) * plateWidth;
-
-
-                CreatePlatform();
-            }
-        }
-
-        void CreatePlatform()
-        {
-
-            TSM.ContourPoint startPt;
-            TSM.ContourPoint endPt;
-
-            // platform module before ladder
-            startPt = _tModel.ShiftHorizontallyRad(origin, radius, 1, platformStartAngle);
-            endPt = _tModel.ShiftHorizontallyRad(origin, radius, 1, orientationAngle - theta);
-            if (platformStartAngle < orientationAngle - theta)
-            {
-                CreatePlatformModule(startPt, endPt, false, true);
-            }
-
-
-            // platform module after ladder
-            startPt = _tModel.ShiftHorizontallyRad(origin, radius, 1, orientationAngle + theta);
-            endPt = _tModel.ShiftHorizontallyRad(origin, radius, 1, platformEndAngle);
-            if (platformEndAngle > orientationAngle + theta)
-            {
-                CreatePlatformModule(startPt, endPt, true, false);
-            }
-            
-        }
-
         void CreatePlatformModule(TSM.ContourPoint startPoint, TSM.ContourPoint endPoint, bool parallelAtStart, bool parallelAtEnd)
         {
             CreateFrame(startPoint, endPoint, parallelAtStart, parallelAtEnd);
             CreateGrating(startPoint, endPoint, parallelAtStart, parallelAtEnd);
-            
-
         }
-
 
         void CreateGrating(TSM.ContourPoint startPoint, TSM.ContourPoint endPoint, bool parallelAtStart, bool parallelAtEnd)
         {
@@ -419,102 +413,5 @@ namespace DistillationColumn
             }
         }
 
-        void CreateFrame2(TSM.ContourPoint startPoint, TSM.ContourPoint endPoint, bool parallelAtStart, bool parallelAtEnd)
-        {
-            double length;            
-            
-            // straight start beam
-
-            length = platformLength; 
-            if (_tModel.AngleAtCenter(startPoint) >= extensionStartAngle && _tModel.AngleAtCenter(startPoint) <= extensionEndAngle)
-            {
-                length += extensionLength;
-            }
-            TSM.ContourPoint outerStartPoint = _tModel.ShiftHorizontallyRad(startPoint, length, 1); if (parallelAtStart)
-            {
-                phi = Math.Asin((ladderWidth / 2) / (radius + length + 25));
-                outerStartPoint = _tModel.ShiftHorizontallyRad(origin, radius + length, 1, orientationAngle + phi);
-            }
-            _global.ProfileStr = "C100*100*10";
-            _global.ClassStr = "3";
-            _global.Position.Plane = TSM.Position.PlaneEnum.RIGHT;
-            _global.Position.Rotation = TSM.Position.RotationEnum.TOP;
-            _global.Position.Depth = TSM.Position.DepthEnum.BEHIND; _tModel.CreateBeam(outerStartPoint, startPoint, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "Frame");             
-            // straight end beam
-            length = platformLength; if (_tModel.AngleAtCenter(endPoint) >= extensionStartAngle && _tModel.AngleAtCenter(endPoint) <= extensionEndAngle)
-            {
-                length += extensionLength;
-            }
-            TSM.ContourPoint outerEndPoint = _tModel.ShiftHorizontallyRad(endPoint, length, 1); if (parallelAtEnd)
-            {
-                phi = Math.Asin((ladderWidth / 2) / (radius + length + 25));
-                outerEndPoint = _tModel.ShiftHorizontallyRad(origin, radius + length, 1, orientationAngle - phi);
-            }
-            _tModel.CreateBeam(endPoint, outerEndPoint, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "Frame");             
-            
-            // inner curved beam
-
-            TSM.ContourPoint midPoint = _tModel.ShiftAlongCircumferenceRad(startPoint, _tModel.ArcLengthBetweenPointsXY(startPoint, endPoint) / 2, 2);
-            midPoint.Chamfer = new TSM.Chamfer(0, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT); _pointsList.Add(startPoint);
-            _pointsList.Add(midPoint);
-            _pointsList.Add(endPoint); _tModel.CreatePolyBeam(_pointsList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "Frame"); _pointsList.Clear();             
-            
-            // outer curved beam made in 3 parts   
-            //          
-            TSM.ContourPoint point1;
-            TSM.ContourPoint point2;
-            TSM.ContourPoint point3;  
-            
-            // first half of platform   
-            //          
-            if (_tModel.AngleAtCenter(startPoint) < extensionStartAngle)
-            {
-                point1 = new TSM.ContourPoint(outerStartPoint, null);
-                point3 = _tModel.ShiftHorizontallyRad(origin, radius + platformLength, 1, extensionStartAngle);
-                if (_tModel.AngleAtCenter(endPoint) < extensionStartAngle)
-                {
-                    point3 = outerEndPoint;
-                }
-                point2 = _tModel.ShiftAlongCircumferenceRad(point1, _tModel.ArcLengthBetweenPointsXY(point1, point3) / 2, 2);
-                point2.Chamfer = new TSM.Chamfer(0, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT); _pointsList.Add(point3);
-                _pointsList.Add(point2);
-                _pointsList.Add(point1); _tModel.CreatePolyBeam(_pointsList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "Frame"); _pointsList.Clear();
-            }             // extension             if (extensionStartAngle < _tModel.AngleAtCenter(endPoint) && extensionEndAngle > _tModel.AngleAtCenter(startPoint))
-            {
-                point1 = _tModel.ShiftHorizontallyRad(origin, radius + platformLength + extensionLength, 1, extensionStartAngle);
-                if (_tModel.AngleAtCenter(startPoint) > extensionStartAngle)
-                {
-                    point1 = outerStartPoint;
-                }
-                point3 = _tModel.ShiftHorizontallyRad(origin, radius + platformLength + extensionLength, 1, extensionEndAngle);
-                if (_tModel.AngleAtCenter(endPoint) < extensionEndAngle)
-                {
-                    point3 = outerEndPoint;
-                }
-                point2 = _tModel.ShiftAlongCircumferenceRad(point1, _tModel.ArcLengthBetweenPointsXY(point1, point3) / 2, 2);
-                point2.Chamfer = new TSM.Chamfer(0, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT); _pointsList.Add(point3);
-                _pointsList.Add(point2);
-                _pointsList.Add(point1); _tModel.CreatePolyBeam(_pointsList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "Frame"); _pointsList.Clear(); if (extensionStartAngle > _tModel.AngleAtCenter(startPoint))
-                {
-                    _tModel.CreateBeam(point1, _tModel.ShiftHorizontallyRad(point1, extensionLength + 100, 3), _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "Frame");
-                }
-                if (extensionEndAngle < _tModel.AngleAtCenter(endPoint))
-                {
-                    _tModel.CreateBeam(_tModel.ShiftHorizontallyRad(point3, extensionLength + 100, 3), point3, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "Frame");
-                }
-            }             // second half of platform             if (_tModel.AngleAtCenter(endPoint) > extensionEndAngle)
-            {
-                point1 = _tModel.ShiftHorizontallyRad(origin, radius + platformLength, 1, extensionEndAngle);
-                if (_tModel.AngleAtCenter(startPoint) > extensionEndAngle)
-                {
-                    point1 = outerStartPoint;
-                }
-                point3 = new TSM.ContourPoint(outerEndPoint, null);
-                point2 = _tModel.ShiftAlongCircumferenceRad(point1, _tModel.ArcLengthBetweenPointsXY(point1, point3) / 2, 2);
-                point2.Chamfer = new TSM.Chamfer(0, 0, TSM.Chamfer.ChamferTypeEnum.CHAMFER_ARC_POINT); _pointsList.Add(point3);
-                _pointsList.Add(point2);
-                _pointsList.Add(point1); _tModel.CreatePolyBeam(_pointsList, _global.ProfileStr, Globals.MaterialStr, _global.ClassStr, _global.Position, "Frame"); _pointsList.Clear();
-            }
-        }
     }
 }
