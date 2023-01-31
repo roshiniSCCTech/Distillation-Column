@@ -32,7 +32,7 @@ namespace DistillationColumn
 
         public Globals()
         {
-            Origin = new TSM.ContourPoint(new T3D.Point(0, 0, 0), null);
+            Origin = new TSM.ContourPoint(new T3D.Point(3000, 2000, 5000), null);
             ProfileStr = "";
             ClassStr = "";
             NameStr = "";

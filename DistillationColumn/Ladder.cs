@@ -105,7 +105,7 @@ namespace DistillationColumn
                             count++;
                     }
                 }
-                if (count1 == _ladderList.Count - 1)
+                if (count1 == _ladderList.Count-1 )
                 {
                     Height = elevation - ladderBase + 500;
                 }
@@ -128,7 +128,7 @@ namespace DistillationColumn
                 point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
                 int lastStackCount = _global.StackSegList.Count - 1;
                 double stackElevation = _global.StackSegList[lastStackCount][4] + _global.StackSegList[lastStackCount][3];
-                if (elevation + Height >= stackElevation)
+                if (elevation >= stackElevation)
                 {
                     radius1 = (_global.StackSegList[lastStackCount][1]) / 2;                    
                     point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
@@ -196,7 +196,6 @@ namespace DistillationColumn
                     Ladder.Position.RotationOffset = 0;
                 }
 
-                //Ladder.Position.RotationOffset = ladder[0]+ 270 ;
                 Ladder.Insert();
 
                 if (Height > 3000)
@@ -273,7 +272,7 @@ namespace DistillationColumn
             }
 
 
-            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - 69000)), null);
+            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - 75000)), null);
             createSquareCut(point21);
 
         }
@@ -360,13 +359,11 @@ namespace DistillationColumn
             double heightOfLadder = (point21.Z - point2.Z);
             double inclinationAngle = Math.Asin(heightOfLadder / inclinationDistance);
 
-
             TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
             TSM.ContourPoint rightstartPoint = point2;
             TSM.ContourPoint rungmidpoint = _tModel.ShiftHorizontallyRad(rightstartPoint, rungDistance * Math.Cos(inclinationAngle), 3, orientationAngle);
             rungmidpoint = _tModel.ShiftVertically(rungmidpoint, rungDistance * Math.Sin(inclinationAngle));
 
-            //_tModel.CreateBeam(origin, rungmidpoint, "ROD50", "IS2062", "5", _global.Position, "");
             origin = _tModel.ShiftVertically(origin, rungmidpoint.Z - _global.Origin.Z);
             double distancefromorigintorungmid = _tModel.DistanceBetweenPoints(origin, rungmidpoint) - (50 + 75 - 30);
             TSM.ContourPoint rightrungmidpoint = _tModel.ShiftHorizontallyRad(rungmidpoint, ((width / 2) + 50), 2);

@@ -374,7 +374,7 @@ namespace DistillationColumn
                 CreatePlateAlongCircumference(pt);
             }
             
-            if (arclength > 500)
+            if (arclength >= 1200)
             {
                 CreatePlateAlongCircumference(_tModel.ShiftAlongCircumferenceRad(pt, arclength / 2, 2));
             }

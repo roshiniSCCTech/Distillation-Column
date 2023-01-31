@@ -9,6 +9,7 @@ using TSM = Tekla.Structures.Model;
 using T3D = Tekla.Structures.Geometry3d;
 using Tekla.Structures.Geometry3d;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using Newtonsoft.Json.Linq;
 
 namespace DistillationColumn
 {
@@ -17,9 +18,10 @@ namespace DistillationColumn
         Globals _global;
         TeklaModelling _tModel;
 
-        double elevation=68000;
+        double elevation;
         double platformElevation;
         double height1;
+        double radius;
         List<List<double>> _platformList;
         List<ContourPoint> _pointList;
 
@@ -31,6 +33,8 @@ namespace DistillationColumn
             _platformList = new List<List<double>>();
             _pointList = new List<ContourPoint>();
 
+            
+
             createCapAndOutlets();
             capBrackets();
         }
@@ -40,7 +44,10 @@ namespace DistillationColumn
             double heightOfOutletBelowCap = 300;
             double middleOutletRadius = 300;
             double sideOutletRadius = 150;
-            double radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+            int lastStackCount = _global.StackSegList.Count - 1;
+            double stackElevation = _global.StackSegList[lastStackCount][4] + _global.StackSegList[lastStackCount][3];
+            elevation = stackElevation;
+            radius = (_global.StackSegList[lastStackCount][1]) / 2;
             double diameter = 2 * radius;
             
 
@@ -62,7 +69,7 @@ namespace DistillationColumn
             _tModel.cutPart(cut, cap);
             Cuts(new T3D.Point(capTop.X, capTop.Y, capTop.Z - heightOfOutletBelowCap), middleOutletTop, middleOutletRadius);
 
-            TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, radius/2, 1, -45 * (Math.PI / 180));
+            TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, radius / 2, 1, -45 * (Math.PI / 180));
             for (int i = 1; i <= 4; i++)
             {
                 if ((i * 90) <= 360)
@@ -78,7 +85,7 @@ namespace DistillationColumn
 
                 }
             }
-
+           
         }
 
        
@@ -95,11 +102,15 @@ namespace DistillationColumn
 
         public void capBrackets()
         {
-            double radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
             TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
             TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
             TSM.ContourPoint capTop = _tModel.ShiftVertically(point1, radius);
-            height1 = RectangularPlatform.elevation - capTop.Z;
+            List<JToken> ladderList = _global.JData["RectangularPlatform"].ToList();
+            foreach (JToken ladder in ladderList)
+            {
+                platformElevation = _global.Origin.Z +(float)ladder["elevation"] ;
+            }
+            height1 = platformElevation - capTop.Z;
             TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, (radius)/2, 1, 0 * (Math.PI / 180));
             for (int i = 1; i <= 4; i++)
             {

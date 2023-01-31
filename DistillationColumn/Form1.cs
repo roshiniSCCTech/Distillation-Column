@@ -22,7 +22,7 @@ namespace DistillationColumn
         {
             Globals global = new Globals();
 
-            TeklaModelling teklaModel = new TeklaModelling(0, 0, 0);
+            TeklaModelling teklaModel = new TeklaModelling(global.Origin.X, global.Origin.Y, global.Origin.Z);
 
             new ComponentHandler(global, teklaModel);
         }
