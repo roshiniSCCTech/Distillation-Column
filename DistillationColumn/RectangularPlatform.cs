@@ -34,7 +34,6 @@ namespace DistillationColumn
         List<Point> Intersect;
         ArrayList myList = new ArrayList();
         List<Part> _platformBracketParts;
-        //List<Point> my = new List<Point>();
         public RectangularPlatform(Globals global, TeklaModelling tModel)
         {
             _global = global;
@@ -72,10 +71,10 @@ namespace DistillationColumn
         {
             foreach (List<double> platform in _platformList)
             {
-                double radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
+                //double radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
                 TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
                 TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
-                TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, width / 2, 1);
+                TSM.ContourPoint point2 = new TSM.ContourPoint(new Point((point1.X + width / 2),point1.Y,point1.Z), null);  //_tModel.ShiftHorizontallyRad(point1, width / 2, 1);
                 double number = width / plateWidth;
 
                 for (int i = 0; i < number; i++)
@@ -92,7 +91,7 @@ namespace DistillationColumn
                     }
                     T3D.Point start = new T3D.Point(point2.X - i * plateWidth, point2.Y, point2.Z);
                     T3D.Point end = new T3D.Point(point2.X - i * plateWidth, point2.Y + height / 2, point2.Z);
-                    T3D.Point end2 = new T3D.Point(point2.X - i * plateWidth, -(point2.Y + height / 2), point2.Z);
+                    T3D.Point end2 = new T3D.Point(point2.X - i * plateWidth, (point2.Y - height / 2), point2.Z);
                     _global.Position.Depth = TSM.Position.DepthEnum.FRONT;
                     _global.Position.Rotation = TSM.Position.RotationEnum.FRONT;
                     _global.Position.Plane = TSM.Position.PlaneEnum.LEFT;
@@ -163,7 +162,7 @@ namespace DistillationColumn
                     CPart.SetAttribute("P2", 0);
                     CPart.Modify();
 
-                    if ((i + 1) <= _distanceLengthList.Count - 1)
+                    if ((i + 1) <= _distanceLengthList.Count - 1 || _distanceLengthList.Count==1)
                     {
                           
                         if (j == 0)
@@ -251,7 +250,7 @@ namespace DistillationColumn
                     bool b = CPart.Insert();
                     CPart.SetAttribute("P2", 0);
                     CPart.Modify();
-                    if ((i + 1) <= _distanceLengthList.Count - 1)
+                    if ((i + 1) <= _distanceLengthList.Count - 1 || _distanceLengthList.Count == 1)
                     {
                         if (j == 0)
                         {
@@ -446,7 +445,7 @@ namespace DistillationColumn
             _global.ClassStr = "2";
 
             TSM.ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation);
-            TSM.ContourPoint point1 = _tModel.ShiftHorizontallyRad(origin, width / 2, 1);
+            TSM.ContourPoint point1 = new TSM.ContourPoint(new Point((origin.X + width / 2), origin.Y, origin.Z), null);//_tModel.ShiftHorizontallyRad(origin, width / 2, 1);
             TSM.ContourPoint point2 = new ContourPoint(new T3D.Point(point1.X - 200, point1.Y + height / 2, point1.Z), null);
             TSM.ContourPoint point3 = new ContourPoint(new T3D.Point(point2.X, (point2.Y - height), point2.Z), null);
             Beam p1 = _tModel.CreateBeam(point2, point3, _global.ProfileStr, "ASTMA106", _global.ClassStr, _global.Position, "beam");
@@ -497,7 +496,7 @@ namespace DistillationColumn
         public void createSupportBrackets1()
         {
             TSM.ContourPoint origin = _tModel.ShiftVertically(_global.Origin, elevation);
-            TSM.ContourPoint point1 = _tModel.ShiftHorizontallyRad(origin, width / 2, 1);
+            TSM.ContourPoint point1 = new TSM.ContourPoint(new Point((origin.X + width / 2), origin.Y, origin.Z), null); //_tModel.ShiftHorizontallyRad(origin, width / 2, 1);
             TSM.ContourPoint point2 = new ContourPoint(new T3D.Point(point1.X, (point1.Y - height / 2) + 200, point1.Z), null);
             TSM.ContourPoint point3 = new ContourPoint(new T3D.Point(point2.X - width, (point2.Y), point2.Z), null);
             Beam p1 = _tModel.CreateBeam(point2, point3, _global.ProfileStr, "ASTMA106", _global.ClassStr, _global.Position, "beam");
@@ -583,7 +582,7 @@ namespace DistillationColumn
              CreatePlateAlongPlatform(pt,side, ParallelToY);
             
            
-            if (arclength > 500)
+            if ((arclength/2) > 600)
             {
                  
                 CreatePlateAlongPlatform(_tModel.ShiftHorizontallyRad(pt, -(arclength / 2),side,0),side, ParallelToY);

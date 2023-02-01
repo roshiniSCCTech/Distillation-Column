@@ -2,7 +2,7 @@
   "stack": [
     {
       "key": 0,
-      "seg_height": 0.8,
+      "seg_height": 1.8,
       "inside_dia_top": 1.2,
       "inside_dia_bottom": 1.2,
       "shell_thickness": 0.0085
@@ -245,7 +245,55 @@
       "Obstruction_Distance": 200
     },
     {
-      "Elevation": 16000,
+      "Elevation": 25000,
+      "Orientation_Angle": 120,
+      "Platform_Width": 990,
+      "Platform_Length": 1200,
+      "Platform_Start_Angle": 20,
+      "Platfrom_End_Angle": 360,
+      "Distance_From_Stack": 200,
+      "Gap_Between_Grating_Plate": 6,
+      "Grating_Thickness": 25,
+      "Rungs_spacing": 400,
+      "Extended_Length": 500,
+      "Extended_Start_Angle": 150,
+      "Extended_End_Angle": 270,
+      "Obstruction_Distance": 200
+    },
+    {
+      "Elevation": 40000,
+      "Orientation_Angle": 12,
+      "Platform_Width": 990,
+      "Platform_Length": 1200,
+      "Platform_Start_Angle": 0,
+      "Platfrom_End_Angle": 360,
+      "Distance_From_Stack": 200,
+      "Gap_Between_Grating_Plate": 6,
+      "Grating_Thickness": 25,
+      "Rungs_spacing": 400,
+      "Extended_Length": 500,
+      "Extended_Start_Angle": 150,
+      "Extended_End_Angle": 270,
+      "Obstruction_Distance": 200
+    },
+    {
+      "Elevation": 55000,
+      "Orientation_Angle": 270,
+      "Platform_Width": 990,
+      "Platform_Length": 1200,
+      "Platform_Start_Angle": 20,
+      "Platfrom_End_Angle": 360,
+      "Distance_From_Stack": 200,
+      "Gap_Between_Grating_Plate": 6,
+      "Grating_Thickness": 25,
+      "Rungs_spacing": 400,
+      "Extended_Length": 500,
+      "Extended_Start_Angle": 150,
+      "Extended_End_Angle": 270,
+      "Obstruction_Distance": 200
+    },
+    {
+      "Elevation": 65000,
       "Orientation_Angle": 90,
       "Platform_Width": 990,
       "Platform_Length": 1200,
@@ -316,11 +364,11 @@
     "RectangularPlatform":
     [
       {
-        "elevation": 69000,
-        "height": 19000,
-        "width": 21000,
+        "elevation": 70000,
+        "height": 5000,
+        "width": 5000,
         "plateWidth": 400,
-        "Orientation_Angle": 200,
+        "Orientation_Angle": 320,
         "Rungs_spacing": 400,
         "Obstruction_Distance": 0,
         "Platform_Start_Angle": 0,
