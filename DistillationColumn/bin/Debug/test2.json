@@ -1,8 +1,8 @@
 {
   "origin": [
     {
-      "x": 4000,
-      "y": 5000,
+      "x": 10000,
+      "y": 20000,
       "z": 3000
     }
   ],
@@ -102,164 +102,116 @@
       "key": 13,
       "seg_height": 2,
       "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_bottom": 3,
       "shell_thickness": 0.01
     },
     {
       "key": 14,
       "seg_height": 4.5,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 3,
+      "inside_dia_bottom": 3,
       "shell_thickness": 0.01
     },
     {
       "key": 15,
       "seg_height": 1.8,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 3,
+      "inside_dia_bottom": 3.5,
       "shell_thickness": 0.01
     },
     {
       "key": 16,
       "seg_height": 1,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 3.5,
+      "inside_dia_bottom": 3.5,
       "shell_thickness": 0.01
     },
     {
       "key": 17,
       "seg_height": 3.5,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "inside_dia_top": 3.5,
+      "inside_dia_bottom": 3.8,
       "shell_thickness": 0.01
     },
     {
       "key": 18,
-      "seg_height": 2,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "seg_height": 4,
+      "inside_dia_top": 3.8,
+      "inside_dia_bottom": 4,
       "shell_thickness": 0.01
     },
     {
       "key": 19,
-      "seg_height": 2.2,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "seg_height": 4,
+      "inside_dia_top": 4,
+      "inside_dia_bottom": 5.5,
       "shell_thickness": 0.01
     },
     {
       "key": 20,
-      "seg_height": 2.5,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.5,
+      "seg_height": 4,
+      "inside_dia_top": 5.5,
+      "inside_dia_bottom": 5.5,
       "shell_thickness": 0.01
     },
     {
       "key": 21,
       "seg_height": 2,
-      "inside_dia_top": 2.5,
-      "inside_dia_bottom": 2.8,
+      "inside_dia_top": 5.5,
+      "inside_dia_bottom": 5.5,
       "shell_thickness": 0.01
     },
     {
       "key": 22,
-      "seg_height": 2,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
+      "seg_height": 3,
+      "inside_dia_top": 5.5,
+      "inside_dia_bottom": 6,
       "shell_thickness": 0.01
     },
     {
       "key": 23,
-      "seg_height": 3,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
-      "shell_thickness": 0.01
-    },
-    {
-      "key": 24,
       "seg_height": 5,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
-      "shell_thickness": 0.01
-    },
-    {
-      "key": 25,
-      "seg_height": 2,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
-      "shell_thickness": 0.01
-    },
-    {
-      "key": 26,
-      "seg_height": 3,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 2.8,
-      "shell_thickness": 0.01
-    },
-    {
-      "key": 27,
-      "seg_height": 3.5,
-      "inside_dia_top": 2.8,
-      "inside_dia_bottom": 3,
-      "shell_thickness": 0.01
-    },
-    {
-      "key": 28,
-      "seg_height": 2,
-      "inside_dia_top": 3,
-      "inside_dia_bottom": 3,
-      "shell_thickness": 0.01
-    },
-    {
-      "key": 29,
-      "seg_height": 2,
-      "inside_dia_top": 3,
-      "inside_dia_bottom":4 ,
-      "shell_thickness": 0.01
-    },
-    {
-      "key": 30,
-      "seg_height": 2,
-      "inside_dia_top": 4,
-      "inside_dia_bottom": 5,
+      "inside_dia_top": 6,
+      "inside_dia_bottom":7,
       "shell_thickness": 0.01
     }
+    
   ],
   "Ladder": [
     {
-      "Elevation": 7000,
-      "Orientation_Angle": 100,
+      "Elevation": 10000,
+      "Orientation_Angle": 120,
       "Platform_Width": 990,
       "Platform_Length": 1200,
-      "Platform_Start_Angle": 70,
-      "Platfrom_End_Angle": 210,
+      "Platform_Start_Angle": 120,
+      "Platfrom_End_Angle":300,
       "Distance_From_Stack": 200,
       "Gap_Between_Grating_Plate": 6,
       "Grating_Thickness": 25,
       "Rungs_spacing": 500,
       "Extended_Length": 1000,
-      "Extended_Start_Angle": 170,
-      "Extended_End_Angle": 210,
-      "Obstruction_Distance": 200
+      "Extended_Start_Angle": 200,
+      "Extended_End_Angle": 300,
+      "Obstruction_Distance": 500
     },
     {
-      "Elevation": 13000,
-      "Orientation_Angle": 170,
+      "Elevation": 15000,
+      "Orientation_Angle": 210,
       "Platform_Width": 990,
       "Platform_Length": 1200,
-      "Platform_Start_Angle": 120,
-      "Platfrom_End_Angle": 360,
+      "Platform_Start_Angle": 110,
+      "Platfrom_End_Angle": 210,
       "Distance_From_Stack": 200,
       "Gap_Between_Grating_Plate": 6,
       "Grating_Thickness": 25,
       "Rungs_spacing": 300,
       "Extended_Length": 500,
-      "Extended_Start_Angle": 120,
-      "Extended_End_Angle": 250,
+      "Extended_Start_Angle": 150,
+      "Extended_End_Angle": 210,
       "Obstruction_Distance": 200
     },
     {
-      "Elevation": 25000,
+      "Elevation": 20000,
       "Orientation_Angle": 230,
       "Platform_Width": 990,
       "Platform_Length": 1200,
@@ -275,7 +227,7 @@
       "Obstruction_Distance": 200
     },
     {
-      "Elevation": 40000,
+      "Elevation": 35000,
       "Orientation_Angle": 250,
       "Platform_Width": 990,
       "Platform_Length": 1200,
@@ -291,7 +243,7 @@
       "Obstruction_Distance": 200
     },
     {
-      "Elevation": 55000,
+      "Elevation": 45000,
       "Orientation_Angle": 270,
       "Platform_Width": 990,
       "Platform_Length": 1200,
@@ -307,7 +259,7 @@
       "Obstruction_Distance": 200
     },
     {
-      "Elevation": 65000,
+      "Elevation": 55000,
       "Orientation_Angle": 90,
       "Platform_Width": 990,
       "Platform_Length": 1200,
@@ -327,7 +279,7 @@
     {
       "key": 0,
       "elevation": 10000, // from base of stack
-      "orientation_angle": 45,
+      "orientation_angle": 77,
       "height": 1000,
       "width": 1500,
       "breadth": 200
@@ -335,50 +287,50 @@
     {
       "key": 0,
       "elevation": 5800, // from base of stack
-      "orientation_angle": 0,
-      "height": 1500,
-      "width": 2000,
+      "orientation_angle": 128,
+      "height": 2000,
+      "width": 1000,
       "breadth": 500
     },
     {
       "key": 0,
       "elevation": 2000, // from base of stack
-      "orientation_angle": 60,
-      "height": 800,
-      "width": 1000,
+      "orientation_angle": 28,
+      "height": 1892,
+      "width": 2739,
       "breadth": 300
     },
     {
       "key": 0,
       "elevation": 17000, // from base of stack
       "orientation_angle": 200,
-      "height": 1200,
-      "width": 900,
+      "height": 2837,
+      "width": 3728,
       "breadth": 400
     }
   ],
   "instrumental_nozzle": [
     {
       "key": 0,
-      "elevation": 5000,
-      "orientation_angle": 50
+      "elevation": 6000,
+      "orientation_angle": 73
+    },
+    {
+      "key": 0,
+      "elevation": 7000,
+      "orientation_angle": 38
     },
     {
       "key": 0,
       "elevation": 8000,
-      "orientation_angle": 150
-    },
-    {
-      "key": 0,
-      "elevation": 10000,
-      "orientation_angle": 290
+      "orientation_angle": 293
     }
   ],
   "RectangularPlatform": [
     {
-      "elevation": 75000,
-      "height": 5000,
-      "width": 5000,
+      "elevation": 65000,
+      "height": 4000,
+      "width": 3000,
       "plateWidth": 400,
       "Orientation_Angle": 200,
       "Rungs_spacing": 400,
@@ -389,7 +341,7 @@
   ],
   "chair": [
     {
-      "width": 1000,
+      "width": 3000,
       "number_of_plates": 4,
       "height": 2000,
       "top_ring_thickness": 100,
@@ -402,7 +354,7 @@
   ],
   "Flange": [
     {
-      "elevation": 25000,
+      "elevation": 50000,
       "number_of_bolts": 4,
       "inside_distance": 200,
       "top_ring_thickness": 100,
@@ -411,7 +363,7 @@
     },
 
     {
-      "elevation": 35000,
+      "elevation":25000,
       "number_of_bolts": 5,
       "inside_distance": 200,
       "top_ring_thickness": 190,
@@ -432,8 +384,8 @@
   ],
   "stiffner_ring": [
     {
-      "start_height": 50000,
-      "end_height": 55000,
+      "start_height": 57000,
+      "end_height": 60000,
       "stiffner_ring_count": 10
     }
   ]

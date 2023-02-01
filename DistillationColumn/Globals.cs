@@ -41,7 +41,7 @@ namespace DistillationColumn
             StackSegList = new List<List<double>>();
             SegmentPartList = new List<TSM.Beam>();
 
-            string jDataString = File.ReadAllText("json_test.json");
+            string jDataString = File.ReadAllText("test2.json");
             JData = JObject.Parse(jDataString);
             SetOriginData();
             Origin = new TSM.ContourPoint(new T3D.Point(_originPoints[0], _originPoints[1], _originPoints[2]), null);
