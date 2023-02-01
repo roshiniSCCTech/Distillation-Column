@@ -19,7 +19,6 @@ namespace DistillationColumn
         TeklaModelling _tModel;
 
         double elevation;
-        double platformElevation;
         double height1;
         double radius;
         List<List<double>> _platformList;
@@ -104,13 +103,8 @@ namespace DistillationColumn
         {
             TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
             TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
-            TSM.ContourPoint capTop = _tModel.ShiftVertically(point1, radius);
-            List<JToken> ladderList = _global.JData["RectangularPlatform"].ToList();
-            foreach (JToken ladder in ladderList)
-            {
-                platformElevation = _global.Origin.Z +(float)ladder["elevation"] ;
-            }
-            height1 = platformElevation - capTop.Z;
+            TSM.ContourPoint capTop = _tModel.ShiftVertically(point1, radius);           
+            height1 = (RectangularPlatform.elevation+ _global.Origin.Z) - capTop.Z;
             TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, (radius)/2, 1, 0 * (Math.PI / 180));
             for (int i = 1; i <= 4; i++)
             {

@@ -59,7 +59,10 @@ namespace DistillationColumn
             List<JToken> platformlist = _global.JData["RectangularPlatform"].ToList();
             foreach (JToken platform in platformlist)
             {
-                elevation = (float)platform["elevation"];
+                int lastStackCount = _global.StackSegList.Count - 1;
+                double stackElevation = _global.StackSegList[lastStackCount][4] + _global.StackSegList[lastStackCount][3];                
+                double radius = (_global.StackSegList[lastStackCount][1]) / 2;
+                elevation = stackElevation+radius + 1000;
                 height = (float)platform["height"];
                 width = (float)platform["width"];
                 plateWidth = (float)platform["plateWidth"];

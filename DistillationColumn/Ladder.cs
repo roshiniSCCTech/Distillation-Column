@@ -69,7 +69,7 @@ namespace DistillationColumn
             foreach (JToken ladder in ladderList1)
             {
                 orientationAngle = (float)ladder["Orientation_Angle"];
-                elevation = (float)ladder["elevation"];
+                elevation = RectangularPlatform.elevation;
                 rungSpacing = (float)ladder["Rungs_spacing"];
                 obstructionDist = (float)ladder["Obstruction_Distance"];
                 startAngle = (float)ladder["Platform_Start_Angle"];
@@ -275,12 +275,7 @@ namespace DistillationColumn
                 count1++;
             }
 
-            List<JToken> Platform = _global.JData["RectangularPlatform"].ToList();
-            foreach (JToken platform in Platform)
-            {
-                platformElevation = _global.Origin.Z + (float)platform["elevation"];
-            }
-            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - platformElevation)), null);
+            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - (RectangularPlatform.elevation+ _global.Origin.Z))), null);
             createSquareCut(point21);
 
         }
