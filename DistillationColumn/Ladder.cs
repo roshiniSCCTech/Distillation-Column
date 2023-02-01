@@ -29,6 +29,7 @@ namespace DistillationColumn
         double obstructionDist;
         double ladderBase = 0;
         double radius;
+        double platformElevation;
 
         TSM.ContourPoint point2;
         TSM.ContourPoint point21;
@@ -93,21 +94,10 @@ namespace DistillationColumn
                 orientationAngle = ladder[0] * Math.PI / 180;
                 startAngle = ladder[4] * Math.PI / 180;
                 endAngle = ladder[5] * Math.PI / 180;
-                double Height = elevation - ladderBase + (4 * ladder[2]);
+                double Height = (elevation) - ladderBase + (4 * ladder[2]);
 
                 radius = _tModel.GetRadiusAtElevation(ladderBase, _global.StackSegList, true);
-                double count = 0;
-                foreach (var seg in _global.StackSegList)
-                {
-                    if (((seg[4] + seg[3]) > (elevation - Height)) && (ladder[1] <= seg[4]))
-                    {
-                        if (seg[0] != seg[1])
-                            count++;
-                    }
-                    //if ((seg[4] + seg[3]) > (elevation + Height))
-
-
-                }
+                double count = 0;               
 
                 if (count1 == _ladderList.Count - 1)
                 {
@@ -116,9 +106,15 @@ namespace DistillationColumn
 
                 TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
                 TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, ladderBase);
-                //int no = _tModel.GetSegmentAtElevation(ladderBase, _global.StackSegList);
-                //int no1 = _tModel.GetSegmentAtElevation(ladderBase + Height, _global.StackSegList);
-                //for ()
+                int no = _tModel.GetSegmentAtElevation(ladderBase, _global.StackSegList);
+                int no1 = _tModel.GetSegmentAtElevation(ladderBase + Height, _global.StackSegList);
+                for (int i = no; i <= no1; i++)
+                {
+                    if (_global.StackSegList[i][0] != _global.StackSegList[i][1])
+                        count++;
+                }
+
+                
 
                 if (count != 0)
                 {
@@ -131,7 +127,7 @@ namespace DistillationColumn
 
 
                 TSM.ContourPoint point11 = _tModel.ShiftVertically(point1, Height);
-                double radius1 = _tModel.GetRadiusAtElevation(point11.Z, _global.StackSegList, true);
+                double radius1 = _tModel.GetRadiusAtElevation(point11.Z- _global.Origin.Z, _global.StackSegList, true);
                 point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
                 int lastStackCount = _global.StackSegList.Count - 1;
                 double stackElevation = _global.StackSegList[lastStackCount][4] + _global.StackSegList[lastStackCount][3];
@@ -153,7 +149,7 @@ namespace DistillationColumn
 
 
                 Ladder.Position.Depth = Position.DepthEnum.MIDDLE;
-                if (count == 0)
+                if (count == 0 && count1 != _ladderList.Count - 1)
                 {
                     double angle = orientationAngle * (180 / Math.PI);
                     if (angle >= 0 && angle <= 45)
@@ -202,6 +198,7 @@ namespace DistillationColumn
                     Ladder.Position.Rotation = Position.RotationEnum.BACK;
                     Ladder.Position.RotationOffset = 0;
                 }
+                
 
                 Ladder.Insert();
 
@@ -250,7 +247,7 @@ namespace DistillationColumn
                 if (count1 == _ladderList.Count - 1)
                 {
                     RungDistance = 450 + (2 * rungSpacing);
-                    CreatePlate(point2, point21, RungDistance);
+                    CreatePlate(point2, point21, RungDistance,count);
                 }
                 else
                 {
@@ -269,7 +266,7 @@ namespace DistillationColumn
                         {
                             RungDistance = 450 + (((Height / rungSpacing) - 2) * rungSpacing);
                         }
-                        CreatePlate(point2, point21, RungDistance);
+                        CreatePlate(point2, point21, RungDistance,count);
 
 
                     }
@@ -278,8 +275,12 @@ namespace DistillationColumn
                 count1++;
             }
 
-
-            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - 75000)), null);
+            List<JToken> Platform = _global.JData["RectangularPlatform"].ToList();
+            foreach (JToken platform in Platform)
+            {
+                platformElevation = _global.Origin.Z + (float)platform["elevation"];
+            }
+            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - platformElevation)), null);
             createSquareCut(point21);
 
         }
@@ -334,6 +335,7 @@ namespace DistillationColumn
 
 
             B.Position.Rotation = _global.Position.Rotation;
+            B.Position.RotationOffset= _global.Position.RotationOffset;
 
             B.StartPointOffset.Dx = 30;
 
@@ -359,7 +361,7 @@ namespace DistillationColumn
             _tModel.Model.CommitChanges();
         }
 
-        void CreatePlate(TSM.ContourPoint point2, TSM.ContourPoint point21, double rungDistance)
+        void CreatePlate(TSM.ContourPoint point2, TSM.ContourPoint point21, double rungDistance, double count)
         {
 
             double inclinationDistance = _tModel.DistanceBetweenPoints(point21, point2);
@@ -470,11 +472,89 @@ namespace DistillationColumn
             ContourPlate largeLeftPlate = _tModel.CreateContourPlate(_pointsList, "PLT10", Globals.MaterialStr, "9", _global.Position, "");
             _pointsList.Clear();
 
-            _global.Position.Rotation = Position.RotationEnum.BELOW;
-            CreateBolts(smallRightPlate, largeRightPlate, rightbackTopPoint, rightbackBottomPoint);
+            if (count == 0)
+            {
+                double angle = orientationAngle * (180 / Math.PI);
+                if (angle >= 0 && angle < 45)
+                {
+                    _global.Position.Rotation = Position.RotationEnum.BELOW;
+                    _global.Position.RotationOffset = 0 - angle;
+                    CreateBolts(smallRightPlate, largeRightPlate, rightbackTopPoint, rightbackBottomPoint);
 
-            _global.Position.Rotation = Position.RotationEnum.TOP;
-            CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
+                    _global.Position.Rotation = Position.RotationEnum.TOP;
+                    _global.Position.RotationOffset = 0 - angle;
+                    CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
+                }
+                if (angle >= 45 && angle <= 90)
+                {
+                    _global.Position.Rotation = Position.RotationEnum.BACK;
+                    _global.Position.RotationOffset = 90-angle;
+                    CreateBolts(smallRightPlate, largeRightPlate, rightbackTopPoint, rightbackBottomPoint);
+
+                    _global.Position.Rotation = Position.RotationEnum.FRONT;
+                    _global.Position.RotationOffset = 90 - angle;
+                    CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
+                   
+                }
+                if (angle > 90 && angle < 135)
+                {
+                    _global.Position.Rotation = Position.RotationEnum.BACK;
+                    _global.Position.RotationOffset = 90 - angle;
+                    CreateBolts(smallRightPlate, largeRightPlate, rightbackTopPoint, rightbackBottomPoint);
+
+                    _global.Position.Rotation = Position.RotationEnum.FRONT;
+                    _global.Position.RotationOffset = 90 - angle;
+                    CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
+                    
+                }
+                if (angle >= 135 && angle < 225)
+                {
+                    _global.Position.Rotation = Position.RotationEnum.TOP;
+                    _global.Position.RotationOffset = 180 - angle;
+                    CreateBolts(smallRightPlate, largeRightPlate, rightbackTopPoint, rightbackBottomPoint);
+
+                    _global.Position.Rotation = Position.RotationEnum.BELOW;
+                    _global.Position.RotationOffset = 180 - angle;
+                    CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
+                    
+                }
+               
+                if (angle >= 225 && angle < 315)
+                {
+                    _global.Position.Rotation = Position.RotationEnum.FRONT;
+                    _global.Position.RotationOffset = 270 - angle;
+                    CreateBolts(smallRightPlate, largeRightPlate, rightbackTopPoint, rightbackBottomPoint);
+
+                    _global.Position.Rotation = Position.RotationEnum.BACK;
+                    _global.Position.RotationOffset = 270 - angle;
+                    CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
+                   
+                }
+                
+                if (angle >= 315 && angle <= 360)
+                {
+                    _global.Position.Rotation = Position.RotationEnum.BELOW;
+                    _global.Position.RotationOffset = 360 - angle;
+                    CreateBolts(smallRightPlate, largeRightPlate, rightbackTopPoint, rightbackBottomPoint);
+
+                    _global.Position.Rotation = Position.RotationEnum.TOP;
+                    _global.Position.RotationOffset = 360 - angle;
+                    CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
+                    
+                }
+            }
+            else
+            {
+                _global.Position.Rotation = Position.RotationEnum.BELOW;
+                _global.Position.RotationOffset = 0;
+                CreateBolts(smallRightPlate, largeRightPlate, rightbackTopPoint, rightbackBottomPoint);
+
+                _global.Position.Rotation = Position.RotationEnum.TOP;
+                _global.Position.RotationOffset = 0;
+                CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
+            }
+
+           
 
 
         }
