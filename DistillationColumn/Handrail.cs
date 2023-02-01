@@ -38,7 +38,7 @@ namespace DistillationColumn
         double endAngle;
         double radius;
         double length;
-        double ladderWidth = 470 + 100 + 20; // handrail pipe diameter * 2 + weld plate thickness * 2
+        double ladderWidth = 470; 
         double theta;
         List<double> arcLengthList = new List<double>();
         List<List<double>> handRailData;
@@ -132,9 +132,6 @@ namespace DistillationColumn
                 endAngle = endAngle - theta;
             }
         }
-
-
-
 
         public void SetHandrailrData()
         {
