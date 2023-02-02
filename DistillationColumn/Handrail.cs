@@ -38,7 +38,7 @@ namespace DistillationColumn
         double endAngle;
         double radius;
         double length;
-        double ladderWidth = 470; 
+        double ladderWidth = 470;
         double theta;
         List<double> arcLengthList = new List<double>();
         List<List<double>> handRailData;
@@ -120,7 +120,7 @@ namespace DistillationColumn
 
         public void ShiftAngle()
         {
-            theta = 180 / Math.PI * (Math.Atan((ladderWidth+125) / (gratingOuterRadius * 2)));
+            theta = 180 / Math.PI * (Math.Atan((ladderWidth+320) / (gratingOuterRadius * 2)));
             if (ladderOrientation == startAngle)
             {
                          
@@ -163,7 +163,7 @@ namespace DistillationColumn
             handrail.Number = BaseComponent.CUSTOM_OBJECT_NUMBER;
         
             //origin for handrail
-            TSM.ContourPoint point1 = _tModel.ShiftVertically(_global.Origin, elevation-50);
+            TSM.ContourPoint point1 = _tModel.ShiftVertically(_global.Origin, elevation);
             TSM.ContourPoint point2 = _tModel.ShiftHorizontallyRad(point1, gratingOuterRadius, 1,startAngle * (Math.PI / 180));
             //second point for handrail
             point2 = _tModel.ShiftAlongCircumferenceRad(point2, 250, 2);
@@ -258,7 +258,7 @@ namespace DistillationColumn
             //when ladder is in between start angle and end angle
             if ((startAngle) < ladderOrientation && (endAngle) > ladderOrientation)
             {
-                theta = 180 / Math.PI * (Math.Atan((ladderWidth+125) / (gratingOuterRadius * 2)));
+                theta = 180 / Math.PI * (Math.Atan((ladderWidth+320) / (gratingOuterRadius * 2)));
                 endAngle = ladderOrientation - theta;
                 totalAngle = endAngle - startAngle;
                 totalArcLength = Math.Abs(2 * Math.PI * gratingOuterRadius * (totalAngle / 360));
@@ -371,7 +371,7 @@ namespace DistillationColumn
                 CreatePlateAlongCircumference(pt);
             }
             
-            if (arclength >= 1200)
+            if ((arclength)>600)
             {
                 CreatePlateAlongCircumference(_tModel.ShiftAlongCircumferenceRad(pt, arclength / 2, 2));
             }
