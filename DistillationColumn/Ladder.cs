@@ -46,6 +46,11 @@ namespace DistillationColumn
             _ladderList = new List<List<double>>();
             _pointsList = new List<TSM.ContourPoint>();
 
+            int lastStackCount1 = _global.StackSegList.Count - 1;
+            double stackElevation1 = _global.StackSegList[lastStackCount1][4] + _global.StackSegList[lastStackCount1][3];
+            double radius2 = (_global.StackSegList[lastStackCount1][1]) / 2;
+            platformElevation = stackElevation1 + radius2 + 1000;
+
             SetLadderData();
             CreateLadder();
         }
@@ -69,7 +74,7 @@ namespace DistillationColumn
             foreach (JToken ladder in ladderList1)
             {
                 orientationAngle = (float)ladder["Orientation_Angle"];
-                elevation = RectangularPlatform.elevation;
+                elevation = platformElevation;
                 rungSpacing = (float)ladder["Rungs_spacing"];
                 obstructionDist = (float)ladder["Obstruction_Distance"];
                 startAngle = (float)ladder["Platform_Start_Angle"];
@@ -274,8 +279,8 @@ namespace DistillationColumn
                 ladderBase = elevation;
                 count1++;
             }
-
-            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - (RectangularPlatform.elevation+ _global.Origin.Z))), null);
+           
+            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - (platformElevation+ _global.Origin.Z))), null);
             createSquareCut(point21);
 
         }
