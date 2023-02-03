@@ -23,6 +23,7 @@ namespace DistillationColumn
         double radius;
         List<List<double>> _platformList;
         List<ContourPoint> _pointList;
+        public static TSM.ContourPoint capTop;
 
 
         public CapAndOutlets(Globals global, TeklaModelling tModel)
@@ -35,7 +36,7 @@ namespace DistillationColumn
             
 
             createCapAndOutlets();
-            capBrackets();
+            //capBrackets();
         }
         public void createCapAndOutlets()
         {
@@ -52,7 +53,7 @@ namespace DistillationColumn
 
             TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
             TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
-            TSM.ContourPoint capTop = _tModel.ShiftVertically(point1, radius);
+            capTop = _tModel.ShiftVertically(point1, radius);
             TSM.ContourPoint capBottom = _tModel.ShiftVertically(point1, -radius);
             _global.Position.Plane = TSM.Position.PlaneEnum.MIDDLE;
             _global.Position.Depth = TSM.Position.DepthEnum.MIDDLE;
@@ -99,57 +100,7 @@ namespace DistillationColumn
             }
         }
 
-        public void capBrackets()
-        {
-            TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
-            TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, elevation);
-            TSM.ContourPoint capTop = _tModel.ShiftVertically(point1, radius);           
-            height1 = (RectangularPlatform.elevation+ _global.Origin.Z) - capTop.Z;
-            TSM.ContourPoint point5 = _tModel.ShiftHorizontallyRad(capTop, (radius)/2, 1, 0 * (Math.PI / 180));
-            for (int i = 1; i <= 4; i++)
-            {
-                if ((i * 90) <= 360)
-                {
-                    double ang = i * (90 * (Math.PI / 180));
-                    if (ang >= 90 * (Math.PI / 180))
-                    {
-                        _global.Position.Rotation = TSM.Position.RotationEnum.TOP;
-                    }
-                    if (ang >= 180 * (Math.PI / 180))
-                    {
-                        _global.Position.Rotation = TSM.Position.RotationEnum.BACK;
-                    }
-                    if (ang >= 270 * (Math.PI / 180))
-                    {
-                        _global.Position.Rotation = TSM.Position.RotationEnum.BELOW;
-                    }
-                    if (ang >= 360 * (Math.PI / 180))
-                    {
-                        _global.Position.Rotation = TSM.Position.RotationEnum.FRONT;
-                    }
-                    TSM.ContourPoint capBracketBottom = _tModel.ShiftAlongCircumferenceRad(point5, ang, 1);
-                    TSM.ContourPoint capBracketTop = _tModel.ShiftVertically(capBracketBottom, height1);
-                    _tModel.CreateBeam(new T3D.Point(capBracketBottom.X, capBracketBottom.Y, capBracketBottom.Z - 300), capBracketTop, "ISMC100", "IS2062", "2", _global.Position, "");
-
-
-                }
-            }
-
-            TSM.ContourPoint point6 = _tModel.ShiftHorizontallyRad(capTop, radius-100, 1, 45 * (Math.PI / 180));
-            for (int i = 0; i < 4; i++)
-            {
-                if ((i * 90) <= 360)
-                {
-                    double ang = i * (-90 * (Math.PI / 180));
-                    _global.Position.Rotation = TSM.Position.RotationEnum.FRONT;
-                    TSM.ContourPoint capPlatformBracketBottom = _tModel.ShiftAlongCircumferenceRad(point6, ang, 1);
-                    TSM.ContourPoint capPlatformBracketTop = RectangularPlatform._platformPointList[i];
-                    _tModel.CreateBeam(new T3D.Point(capPlatformBracketBottom.X, capPlatformBracketBottom.Y, capPlatformBracketBottom.Z - radius), capPlatformBracketTop, "ISMC100", "IS2062", "2", _global.Position, "");
-                }
-            }
-
-        }
-
+        
         
         
 
