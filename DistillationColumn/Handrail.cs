@@ -207,7 +207,8 @@ namespace DistillationColumn
                     bPoint.Chamfer = new Chamfer(100, 0, Chamfer.ChamferTypeEnum.CHAMFER_ROUNDING);
                     BentPipe(tPoint,bPoint,100,startAngle);
                     CreateWeldAlongCircumference(point2, arcLengthList[i], true,false);
-                    bPoint = _tModel.ShiftVertically(_tModel.ShiftHorizontallyRad(bPoint, 250, 1),-600);
+                    //bPoint=_tModel.ShiftAlongCircumferenceRad(bPoint,5,2);
+                    bPoint = _tModel.ShiftVertically(_tModel.ShiftHorizontallyRad(bPoint, 225, 1),-600);
                     CreateWeld(bPoint,2,startAngle);
 
                 }
@@ -228,7 +229,7 @@ namespace DistillationColumn
                     BentPipe(tPoint, bPoint, -100,endAngle);
                     CreateWeldAlongCircumference(point2, arcLengthList[i],false,true);
                     
-                    bPoint = _tModel.ShiftVertically(_tModel.ShiftHorizontallyRad(bPoint, 250, 1), -600);
+                    bPoint = _tModel.ShiftVertically(_tModel.ShiftHorizontallyRad(bPoint, 225, 1), -600);
                     CreateWeld(bPoint, 4, endAngle);
 
                 }
@@ -479,7 +480,7 @@ namespace DistillationColumn
             double radius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
 
             TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
-            origin = _tModel.ShiftVertically(origin, elevation - 50);
+            origin = _tModel.ShiftVertically(origin, elevation);
 
             // vertical post
             TSM.ContourPoint postBottomPoint = _tModel.ShiftHorizontallyRad(origin, radius + obstructionDistance, 1, ladderOrientation * Math.PI / 180);
@@ -520,7 +521,7 @@ namespace DistillationColumn
             double remainingDistance; // distance between first and last vertical post
 
             TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
-            origin = _tModel.ShiftVertically(origin, elevation - 50);
+            origin = _tModel.ShiftVertically(origin, elevation);
 
             TSM.ContourPoint horizontalRodPoint1;
             TSM.ContourPoint horizontalRodPoint2;
