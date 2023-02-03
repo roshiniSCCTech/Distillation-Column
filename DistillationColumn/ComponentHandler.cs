@@ -30,7 +30,7 @@ namespace DistillationColumn
             new Platform(_global, _tModel);
             new Handrail(_global, _tModel);
 
-            //new CircularAccessDoor(_global, _tModel);
+            new CircularAccessDoor(_global, _tModel);
             new RectangularPlatform(_global, _tModel);
 
             //new CapAndOutlets(_global, _tModel);
