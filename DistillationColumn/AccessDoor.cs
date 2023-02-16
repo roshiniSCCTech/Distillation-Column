@@ -44,11 +44,11 @@ namespace DistillationColumn
             _global = global;
             _tModel = tModel;
 
-            orientationAngle = 0 * Math.PI/180;
+            /*orientationAngle = 0 * Math.PI/180;
             elevation = 1000;
             height = 800;
             width = 1000;
-            breadth = 500;
+            breadth = 500;*/
 
             TopRight = new TSM.ContourPoint();
             TopLeft = new TSM.ContourPoint();
@@ -67,8 +67,8 @@ namespace DistillationColumn
     {
       foreach (List<double> acDoor in _accessDoorList)
       {
-        double elevation = acDoor[0];
-        double orientationAngle = acDoor[1];
+         elevation = acDoor[0];
+        orientationAngle = acDoor[1]*Math.PI/180;
         double topRadius = _tModel.GetRadiusAtElevation(elevation, _global.StackSegList, true);
         double bottomRadius = _tModel.GetRadiusAtElevation(elevation - acDoor[2], _global.StackSegList, true);
 
@@ -97,11 +97,11 @@ namespace DistillationColumn
       List<JToken> accessDoorList = _global.JData["access_door"].ToList();
       foreach (JToken accessDoor in accessDoorList)
       {
-        double elevation = (float)accessDoor["elevation"];
-        double orientationAngle = (float)accessDoor["orientation_angle"];
-        double height = (float)accessDoor["height"];
-        double width = (float)accessDoor["width"];
-        double breadth = (float)accessDoor["breadth"];
+         elevation = (float)accessDoor["elevation"];
+         orientationAngle = (float)accessDoor["orientation_angle"];
+         height = (float)accessDoor["height"];
+         width = (float)accessDoor["width"];
+         breadth = (float)accessDoor["breadth"];
 
         _accessDoorList.Add(new List<double> { elevation, orientationAngle, height, width, breadth });
       }

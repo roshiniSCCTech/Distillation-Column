@@ -30,11 +30,38 @@ namespace DistillationColumn
         double ladderBase = 0;
         double radius;
         double platformElevation;
+        double elevationofDoor;
+        double orientationAngleOfDoor;
+        double neckPlateThicknessofDoor;
+        double plateDiameterOfDoor;
+        double neckplateWidth;
+        double liningplateWidth;
+        double elevationofFlange;
+        double insidedistanceofFlange;
+        double ringWidthofFlange;
+        double topRingThicknessofFlange;
+        double bottomRingThicknessofFlange;
+        double shellThickness;
+        double ringRadius;
+        double orientationAngleofrectAccessDoor;
+        double elevationofrectAccessDoor;
+        double heightofrectAccessDoor;
+        double widthofrectAccessDoor;
+
+
+
+
+
+
+
 
         TSM.ContourPoint point2;
         TSM.ContourPoint point21;
 
         List<List<double>> _ladderList;
+        List<List<double>> _accessDoorList;
+        List<List<double>> _rectAccessDoorList;
+        List<List<double>> _flangeList;
         List<TSM.ContourPoint> _box = new List<TSM.ContourPoint>();
         List<TSM.ContourPoint> _pointsList;
 
@@ -45,6 +72,10 @@ namespace DistillationColumn
 
             _ladderList = new List<List<double>>();
             _pointsList = new List<TSM.ContourPoint>();
+            _accessDoorList = new List<List<double>>();
+            _rectAccessDoorList= new List<List<double>>();
+            _flangeList= new List<List<double>>();
+
 
             int lastStackCount1 = _global.StackSegList.Count - 1;
             double stackElevation1 = _global.StackSegList[lastStackCount1][4] + _global.StackSegList[lastStackCount1][3];
@@ -62,8 +93,6 @@ namespace DistillationColumn
             {
                 orientationAngle = (float)ladder["Orientation_Angle"];
                 elevation = (float)ladder["Elevation"];
-                //width = (float)ladder["Width"];
-                //height = (float)ladder["Height"];
                 rungSpacing = (float)ladder["Rungs_spacing"];
                 obstructionDist = (float)ladder["Obstruction_Distance"];
                 startAngle = (float)ladder["Platform_Start_Angle"];
@@ -82,15 +111,57 @@ namespace DistillationColumn
                 _ladderList.Add(new List<double> { orientationAngle, elevation, rungSpacing, obstructionDist, startAngle, endAngle });
             }
 
+
             List<JToken> ladderBaseList = _global.JData["chair"].ToList();
             foreach (JToken ladder in ladderBaseList)
             {
                 ladderBase = (float)ladder["height"] + (float)ladder["top_ring_thickness"] + (float)ladder["bottom_ring_thickness"];
             }
+
+
+            List<JToken> circularAccessDoorList = _global.JData["CircularAccessDoor"].ToList();
+            foreach (JToken cicularAccessDoor in circularAccessDoorList)
+            {
+                 elevationofDoor = (float)cicularAccessDoor["elevation"];
+                 orientationAngleOfDoor = (float)cicularAccessDoor["orientation_angle"];
+                 neckPlateThicknessofDoor = (float)cicularAccessDoor["neck_plate_Thickness"];
+                 plateDiameterOfDoor = (float)cicularAccessDoor["plate_Diameter"];
+                 neckplateWidth = (float)cicularAccessDoor["neck_plate_width"];
+                 liningplateWidth = (float)cicularAccessDoor["lining_plate_width"];
+                _accessDoorList.Add(new List<double> { elevationofDoor, orientationAngleOfDoor, neckPlateThicknessofDoor, plateDiameterOfDoor , neckplateWidth, liningplateWidth });
+
+            }
+
+
+            List<JToken> flangeList = _global.JData["Flange"].ToList();
+            foreach (JToken flange in flangeList)
+            {
+                elevationofFlange = (float)flange["elevation"];
+                insidedistanceofFlange = (float)flange["inside_distance"];
+                ringWidthofFlange = (float)flange["ring_width"];
+                topRingThicknessofFlange = (double)flange["top_ring_thickness"];
+                bottomRingThicknessofFlange = (double)flange["bottom_ring_thickness"];
+
+                _flangeList.Add(new List<double> { elevationofFlange, insidedistanceofFlange, ringWidthofFlange,topRingThicknessofFlange, bottomRingThicknessofFlange });
+
+            }
+
+            List<JToken> accessDoorList = _global.JData["access_door"].ToList();
+            foreach (JToken accessDoor in accessDoorList)
+            {
+                elevationofrectAccessDoor = (float)accessDoor["elevation"];
+                orientationAngleofrectAccessDoor = (float)accessDoor["orientation_angle"];
+                heightofrectAccessDoor = (float)accessDoor["height"];
+                widthofrectAccessDoor = (float)accessDoor["width"];
+
+                _rectAccessDoorList.Add(new List<double> { elevationofrectAccessDoor, orientationAngleofrectAccessDoor, heightofrectAccessDoor, widthofrectAccessDoor });
+            }
+
         }
 
         public void CreateLadder()
         {
+
             int count1 = 0;
             foreach (List<double> ladder in _ladderList)
             {
@@ -102,12 +173,67 @@ namespace DistillationColumn
                 double Height = (elevation) - ladderBase + (4 * ladder[2]);
 
                 radius = _tModel.GetRadiusAtElevation(ladderBase, _global.StackSegList, true);
-                double count = 0;               
+                double count = 0;
 
                 if (count1 == _ladderList.Count - 1)
                 {
                     Height = elevation - ladderBase + 500;
                 }
+
+
+                foreach (List<double> circularAccessDoor in _accessDoorList)
+                {
+                     elevationofDoor = circularAccessDoor[0];
+                     orientationAngleOfDoor = circularAccessDoor[1];
+                     orientationAngleOfDoor = orientationAngleOfDoor * Math.PI / 180;
+                     neckPlateThicknessofDoor = circularAccessDoor[2];
+                     plateDiameterOfDoor = circularAccessDoor[3];
+                     neckplateWidth = circularAccessDoor[4];
+                     liningplateWidth = circularAccessDoor[5];
+
+
+                    if (orientationAngleOfDoor == orientationAngle)
+                    {
+                        if (elevationofDoor + (plateDiameterOfDoor / 2) + 200 + neckPlateThicknessofDoor > ladderBase && elevationofDoor - (plateDiameterOfDoor / 2) - 200 - neckPlateThicknessofDoor < elevation)
+                        {
+                            ladder[3] = neckplateWidth + liningplateWidth+75+200;
+
+                        }
+                    }                    
+
+                }
+                foreach (List<double> acDoor in _rectAccessDoorList)
+                {
+                    elevationofrectAccessDoor = acDoor[0];
+                    orientationAngleofrectAccessDoor = acDoor[1]* Math.PI / 180;
+                    heightofrectAccessDoor = acDoor[2];
+                    widthofrectAccessDoor = acDoor[3];
+
+
+                    if(orientationAngleofrectAccessDoor == orientationAngle)
+                    {
+                        if((elevationofrectAccessDoor+(heightofrectAccessDoor/2)) > ladderBase && (elevationofrectAccessDoor - (heightofrectAccessDoor / 2)) < elevation)
+                        {
+                            ladder[3] = widthofrectAccessDoor+200;
+                        }
+                    }
+                }
+
+                //foreach (List<double> flange in _flangeList)
+                //{
+                //    elevation = flange[0];
+                //    topRingThicknessofFlange = flange[1];
+                //    bottomRingThicknessofFlange = flange[2];
+                //    ringWidthofFlange = flange[3];
+                //    insidedistanceofFlange = flange[4];
+
+
+                //    if (elevationofFlange - bottomRingThicknessofFlange > ladderBase && elevationofFlange + topRingThicknessofFlange < elevation)
+                //    {
+                //        ladder[3] = ringWidthofFlange + insidedistanceofFlange;
+                //    }
+                //}
+
 
                 TSM.ContourPoint origin = new TSM.ContourPoint(_global.Origin, null);
                 TSM.ContourPoint point1 = _tModel.ShiftVertically(origin, ladderBase);
@@ -119,7 +245,7 @@ namespace DistillationColumn
                         count++;
                 }
 
-                
+
 
                 if (count != 0)
                 {
@@ -132,7 +258,7 @@ namespace DistillationColumn
 
 
                 TSM.ContourPoint point11 = _tModel.ShiftVertically(point1, Height);
-                double radius1 = _tModel.GetRadiusAtElevation(point11.Z- _global.Origin.Z, _global.StackSegList, true);
+                double radius1 = _tModel.GetRadiusAtElevation(point11.Z - _global.Origin.Z, _global.StackSegList, true);
                 point21 = _tModel.ShiftHorizontallyRad(point11, radius1 + Math.Max(200, ladder[3]), 1, orientationAngle);
                 int lastStackCount = _global.StackSegList.Count - 1;
                 double stackElevation = _global.StackSegList[lastStackCount][4] + _global.StackSegList[lastStackCount][3];
@@ -203,7 +329,7 @@ namespace DistillationColumn
                     Ladder.Position.Rotation = Position.RotationEnum.BACK;
                     Ladder.Position.RotationOffset = 0;
                 }
-                
+
 
                 Ladder.Insert();
 
@@ -252,7 +378,7 @@ namespace DistillationColumn
                 if (count1 == _ladderList.Count - 1)
                 {
                     RungDistance = 450 + (2 * rungSpacing);
-                    CreatePlate(point2, point21, RungDistance,count);
+                    CreatePlate(point2, point21, RungDistance, count);
                 }
                 else
                 {
@@ -271,19 +397,24 @@ namespace DistillationColumn
                         {
                             RungDistance = 450 + (((Height / rungSpacing) - 2) * rungSpacing);
                         }
-                        CreatePlate(point2, point21, RungDistance,count);
+                        CreatePlate(point2, point21, RungDistance, count);
 
 
                     }
                 }
+
+                
+
                 ladderBase = elevation;
                 count1++;
             }
            
-            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - (platformElevation+ _global.Origin.Z))), null);
+
+            point21 = new ContourPoint(_tModel.ShiftVertically(point21, -(point21.Z - (platformElevation + _global.Origin.Z))), null);
             createSquareCut(point21);
 
         }
+
 
         public void createSquareCut(TSM.ContourPoint point11)
         {
@@ -335,7 +466,7 @@ namespace DistillationColumn
 
 
             B.Position.Rotation = _global.Position.Rotation;
-            B.Position.RotationOffset= _global.Position.RotationOffset;
+            B.Position.RotationOffset = _global.Position.RotationOffset;
 
             B.StartPointOffset.Dx = 30;
 
@@ -488,13 +619,13 @@ namespace DistillationColumn
                 if (angle >= 45 && angle <= 90)
                 {
                     _global.Position.Rotation = Position.RotationEnum.BACK;
-                    _global.Position.RotationOffset = 90-angle;
+                    _global.Position.RotationOffset = 90 - angle;
                     CreateBolts(smallRightPlate, largeRightPlate, rightbackTopPoint, rightbackBottomPoint);
 
                     _global.Position.Rotation = Position.RotationEnum.FRONT;
                     _global.Position.RotationOffset = 90 - angle;
                     CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
-                   
+
                 }
                 if (angle > 90 && angle < 135)
                 {
@@ -505,7 +636,7 @@ namespace DistillationColumn
                     _global.Position.Rotation = Position.RotationEnum.FRONT;
                     _global.Position.RotationOffset = 90 - angle;
                     CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
-                    
+
                 }
                 if (angle >= 135 && angle < 225)
                 {
@@ -516,9 +647,9 @@ namespace DistillationColumn
                     _global.Position.Rotation = Position.RotationEnum.BELOW;
                     _global.Position.RotationOffset = 180 - angle;
                     CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
-                    
+
                 }
-               
+
                 if (angle >= 225 && angle < 315)
                 {
                     _global.Position.Rotation = Position.RotationEnum.FRONT;
@@ -528,9 +659,9 @@ namespace DistillationColumn
                     _global.Position.Rotation = Position.RotationEnum.BACK;
                     _global.Position.RotationOffset = 270 - angle;
                     CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
-                   
+
                 }
-                
+
                 if (angle >= 315 && angle <= 360)
                 {
                     _global.Position.Rotation = Position.RotationEnum.BELOW;
@@ -540,7 +671,7 @@ namespace DistillationColumn
                     _global.Position.Rotation = Position.RotationEnum.TOP;
                     _global.Position.RotationOffset = 360 - angle;
                     CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
-                    
+
                 }
             }
             else
@@ -554,7 +685,7 @@ namespace DistillationColumn
                 CreateBolts(smallLeftPlate, largeLeftPlate, leftbackTopPoint, leftbackBottomPoint);
             }
 
-           
+
 
 
         }

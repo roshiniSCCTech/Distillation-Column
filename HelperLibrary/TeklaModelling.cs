@@ -84,7 +84,7 @@ namespace HelperLibrary
             BooleanPart booleanPart = new BooleanPart();
             booleanPart.Father = toBeCut;
             booleanPart.SetOperativePart(cut);
-            booleanPart.Insert();
+            bool c=booleanPart.Insert();
             cut.Delete();
             Model.CommitChanges();
         }

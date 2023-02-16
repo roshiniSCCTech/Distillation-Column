@@ -362,10 +362,11 @@
     }
   ],
   "CircularAccessDoor": [
+
     {
       "key": 0,
       "elevation": 20000,
-      "orientation_angle": 0,
+      "orientation_angle": 120,
       "neck_plate_Thickness": 12,
       "plate_Diameter": 700,
       "neck_plate_width": 112,
@@ -375,9 +376,9 @@
     {
       "key": 0,
       "elevation": 50000,
-      "orientation_angle": 180,
+      "orientation_angle": 0,
       "neck_plate_Thickness": 18,
-      "plate_Diameter": 900,
+      "plate_Diameter": 800,
       "neck_plate_width": 82,
       "lining_plate_width": 70,
       "number_of_bolts": 4
@@ -387,11 +388,13 @@
       "elevation": 35000,
       "orientation_angle": 90,
       "neck_plate_Thickness": 20,
-      "plate_Diameter": 500,
+      "plate_Diameter": 900,
       "neck_plate_width": 102,
       "lining_plate_width": 90,
       "number_of_bolts": 8
     }
+   
+    
   ],
     "RectangularPlatform":
     [
